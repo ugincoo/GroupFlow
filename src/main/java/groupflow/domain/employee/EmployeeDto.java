@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data@AllArgsConstructor@NoArgsConstructor@Builder
 public class EmployeeDto {
-    private String eno;
+    private int eno;
     private String ename;   //이름
     private int esocialno;  //주민등록번호
     private String eemail;  //이메일
