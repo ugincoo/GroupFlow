@@ -1,5 +1,6 @@
-package groupflow.domain;
+package groupflow.domain.position;
 
+import groupflow.domain.position.PositionChangeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

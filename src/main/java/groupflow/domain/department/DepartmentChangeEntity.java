@@ -1,5 +1,6 @@
-package groupflow.domain;
+package groupflow.domain.department;
 
+import groupflow.domain.employee.EmployeeEntity;
 import lombok.*;
 
 import javax.persistence.*;

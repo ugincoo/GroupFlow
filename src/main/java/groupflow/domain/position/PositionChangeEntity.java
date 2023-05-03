@@ -1,5 +1,6 @@
-package groupflow.domain;
+package groupflow.domain.position;
 
+import groupflow.domain.employee.EmployeeEntity;
 import lombok.*;
 
 import javax.persistence.*;

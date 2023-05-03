@@ -1,5 +1,7 @@
-package groupflow.domain;
+package groupflow.domain.attendance;
 
+import groupflow.domain.BaseTime;
+import groupflow.domain.employee.EmployeeEntity;
 import lombok.*;
 
 import javax.persistence.*;

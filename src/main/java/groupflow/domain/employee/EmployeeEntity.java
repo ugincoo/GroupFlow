@@ -1,5 +1,10 @@
-package groupflow.domain;
+package groupflow.domain.employee;
 
+import groupflow.domain.*;
+import groupflow.domain.attendance.AttendanceEntity;
+import groupflow.domain.department.DepartmentChangeEntity;
+import groupflow.domain.leaverequest.LeaveRequestEntity;
+import groupflow.domain.position.PositionChangeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +22,7 @@ import java.util.List;
 @Table(name = "Employee")
 public class EmployeeEntity extends BaseTime { // 직원테이블
     @Id
-    private String eno;
+    private int eno;
     @Column
     private String ename;   //이름
     @Column

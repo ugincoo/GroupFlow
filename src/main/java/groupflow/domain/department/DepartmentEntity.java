@@ -1,5 +1,6 @@
-package groupflow.domain;
+package groupflow.domain.department;
 
+import groupflow.domain.department.DepartmentChangeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
