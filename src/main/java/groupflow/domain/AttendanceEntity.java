@@ -1,9 +1,6 @@
 package groupflow.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -18,7 +15,8 @@ public class AttendanceEntity extends BaseTime { // 근태테이블 사원fk  �
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  int ano;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="eno")
+    @ToString.Exclude
     private EmployeeEntity employeeEntity;
 }

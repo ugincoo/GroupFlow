@@ -28,7 +28,10 @@ public class EmployeeEntity extends BaseTime { // 직원테이블
     private String ephone;  //휴대폰번호
     @Column
     private String ephoto;  //사진
-    //private  hiredate; basetime //입사일 -> basetime
+    
+    @Column
+    private LocalDateTime hiredate; //입사일
+    
     @Column
     private LocalDateTime eenddate; //퇴사일
 

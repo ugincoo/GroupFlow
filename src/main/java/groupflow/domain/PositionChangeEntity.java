@@ -1,9 +1,6 @@
 package groupflow.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,11 +20,13 @@ public class PositionChangeEntity { // 직급변경테이블
     private LocalDateTime enddate; // 끝날짜
     @Column
     private String endreason; // 끝날사유
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="pno")
+    @ToString.Exclude
     private PositionEntity positionEntity; // 직급테이블 [ pk , 대리차장~ , 연차개수 ]
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="eno")
+    @ToString.Exclude
     private EmployeeEntity employeeEntity; // 사원테이블 [ pk , ]
 }

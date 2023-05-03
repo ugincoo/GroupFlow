@@ -1,9 +1,6 @@
 package groupflow.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,7 +20,7 @@ public class LeaveRequestEntity { // 연차테이블
     @Column
     private LocalDateTime approvaldate; // 결재일
     @Column
-    private boolean approvalstate; // 결재상태
+    private byte approvalstate; // 결재상태
     @Column
     private LocalDateTime lstart; // 연차시작일
     @Column
@@ -31,7 +28,8 @@ public class LeaveRequestEntity { // 연차테이블
     @Column
     private String requestreason; // 신청사유
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="eno")
+    @ToString.Exclude
     private EmployeeEntity employeeEntity;
 }

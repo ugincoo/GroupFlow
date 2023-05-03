@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -21,6 +22,6 @@ public class DepartmentEntity { // 부서테이블
     @Column
     private String dname;
 
-    @OneToOne(mappedBy = "DepartmentChangeEntity")
-    private DepartmentChangeEntity departmentChangeEntity;
+    @OneToMany(mappedBy = "departmentEntity")
+    private List<DepartmentChangeEntity> departmentChangeEntityList;
 }

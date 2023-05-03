@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,6 +23,6 @@ public class PositionEntity { // 직급테이블
     @Column
     private int yearno;     //연차개수
 
-    @OneToOne(mappedBy = "PositionChangeEntity")
-    private PositionChangeEntity positionChangeEntity;
+    @OneToMany(mappedBy = "positionEntity")
+    private List<PositionChangeEntity> positionChangeEntityList;
 }
