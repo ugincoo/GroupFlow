@@ -19,9 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -134,25 +132,41 @@ public class EmployeeService {
         log.info("생성한 사번 : " + eno);
         Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findById(eno);
         if (optionalEmployeeEntity.isPresent()){ return 1; } // 사번이 이미 존재함
+        log.info("optionalEmployeeEntity.isPresent() : " + optionalEmployeeEntity.isPresent());
+        log.info("사번중복확인");
 
-        // employeeentity DB저장
+        // 사번 dto에 대입
+        employeeDto.setEno(eno);
+        // 사원 dto ==> 사원 entity
         EmployeeEntity employeeEntity = employeeDto.toEntity();
+        log.info("employeeDto -> Entity : " + employeeEntity);
+        // employeeentity DB저장
         employeeRepository.save( employeeEntity );
-        Optional<EmployeeEntity> optionalEmployeeEntity2 = employeeRepository.findById(employeeEntity.getEno());
-        if ( !optionalEmployeeEntity2.isPresent() ){ return 2;} // 사원 생성이 안되었음
 
+        // 모든 사원 조회
+        List<EmployeeEntity> employeeEntityList = employeeRepository.findAll();
+        log.info("employeeEntityList : " + employeeEntityList );
+
+        Optional<EmployeeEntity> optionalEmployeeEntity2 = employeeRepository.findById(employeeEntity.getEno());
+        log.info("optionalEmployeeEntity2.isPresent() :" + optionalEmployeeEntity2.isPresent() );
+        if ( !optionalEmployeeEntity2.isPresent() ){ return 2;} // 사원 생성이 안되었음
+        log.info("optionalEmployeeEntity2.get() :" + optionalEmployeeEntity2.get() );
+        log.info("사원 테이블 생성 완료 ");
 
         // 부서 ----------------------------------------------------------------------------------------
         // departmentChangeentity 객체만들어서 DB저장
         DepartmentChangeEntity departmentChangeEntity = DepartmentChangeEntity.builder().dcendreason("입사").build();
         departmentChangeRepository.save(departmentChangeEntity);
         if ( !(departmentChangeEntity.getDcno() > 0) ){ return 3; } // departmentChangeEntity 저장안됨
+        log.info("departmentChangeEntity.getDcno() :" + departmentChangeEntity.getDcno() );
+        log.info("부서이동 테이블 생성 완료 ");
 
         // departmentChangeentity <--> employeeEntity 양방향
         // 부서이동이력에 사원entity 저장
         departmentChangeEntity.setEmployeeEntity( employeeEntity );
         // 사원entity에 부서이동이력 저장
         employeeEntity.getDepartmentChangeEntityList().add(departmentChangeEntity);
+        log.info("부서이동 테이블, 사원테이블 양방향 완료 ");
 
         // departmentEntity
         Optional<DepartmentEntity> optionalDepartmentEntity = departmentRepository.findById(employeeDto.getDno());
@@ -164,6 +178,7 @@ public class EmployeeService {
             departmentChangeEntity.setDepartmentEntity(departmentEntity);
             // 부서에entity 부서이동이력 저장
             departmentEntity.getDepartmentChangeEntityList().add(departmentChangeEntity);
+            log.info("부서테이블 , 부서이동 테이블 양방향 완료 ");
         }
 
 
@@ -172,7 +187,7 @@ public class EmployeeService {
         PositionChangeEntity positionChangeEntity = PositionChangeEntity.builder().pcdate(employeeEntity.getHiredate()).build();
         positionChangeRepository.save(positionChangeEntity);
         if ( !(positionChangeEntity.getPcno() > 0) ){ return 4; } // positionChangeEntity 저장안됨
-
+        log.info("직급변경 테이블 생성 완료 ");
         // positionEntity 찾기
         Optional<PositionEntity> optionalPositionEntity = positionEntityRepository.findById(employeeDto.getPno());
         if ( optionalPositionEntity.isPresent() ){
@@ -184,10 +199,21 @@ public class EmployeeService {
             positionChangeEntity.setPositionEntity(positionEntity);
             // 직급entity에 직급이동이력 저장
             positionEntity.getPositionChangeEntityList().add(positionChangeEntity);
+            log.info("직급테이블 직급변경테이블 양방향 완료 ");
         }
 
         return 5; // 저장완료
 
 
     }
+
+    public List<EmployeeDto> getEmployees(){
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        List<EmployeeEntity> employeeEntityList =  employeeRepository.findAll();
+        for( EmployeeEntity employeeEntity : employeeEntityList){
+            employeeDtoList.add(employeeEntity.toDto());
+        }
+        return employeeDtoList;
+    }
+
 }

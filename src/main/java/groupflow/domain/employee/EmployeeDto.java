@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Data@AllArgsConstructor@NoArgsConstructor@Builder
@@ -25,15 +27,22 @@ public class EmployeeDto {
     private int pno; // 직급번호
 
     public EmployeeEntity toEntity() {
-        return EmployeeEntity.builder()
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        EmployeeEntity employeeEntity = EmployeeEntity.builder()
                 .eno(this.eno)
                 .ename(this.ename)
                 .esocialno(this.esocialno)
                 .eemail(this.eemail)
                 .ephone(this.ephone)
                 .ephoto(this.ephoto)
-                .hiredate( LocalDateTime.parse(this.hiredate) )
-                .eenddate( LocalDateTime.parse(this.eenddate) )
+                // LocalDate파싱후 -> LocalDateTime으로 변환
+                .hiredate( LocalDate.parse(this.hiredate , formatter).atStartOfDay() )
                 .build();
+        // 퇴사일 값이 있으면 String -> LocalDate -> LocalDateTime 변환 Entity eenddate필드에 대입
+        if ( this.eenddate != null) {
+            employeeEntity.setEenddate(LocalDate.parse(this.eenddate, formatter).atStartOfDay());
+        }
+        return employeeEntity;
     }
 }
