@@ -80,7 +80,7 @@ public class EmployeeService {
 
         System.out.println("올해 시작일: " + startOfYearStr);
         System.out.println("올해 마지막일: " + endOfYearStr);
-
+ 
         // 올해 입사한 마지막 사원의 사번구하기
         Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findLastEmployeeIdByHireDateBetween( startOfYearStr , endOfYearStr );
 
@@ -115,7 +115,6 @@ public class EmployeeService {
         EmployeeEntity employeeEntity = employeeDto.toEntity();
         employeeRepository.save( employeeEntity );
         
-        if ( employeeEntity.cdate == null ){ return 2; }// employee 테이블 저장안됨
 
         // 부서 ----------------------------------------------------------------------------------------
 
@@ -146,7 +145,7 @@ public class EmployeeService {
         if ( !(positionChangeEntity.getPcno() > 0) ){ return 4; } // positionChangeEntity 저장안됨
 
         //
-
+    return 5;
 
 
     }

@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Table(name = "Employee")
-public class EmployeeEntity extends BaseTime { // 직원테이블
+public class EmployeeEntity { // 직원테이블
     @Id
     private int eno;
     @Column
