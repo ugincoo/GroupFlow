@@ -20,6 +20,9 @@ public class EmployeeDto {
     private String ephoto;  //사진
     private String hiredate; //입사일
     private String eenddate; //퇴사일
+    // 추가
+    private int dno; // 부서번호
+    private int pno; // 직급번호
 
     public EmployeeEntity toEntity() {
         return EmployeeEntity.builder()

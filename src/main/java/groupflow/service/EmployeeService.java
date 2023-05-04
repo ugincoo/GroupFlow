@@ -9,6 +9,8 @@ import groupflow.domain.employee.EmployeeEntity;
 import groupflow.domain.employee.EmployeeRepository;
 import groupflow.domain.position.PositionChangeEntity;
 import groupflow.domain.position.PositionChangeEntityRepository;
+import groupflow.domain.position.PositionEntity;
+import groupflow.domain.position.PositionEntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,9 @@ public class EmployeeService {
 
     @Autowired
     PositionChangeEntityRepository positionChangeRepository;
+
+    @Autowired
+    PositionEntityRepository positionEntityRepository;
 
     /*
     01: 경영지원팀
@@ -103,9 +108,15 @@ public class EmployeeService {
     }
 
 
-    // 신규 직원 등록
+    // 신규 직원 등록 [ 필요 : employeeDto ( eemail , ename , ephone ,esocialno , hiredate , dno , pno ) ]
+    /*
+    {
+        ename : "홍길동" , esocialno : "123456-1234567" , eemail : "asd@naver.com" , ephone : "010-0000-0000" ,  hiredate : "2023-05-06" , dno : 9 , pno:1
+    }
+    */
+
     @Transactional
-    public byte registerNewEmployee( EmployeeDto employeeDto , int dno , String pno ) {
+    public byte registerNewEmployee( EmployeeDto employeeDto ) {
         // 사번만들기 함수
         int id = Integer.parseInt( generateEmployeeID( employeeDto.getHiredate() ) );
         Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findById(id);
@@ -114,26 +125,31 @@ public class EmployeeService {
         // employeeentity DB저장
         EmployeeEntity employeeEntity = employeeDto.toEntity();
         employeeRepository.save( employeeEntity );
-        
+        Optional<EmployeeEntity> optionalEmployeeEntity2 = employeeRepository.findById(employeeEntity.getEno());
+        if ( !optionalEmployeeEntity2.isPresent() ){ return 2;} // 사원 생성이 안되었음
+
 
         // 부서 ----------------------------------------------------------------------------------------
-
         // departmentChangeentity 객체만들어서 DB저장
         DepartmentChangeEntity departmentChangeEntity = DepartmentChangeEntity.builder().dcendreason("입사").build();
         departmentChangeRepository.save(departmentChangeEntity);
         if ( !(departmentChangeEntity.getDcno() > 0) ){ return 3; } // departmentChangeEntity 저장안됨
 
-        // departmentChangeentity 양방향
+        // departmentChangeentity <--> employeeEntity 양방향
+        // 부서이동이력에 사원entity 저장
         departmentChangeEntity.setEmployeeEntity( employeeEntity );
+        // 사원entity에 부서이동이력 저장
         employeeEntity.getDepartmentChangeEntityList().add(departmentChangeEntity);
 
         // departmentEntity
-        Optional<DepartmentEntity> optionalDepartmentEntity = departmentRepository.findById(dno);
+        Optional<DepartmentEntity> optionalDepartmentEntity = departmentRepository.findById(employeeDto.getDno());
         if (optionalDepartmentEntity.isPresent()){
             // departmentEntity DB에서 꺼냄
             DepartmentEntity departmentEntity = optionalDepartmentEntity.get();
-            // departmentEntity 양방향
+            // 양방향 departmentEntity <--> departmentChangeEntity
+            // 부서이동이력에 부서entity 저장
             departmentChangeEntity.setDepartmentEntity(departmentEntity);
+            // 부서에entity 부서이동이력 저장
             departmentEntity.getDepartmentChangeEntityList().add(departmentChangeEntity);
         }
 
@@ -144,8 +160,20 @@ public class EmployeeService {
         positionChangeRepository.save(positionChangeEntity);
         if ( !(positionChangeEntity.getPcno() > 0) ){ return 4; } // positionChangeEntity 저장안됨
 
-        //
-    return 5;
+        // positionEntity 찾기
+        Optional<PositionEntity> optionalPositionEntity = positionEntityRepository.findById(employeeDto.getPno());
+        if ( optionalPositionEntity.isPresent() ){
+            // positionEntity 꺼냄
+            PositionEntity positionEntity = optionalPositionEntity.get();
+
+            //양방향 positionEntity <--> positionChangeEntity
+            // 직급이동이력에 직급entity 저장
+            positionChangeEntity.setPositionEntity(positionEntity);
+            // 직급entity에 직급이동이력 저장
+            positionEntity.getPositionChangeEntityList().add(positionChangeEntity);
+        }
+
+        return 5; // 저장완료
 
 
     }
