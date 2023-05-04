@@ -145,7 +145,7 @@ public class EmployeeService {
         if ( !(positionChangeEntity.getPcno() > 0) ){ return 4; } // positionChangeEntity 저장안됨
 
         //
-    return 5;
+
 
         return 5;
     }
