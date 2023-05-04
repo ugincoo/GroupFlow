@@ -80,7 +80,7 @@ public class EmployeeService {
 
         System.out.println("올해 시작일: " + startOfYearStr);
         System.out.println("올해 마지막일: " + endOfYearStr);
- 
+  
         // 올해 입사한 마지막 사원의 사번구하기
         Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findLastEmployeeIdByHireDateBetween( startOfYearStr , endOfYearStr );
 
