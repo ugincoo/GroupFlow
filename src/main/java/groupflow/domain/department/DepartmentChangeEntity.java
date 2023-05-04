@@ -11,15 +11,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "DepartmentChange")
+@Table(name = "departmentChange")
 public class DepartmentChangeEntity { // 부서이동테이블
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int dcno; // 식별번호
+
     @Column
     private LocalDateTime dcstartdate; // 적용날짜
+
     @Column
     private LocalDateTime dcenddate; // 끝날짜
+
     @Column
     private String dcendreason; // 부서변경사유
 

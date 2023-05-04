@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "PositionChange")
+@Table(name = "positionchange")
 public class PositionChangeEntity { // 직급변경테이블
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
