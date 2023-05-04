@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Table(name = "Employee")
-public class EmployeeEntity extends BaseTime { // 직원테이블
+public class EmployeeEntity { // 직원테이블
     @Id
     private int eno;
     @Column
@@ -55,5 +56,22 @@ public class EmployeeEntity extends BaseTime { // 직원테이블
     // 부서이동
     @OneToMany(mappedBy = "employeeEntity")
     private List<DepartmentChangeEntity> departmentChangeEntityList;
+
+    public EmployeeDto toDto(){
+        return EmployeeDto.builder()
+                .eno(this.eno)
+                .ename(this.ename)
+                .esocialno(this.esocialno)
+                .eemail(this.eemail)
+                .ephone(this.ephone)
+                .ephoto(this.ephoto)
+                .hiredate(
+                    this.hiredate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd"))
+                )
+                .eenddate(
+                    this.eenddate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd"))
+                )
+                .build();
+    }
 
 }
