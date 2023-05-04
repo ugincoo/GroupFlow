@@ -26,4 +26,6 @@ public class PositionEntity { // 직급테이블
 
     @OneToMany(mappedBy = "positionEntity")
     private List<PositionChangeEntity> positionChangeEntityList;
+
+
 }
