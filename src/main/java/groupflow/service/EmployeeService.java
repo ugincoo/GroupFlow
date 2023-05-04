@@ -68,7 +68,7 @@ public class EmployeeService {
         // 연도추출용
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        int year = cal.get(Calendar.YEAR) % 100; // 연도 정보만 추출
+        int year = cal.get(Calendar.YEAR) ; // 연도 정보만 추출 // % 100
         log.info("year : " + year);
 
         //******************************** DB에서 올해 입사한 마지막 사번 가져오기 "2301001" --> "001"
@@ -88,38 +88,51 @@ public class EmployeeService {
   
         // 올해 입사한 마지막 사원의 사번구하기
         Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findLastEmployeeIdByHireDateBetween( startOfYearStr , endOfYearStr );
-
+        log.info("마지막사원구하기 optionalEmployeeEntity : " + optionalEmployeeEntity);
         String nextEmpNum; // 전역변수 사번마지막 3자리
 
         if ( !optionalEmployeeEntity.isPresent() ){ nextEmpNum = "001"; } // 올해 입사한 사람이 없으면 "001"
         else {
             String eno = Integer.toString(optionalEmployeeEntity.get().getEno());
             String lastThreeDigits = eno.substring(eno.length() - 3);
+            log.info("마지막3개숫자 : " + lastThreeDigits);
             // 구한 사번에서 1더하기
             int num = Integer.parseInt(lastThreeDigits) + 1;
+            log.info("num : " + num);
             nextEmpNum = String.format("%03d", num);
-            System.out.println(nextEmpNum); // 출력: 002
+
+
         }
 
         //******************************** 사번만들기
-
+        log.info("nextEmpNum : " + nextEmpNum);
         return String.format("%02d", year) + nextEmpNum;
 
     }
 
 
     // 신규 직원 등록 [ 필요 : employeeDto ( eemail , ename , ephone ,esocialno , hiredate , dno , pno ) ]
+
     /*
+    http://localhost:8080/employee
     {
-        ename : "홍길동" , esocialno : "123456-1234567" , eemail : "asd@naver.com" , ephone : "010-0000-0000" ,  hiredate : "2023-05-06" , dno : 9 , pno:1
+        "ename" : "홍길동" ,
+            "esocialno" : "123456-1234567" ,
+            "eemail" : "asd@naver.com" ,
+            "ephone" : "010-0000-0000" ,
+            "hiredate" : "2023-05-06" ,
+            "dno" : 9 ,
+            "pno" :1
     }
     */
-
     @Transactional
     public byte registerNewEmployee( EmployeeDto employeeDto ) {
+        log.info("s registerNewEmployee 실행 employeeDto : " + employeeDto );
+
         // 사번만들기 함수
-        int id = Integer.parseInt( generateEmployeeID( employeeDto.getHiredate() ) );
-        Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findById(id);
+        int eno = Integer.parseInt( generateEmployeeID( employeeDto.getHiredate() ) );
+        log.info("생성한 사번 : " + eno);
+        Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findById(eno);
         if (optionalEmployeeEntity.isPresent()){ return 1; } // 사번이 이미 존재함
 
         // employeeentity DB저장

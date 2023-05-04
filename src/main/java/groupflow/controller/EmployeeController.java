@@ -4,9 +4,7 @@ import groupflow.domain.employee.EmployeeDto;
 import groupflow.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -16,7 +14,10 @@ public class EmployeeController {
 
     @Autowired
     EmployeeService employeeService;
-    public byte registerNewEmployee(EmployeeDto employeeDto) {
+
+    @PostMapping("")
+    public byte registerNewEmployee( @RequestBody EmployeeDto employeeDto) {
+        log.info("c registerNewEmployee 실행 employeeDto : " + employeeDto );
         return employeeService.registerNewEmployee(employeeDto);
     }
 

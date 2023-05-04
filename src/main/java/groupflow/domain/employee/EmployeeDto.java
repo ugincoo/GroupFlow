@@ -14,7 +14,7 @@ import java.util.List;
 public class EmployeeDto {
     private int eno;
     private String ename;   //이름
-    private int esocialno;  //주민등록번호
+    private String esocialno;  //주민등록번호
     private String eemail;  //이메일
     private String ephone;  //휴대폰번호
     private String ephoto;  //사진
