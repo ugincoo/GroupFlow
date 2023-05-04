@@ -1,5 +1,6 @@
 package groupflow.service;
 
+import com.sun.xml.bind.api.Bridge;
 import groupflow.domain.department.DepartmentChangeEntity;
 import groupflow.domain.department.DepartmentChangeEntityRepository;
 import groupflow.domain.department.DepartmentEntity;
@@ -14,12 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -147,6 +147,18 @@ public class EmployeeService {
         //
 
 
+        return 0;
+    }
 
+    //전직원 출력[관리자입장]
+    public List<EmployeeDto> allEmplyee(){
+        List<EmployeeEntity> entityList= employeeRepository.findAll();
+        List<EmployeeDto> dtoList=new ArrayList<>();
+
+        entityList.forEach((e)->{
+            dtoList.add(e.toDto());
+
+        });
+        return dtoList;
     }
 }
