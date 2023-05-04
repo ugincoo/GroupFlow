@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "Employee")
+@Table(name = "employee")
 public class EmployeeEntity { // 직원테이블
     @Id
     private int eno;
