@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Data@AllArgsConstructor@NoArgsConstructor@Builder
-@Table(name = "Attendance")
+@Table(name = "attendance")
 public class AttendanceEntity extends BaseTime { // 근태테이블 사원fk  출근  퇴근
 
     //private String CheckinTime;

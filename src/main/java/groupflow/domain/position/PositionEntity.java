@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "Position")
+@Table(name = "eposition")
 public class PositionEntity { // 직급테이블
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
