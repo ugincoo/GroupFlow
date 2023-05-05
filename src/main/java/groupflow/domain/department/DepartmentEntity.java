@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,5 +25,5 @@ public class DepartmentEntity { // 부서테이블
     private String dname;
 
     @OneToMany(mappedBy = "departmentEntity")
-    private List<DepartmentChangeEntity> departmentChangeEntityList;
+    private List<DepartmentChangeEntity> departmentChangeEntityList  = new ArrayList<>();
 }

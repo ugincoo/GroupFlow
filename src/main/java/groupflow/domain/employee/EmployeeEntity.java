@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -43,19 +44,19 @@ public class EmployeeEntity { // 직원테이블
 
     // 직급이동테이블
     @OneToMany(mappedBy = "employeeEntity")
-    private List<PositionChangeEntity> positionChangeEntityList;
+    private List<PositionChangeEntity> positionChangeEntityList  = new ArrayList<>();
     
     // 근태테이블
     @OneToMany(mappedBy = "employeeEntity")
-    private List<AttendanceEntity> attendanceEntityList;
+    private List<AttendanceEntity> attendanceEntityList  = new ArrayList<>();
 
     // 연차
     @OneToMany(mappedBy = "employeeEntity")
-    private List<LeaveRequestEntity> leaveRequestEntityList;
+    private List<LeaveRequestEntity> leaveRequestEntityList  = new ArrayList<>();
 
     // 부서이동
     @OneToMany(mappedBy = "employeeEntity")
-    private List<DepartmentChangeEntity> departmentChangeEntityList;
+    private List<DepartmentChangeEntity> departmentChangeEntityList  = new ArrayList<>();
 
     public EmployeeDto toDto(){
         return EmployeeDto.builder()

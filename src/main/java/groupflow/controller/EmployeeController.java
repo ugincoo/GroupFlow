@@ -23,10 +23,5 @@ public class EmployeeController {
         return employeeService.registerNewEmployee(employeeDto);
     }
 
-    @GetMapping("")
-    public List<EmployeeDto> getEmployees(){
-        log.info("c getEmployees 실행 ");
-        return employeeService.getEmployees();
-    }
 
 }

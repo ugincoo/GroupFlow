@@ -29,7 +29,7 @@ public class DepartmentChangeEntity { // 부서이동테이블
     @ManyToOne
     @JoinColumn(name="dno")
     @ToString.Exclude
-    private DepartmentEntity departmentEntity; // 부서테이블FK
+    private DepartmentEntity departmentEntity ; // 부서테이블FK
         
     @ManyToOne
     @JoinColumn(name="eno")
