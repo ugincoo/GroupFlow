@@ -1,2 +1,8 @@
-package groupflow.domain.leaverequest;public interface LeaveRequestRepository {
+package groupflow.domain.leaverequest;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface LeaveRequestRepository extends JpaRepository {
 }
