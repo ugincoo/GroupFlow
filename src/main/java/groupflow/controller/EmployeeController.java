@@ -23,6 +23,7 @@ public class EmployeeController {
     @GetMapping("")
     public List<EmployeeDto> allEmplyee(){ //전직원 출력[관리자입장]
         List<EmployeeDto> result = employeeService.allEmplyee();
+        System.out.println("ggg:");
         return  result;
     }
 

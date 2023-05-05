@@ -157,8 +157,8 @@ public class EmployeeService {
 
         entityList.forEach((e)->{
             dtoList.add(e.toDto());
-
         });
+
         return dtoList;
     }
 }
