@@ -10,7 +10,7 @@ export default function Login(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`ID: ${userId}, Name: ${userName}`);
-  }
+  };
 
   const colorPalette = {
     lightest: blue.A100,
@@ -20,71 +20,70 @@ export default function Login(props) {
   };
 
   return (
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        sx={{ height: '100vh', bgcolor: '#EEF2F6' }}
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        bgcolor: '#EEF2F6',
+      }}
+    >
+      <Box
+        sx={{
+          p: 4,
+          borderRadius: 1,
+          boxShadow: 1,
+          bgcolor: 'white',
+          width: '100%',
+          maxWidth: '400px',
+        }}
       >
-        <Grid item xs={12} md={6} lg={4}>
-          <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            p={4}
-            borderRadius={1}
-            boxShadow={1}
-            bgcolor="white"
-          >
-            <Typography
-              sx={{
-                fontFamily: "'Open Sans', sans-serif",
-                fontWeight: 'bold',
-                color: colorPalette.dark,
-                mb: 2,
-              }}
-              variant="h5"
-              component="h1"
+        <Typography
+          sx={{
+            fontFamily: "'Open Sans', sans-serif",
+            fontWeight: 'bold',
+            color: colorPalette.dark,
+            mb: 2,
+            textAlign: 'center',
+          }}
+          variant="h5"
+          component="h1"
+        >
+          Welcome to the Company
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              label="사번"
+              variant="outlined"
+              fullWidth
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
+              sx={{ mb: 1 }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="이름"
+              variant="outlined"
+              fullWidth
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              sx={{ mb: 2 }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              sx={{ bgcolor: colorPalette.main, color: 'white', mt: 2, width: '100%' }}
+              onClick={handleSubmit}
             >
-              Welcome to the Company
-            </Typography>
-            <Grid item xs={12}>
-              <TextField
-                label="사번"
-                variant="outlined"
-                fullWidth
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
-                mb={1}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="이름"
-                variant="outlined"
-                fullWidth
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                mb={2}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                variant="contained"
-                sx={{
-                  bgcolor: colorPalette.main,
-                  color: 'white',
-                  mt: 2,
-                }}
-                fullWidth
-                onClick={handleSubmit}
-              >
-                로그인
-              </Button>
-            </Grid>
+              로그인
+            </Button>
           </Grid>
         </Grid>
-      </Grid>
-    );
+      </Box>
+    </Box>
+  );
 }

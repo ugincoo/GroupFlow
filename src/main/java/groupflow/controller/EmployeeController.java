@@ -23,5 +23,9 @@ public class EmployeeController {
         return employeeService.registerNewEmployee(employeeDto);
     }
 
+    @PostMapping("/login")
+    public EmployeeDto eLogin( @RequestBody EmployeeDto employeeDto ){
+        return employeeService.eLogin( employeeDto );
+    }
 
 }

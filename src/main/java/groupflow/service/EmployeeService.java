@@ -270,4 +270,10 @@ public class EmployeeService {
 
     }
 
+
+    // 로그인
+    public EmployeeDto eLogin( EmployeeDto employeeDto ){
+        log.info("s eLogin eno : "+employeeDto.getEno() +" ename : "+employeeDto.getEname());
+        return null;
+    }
 }
