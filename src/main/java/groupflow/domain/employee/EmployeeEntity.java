@@ -58,7 +58,7 @@ public class EmployeeEntity { // 직원테이블
     private List<DepartmentChangeEntity> departmentChangeEntityList;
 
     public EmployeeDto toDto(){
-        return EmployeeDto.builder()
+        EmployeeDto employeeDto = EmployeeDto.builder()
                 .eno(this.eno)
                 .ename(this.ename)
                 .esocialno(this.esocialno)
@@ -66,12 +66,14 @@ public class EmployeeEntity { // 직원테이블
                 .ephone(this.ephone)
                 .ephoto(this.ephoto)
                 .hiredate(
-                    this.hiredate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd"))
-                )
-                .eenddate(
-                    this.eenddate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd"))
+                        this.hiredate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd"))
                 )
                 .build();
+        if ( this.eenddate != null){
+            employeeDto.setEenddate( this.eenddate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd") ) );
+        }
+        return employeeDto;
+
     }
 
 }

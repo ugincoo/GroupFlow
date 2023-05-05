@@ -152,6 +152,7 @@ public class EmployeeService {
 
     //전직원 출력[관리자입장]
     public List<EmployeeDto> allEmplyee(){
+        System.out.println("allEmplyee");
         List<EmployeeEntity> entityList= employeeRepository.findAll();
         List<EmployeeDto> dtoList=new ArrayList<>();
 
@@ -161,4 +162,12 @@ public class EmployeeService {
 
         return dtoList;
     }
+
+    //부서별 출력[직원입장]
+    public List<EmployeeDto> departmentEmplyee(){
+        System.out.println("departmentEmplyee");
+
+        return  null;
+    }
+
 }
