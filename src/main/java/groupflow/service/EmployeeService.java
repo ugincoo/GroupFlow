@@ -26,6 +26,10 @@ import java.util.*;
 @Slf4j
 public class EmployeeService {
 
+    int eno = 0;
+    String ename = "홍길동";
+
+
     @Autowired
     EmployeeRepository employeeRepository;
 
@@ -76,6 +80,7 @@ public class EmployeeService {
 
         //******************************** DB에서 올해 입사한 마지막 사번 가져오기 "2301001" --> "001"
 
+        LocalDate today = LocalDate.now(); // 현재 날짜
 
 
         // 입력한 year 시작일
