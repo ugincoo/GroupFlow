@@ -1,7 +1,8 @@
 package groupflow.controller;
 
 import groupflow.domain.employee.EmployeeDto;
-import groupflow.service.EmployeeService;
+import groupflow.service.AttendanceService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,15 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class AttendanceController {
 
     @Autowired
-    private EmployeeService employeeService;
+    private AttendanceService attendanceService;
     //출근,퇴근--------------------------------------------------------
-  /*  @PostMapping("/gowork")
-    public  boolean gowork(@RequestBody EmployeeDto employeeDto){
-        boolean result=employeeService.gowork(eno,ename);
+   @PostMapping("/gowork")
+    public  boolean gowork(){
+        boolean result=attendanceService.gowork();
         return result;
     }
 
-*/
 
 }
 
