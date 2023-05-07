@@ -21,6 +21,7 @@ public class EmployeeDto {
     private String hiredate; //입사일
     private String eenddate; //퇴사일
 
+
     public EmployeeEntity toEntity() {
         return EmployeeEntity.builder()
                 .eno(this.eno)

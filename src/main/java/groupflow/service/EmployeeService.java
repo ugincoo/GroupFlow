@@ -1,10 +1,7 @@
 package groupflow.service;
 
 import com.sun.xml.bind.api.Bridge;
-import groupflow.domain.department.DepartmentChangeEntity;
-import groupflow.domain.department.DepartmentChangeEntityRepository;
-import groupflow.domain.department.DepartmentEntity;
-import groupflow.domain.department.DepartmentRepository;
+import groupflow.domain.department.*;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
 import groupflow.domain.employee.EmployeeRepository;
@@ -151,23 +148,39 @@ public class EmployeeService {
     }
 
     //전직원 출력[관리자입장]
-    public List<EmployeeDto> allEmplyee(){
-        System.out.println("allEmplyee");
-        List<EmployeeEntity> entityList= employeeRepository.findAll();
+    @Transactional
+    public List<EmployeeDto> allEmplyee(int dno,int dcendreason){
+        System.out.println("dno1"+dno);System.out.println("dcendreason1"+dcendreason);
+        List<EmployeeEntity> entityList=null;
+        if(dno==0&&dcendreason==0){ //전체직원(!dcendreason 사실 =0 은 필요없다 )
+            entityList=employeeRepository.findAll();
+        }if(dno!=0){    //부서별 모든직원
+            entityList=employeeRepository.findemployeebydno(dno);
+        }if(dcendreason!=0&&dno!=0){    //부서별+입/퇴사
+            entityList=employeeRepository.findemployeebydcendreason_dno(dcendreason,dno);
+        }if(dcendreason!=0&&dno==0){    //전체출력+입/퇴사
+            entityList=employeeRepository.findemployeebydcendreason(dcendreason);
+        }
         List<EmployeeDto> dtoList=new ArrayList<>();
 
         entityList.forEach((e)->{
+         //   EmployeeDto employeeDto=new EmployeeDto(); 부서를 넣고싶다..
+         // employeeDto.setDname( e.getDepartmentChangeEntityList().get(0).getDepartmentEntity().getDname());
             dtoList.add(e.toDto());
         });
 
         return dtoList;
     }
 
-    //부서별 출력[직원입장]
-    public List<EmployeeDto> departmentEmplyee(){
-        System.out.println("departmentEmplyee");
-
-        return  null;
+    //부서 출력[직원입장]
+    public List<DepartmentDto> getDepartment(){ //부서셀렉트[관리자입장]
+        System.out.println("getDepartment:");
+        List<DepartmentEntity> entityList=departmentRepository.findAll();
+        List<DepartmentDto> dtoList= new ArrayList<>();
+        entityList.forEach( (e)->{
+            dtoList.add(e.toDto());
+        });
+        return dtoList;
     }
 
 }
