@@ -20,6 +20,7 @@ public class EmployeeController {
     @PostMapping("")
     public byte registerNewEmployee( @RequestBody EmployeeDto employeeDto) {
         log.info("c registerNewEmployee 실행 employeeDto : " + employeeDto );
+        //log.info("ephotoFile : " + employeeDto.getEphotoData());
         return employeeService.registerNewEmployee(employeeDto);
     }
 

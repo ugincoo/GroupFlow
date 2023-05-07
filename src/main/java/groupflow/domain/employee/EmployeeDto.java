@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
@@ -25,6 +26,8 @@ public class EmployeeDto {
     // 추가
     private int dno; // 부서번호
     private int pno; // 직급번호
+    // 이미지 첨부파일용
+    //private MultipartFile ephotoData;
 
     public EmployeeEntity toEntity() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
