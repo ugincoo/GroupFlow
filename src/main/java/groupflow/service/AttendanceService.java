@@ -52,8 +52,8 @@ public class AttendanceService {
         Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(eno);//eno 를 이용해서 직원엔티티 찾는다
         if(optionalEmployeeEntity.isPresent()){
             List<AttendanceEntity> attendanceEntityList =optionalEmployeeEntity.get().getAttendanceEntityList();//찾은 직원엔티티에는 근태리스트가 있음 .꺼내라 왜?출근한 직원의 정보를 갖고와야해서
-            if(!attendanceEntityList.isEmpty()){ //퇴근을할려면 출근
-                int lastindex =attendanceEntityList.size()-1;
+            if(!attendanceEntityList.isEmpty()){ //근태리스트에 레코드가 있으면
+                int lastindex =attendanceEntityList.size()-1; //마지막인덱스=근태리스트-1(마지막 인덱스=최근인덱스 찾을려고)
                 AttendanceEntity attendanceEntity=attendanceEntityList.get(lastindex);
 
             }
