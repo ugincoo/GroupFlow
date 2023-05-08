@@ -71,7 +71,7 @@ public class EmployeeEntity { // 직원테이블
                 .ephone(this.ephone)
                 .ephoto(this.ephoto)
                 .hiredate(
-                    this.hiredate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd"))
+                        this.hiredate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd"))
                 )
                 .build();
             if ( this.eenddate != null){

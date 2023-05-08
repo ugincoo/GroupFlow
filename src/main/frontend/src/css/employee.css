@@ -1,0 +1,19 @@
+.ephoto{
+    border: 1px solid #eeeeee;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+.head{
+    background-color: #2979ff;
+}
+.headname{
+    color: white;
+}
+
+ .row:hover {
+    background-color: #82b1ff;
+
+    transition: 1s;
+  }

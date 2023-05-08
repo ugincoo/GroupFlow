@@ -1,9 +1,7 @@
 package groupflow.service;
 
-import groupflow.domain.department.DepartmentChangeEntity;
-import groupflow.domain.department.DepartmentChangeEntityRepository;
-import groupflow.domain.department.DepartmentEntity;
-import groupflow.domain.department.DepartmentRepository;
+import com.sun.xml.bind.api.Bridge;
+import groupflow.domain.department.*;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
 import groupflow.domain.employee.EmployeeRepository;
@@ -16,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.*;
 
 @Service
@@ -239,12 +237,41 @@ public class EmployeeService {
         log.info("직급변경 테이블 생성 완료 ");
         log.info("positionChangeEntity : " + positionChangeEntity);
 
+        //
+
+
+        return 0;
+    }
+
+    //전직원 출력[관리자입장]
+    @Transactional
+    public List<EmployeeDto> allEmplyee(int dno,int dcendreason){
+        System.out.println("dno1"+dno);System.out.println("dcendreason1"+dcendreason);
+        List<EmployeeEntity> entityList=null;
+        if(dno==0&&dcendreason==0){ //전체직원(!dcendreason 사실 =0 은 필요없다 )
+            entityList=employeeRepository.findAll();
+        }if(dno!=0){    //부서별 모든직원
+            entityList=employeeRepository.findemployeebydno(dno);
+        }if(dcendreason!=0&&dno!=0){    //부서별+입/퇴사
+            entityList=employeeRepository.findemployeebydcendreason_dno(dcendreason,dno);
+        }if(dcendreason!=0&&dno==0){    //전체출력+입/퇴사
+            entityList=employeeRepository.findemployeebydcendreason(dcendreason);
+        }
+        List<EmployeeDto> dtoList=new ArrayList<>();
+
+        entityList.forEach((e)->{
+         //   EmployeeDto employeeDto=new EmployeeDto(); 부서를 넣고싶다..
+         // employeeDto.setDname( e.getDepartmentChangeEntityList().get(0).getDepartmentEntity().getDname());
+            dtoList.add(e.toDto());
+        });
         // positionEntity 찾기
         Optional<PositionEntity> optionalPositionEntity = positionEntityRepository.findById(employeeDto.getPno());
         if (optionalPositionEntity.isPresent()) {
             // positionEntity 꺼냄
             PositionEntity positionEntity = optionalPositionEntity.get();
 
+        return dtoList;
+    }
             //양방향 positionEntity <--> positionChangeEntity
             // 직급이동이력에 직급entity 저장
             positionChangeEntity.setPositionEntity(positionEntity);
@@ -252,6 +279,18 @@ public class EmployeeService {
             positionEntity.getPositionChangeEntityList().add(positionChangeEntity);
             log.info("직급테이블 직급변경테이블 양방향 완료 ");
 
+    //부서 출력[직원입장]
+    public List<DepartmentDto> getDepartment(){ //부서셀렉트[관리자입장]
+        System.out.println("getDepartment:");
+        List<DepartmentEntity> entityList=departmentRepository.findAll();
+        List<DepartmentDto> dtoList= new ArrayList<>();
+        entityList.forEach( (e)->{
+            dtoList.add(e.toDto());
+        });
+        return dtoList;
+    }
+
+}
             //양방향 positionChangeEntity <-> employeeEntity
             positionChangeEntity.setEmployeeEntity(employeeEntity);
             employeeEntity.getPositionChangeEntityList().add(positionChangeEntity);
