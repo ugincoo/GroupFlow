@@ -21,20 +21,20 @@ public interface EmployeeRepository extends JpaRepository< EmployeeEntity , Inte
     Optional<EmployeeEntity> findLastEmployeeIdByHireDateBetween( @Param("startDate") String startDate , @Param("endDate") String endDate );
 
     @Query( value =
-           "SELECT * FROM groupflow.employee natural join groupflow.departmentchange where eenddate is null and dno= :dno",nativeQuery = true ) // 부서별 근무직원출력하기
-    List<EmployeeEntity> findemployeebydno_null( int dno); // 부서별 근무자만 출력
+           "SELECT * FROM groupflow.employee natural join groupflow.departmentchange where eenddate is null and dno= :dno" ,nativeQuery = true )
+    List<EmployeeEntity> findemployeebydnoNull(@Param("dno") int dno); // 부서별 근무자만 출력
 
     @Query( value =
-            "SELECT * FROM groupflow.employee natural join groupflow.departmentchange where eenddate is not null and dno= :dno",nativeQuery = true ) // 부서별 근무직원출력하기
-    List<EmployeeEntity> findemployeebydno_notnull( int dno);   // 부서별 퇴사자 출력
+            "SELECT * FROM groupflow.employee natural join groupflow.departmentchange where eenddate is not null and dno= :dno",nativeQuery = true )
+        List<EmployeeEntity> findemployeebydnoNotnull(@Param("dno") int dno);   // 부서별 퇴사자만 출력
 
     @Query( value =
             "select * from groupflow.employee where eenddate is null;",nativeQuery = true ) // 전직원 근무자만 출력
-    List<EmployeeEntity> findemployeebyNulleenddate( int dcendreason);
+    List<EmployeeEntity> findemployeebyNulleenddate(@Param("leavework") int leavework);
 
     @Query( value =
             "select * from groupflow.employee where eenddate is not null;",nativeQuery = true ) // 모든 퇴사자 출력
-    List<EmployeeEntity> findemployeebyNotNULLeenddate( int dcendreason);
+    List<EmployeeEntity> findemployeebyNotNULLeenddate(@Param("leavework") int leavework);
 
 
 

@@ -6,10 +6,7 @@ import groupflow.service.EmployeePrintService;
 import groupflow.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,16 +20,15 @@ public class EmployeePrintController {
     private EmployeePrintService employeePrintService;
 
     @GetMapping("")
-    public List<EmployeeDto> allEmplyee(int dno,int dcendreason){ //전직원 출력[관리자입장]
+    public List<EmployeeDto> allEmplyee(@RequestParam int dno, @RequestParam int leavework){ //전직원 출력[관리자입장]
         System.out.println("dno:"+dno);
-        System.out.println("dcendreason:"+dcendreason);
-        List<EmployeeDto> result = employeePrintService.allEmplyee(dno,dcendreason);
+        System.out.println("dcendreason:"+leavework);
+        List<EmployeeDto> result = employeePrintService.allEmplyee(dno,leavework);
         return  result;
     }
 
     @GetMapping("/department")
-    public List<DepartmentDto> getDepartment(){ //부서셀렉트[관리자입장]
-
+    public List<DepartmentDto> getDepartment(){ //부서셀렉트에출력[관리자입장]
         List<DepartmentDto> result = employeePrintService.getDepartment();
         return  result;
     }

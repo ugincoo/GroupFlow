@@ -4,14 +4,13 @@ import axios from 'axios';
 //----------------------------셀렉트------------------------------------
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 
 export default function Department(props) {
 console.log()
 let [departments,setDepartments]=useState([]);  //카테고리 전체담기
-let [inoutEmployee,setInoutEmployee]=useState([]);  //카테고리 전체담기
+
 
     useEffect ( ()=>{
         axios

@@ -16,3 +16,26 @@
     background-color: #82b1ff1f;
     transition: 1s;
   }
+
+.top{
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+}
+
+/*--------------------------검색란-------------------------*/
+.keykeyword{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+#demo-simple-select-standard{
+padding-right: 40px;
+}
+
+#standard-basic{
+padding-left: 15px;
+
+    width: 120px;
+}

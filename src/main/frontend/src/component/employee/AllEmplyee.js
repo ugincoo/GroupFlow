@@ -10,17 +10,18 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 //---------------------------컨테이너-------------------------------------
 import Container from '@mui/material/Container';
-import Department from './Department';
 //---------------------------사용자-------------------------------------
 import Logo from '../../logo.svg';  //기본사진
 import styles from '../../css/employee.css'; //css
+import Department from './Department'; //부서 [하위]
+import SearchEmplyee from './SearchEmplyee'; //검색 [하위]
 
 
 
 export default function AllEmplyee(props) {
 
     let [allEmplyee,setAllEmplyee] = useState([]);
-    let [info,setInfo]=useState({'dno':0 , 'dcendreason':1})    //1 : 입사 2:퇴사 임시값
+    let [info,setInfo]=useState({'dno':0 , 'leavework':1 , 'key': '' , 'keyword':''})    //1 : 입사 2:퇴사
 
 
 
@@ -43,18 +44,23 @@ export default function AllEmplyee(props) {
             info.dno=dno;
             setInfo({...info})
         };
-        const inoutEmployee=(dcendreason)=>{ //[입/퇴사자]
+        const inoutEmployee=(leavework)=>{ //[입/퇴사자]
 
-            console.log(dcendreason)
-            info.dcendreason=dcendreason;
+            console.log(leavework)
+            info.leavework=leavework;
             setInfo({...info})
         };
+
+
 
 
     console.log(allEmplyee)
      return (
         <Container>
-            <Department departmentchange={departmentchange} inoutEmployee={inoutEmployee} />
+            <div className="top">
+                <Department departmentchange={departmentchange} inoutEmployee={inoutEmployee} />
+                <SearchEmplyee />
+            </div>
             <TableContainer component={Paper} style={{width:'70%'}} >
               <Table  aria-label="simple table" >
                 <TableHead>

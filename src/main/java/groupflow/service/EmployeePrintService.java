@@ -49,19 +49,19 @@ public class EmployeePrintService {
 
 
 
-    //전직원 출력[관리자입장]
+    //직원 출력[관리자입장]
     @Transactional
-    public List<EmployeeDto> allEmplyee(int dno,int dcendreason){
-        System.out.println("dno1"+dno);System.out.println("dcendreason1"+dcendreason);
+    public List<EmployeeDto> allEmplyee(int dno,int leavework){
+        System.out.println("dno1"+dno);System.out.println("dcendreason1"+leavework);
         List<EmployeeEntity> entityList=null;
-        if(dno==0&&dcendreason==1){ //근무하는 전체직원
-            entityList=employeeRepository.findemployeebyNulleenddate(dcendreason);
-        }if(dno==0&&dcendreason==2){ //전체 퇴사자
-            entityList=employeeRepository.findemployeebyNotNULLeenddate(dcendreason);
-        }if(dno!=0&&dcendreason==1){    //부서별 근무직원
-            entityList=employeeRepository.findemployeebydno_null(dno);
-        }if(dno!=0&&dcendreason==2){    //부서별 퇴사직원
-            entityList=employeeRepository.findemployeebydno_notnull(dno);
+        if(dno==0&&leavework==1){ //근무하는 전체직원
+            entityList=employeeRepository.findemployeebyNulleenddate(leavework);
+        }else if(dno==0&&leavework==2){ //전체 퇴사자
+            entityList=employeeRepository.findemployeebyNotNULLeenddate(leavework);
+        }else if(dno!=0&&leavework==1){    //부서별 근무직원
+            entityList=employeeRepository.findemployeebydnoNull(dno);
+        }else if(dno!=0&&leavework==2){    //부서별 퇴사직원
+            entityList=employeeRepository.findemployeebydnoNotnull(dno);
         }
         List<EmployeeDto> dtoList=new ArrayList<>();
 
