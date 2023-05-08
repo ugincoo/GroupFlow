@@ -2,6 +2,7 @@ package groupflow.domain.department;
 
 import groupflow.domain.department.DepartmentChangeEntity;
 import groupflow.domain.employee.EmployeeDto;
+import groupflow.domain.leaverequest.LeaveRequestEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +30,11 @@ public class DepartmentEntity { // 부서테이블
     @OneToMany(mappedBy = "departmentEntity")
     @Builder.Default
     private List<DepartmentChangeEntity> departmentChangeEntityList  = new ArrayList<>();
+
+    @OneToMany(mappedBy = "departmentEntity")
+    @Builder.Default
+    private List<LeaveRequestEntity> leaveRequestEntityList  = new ArrayList<>();
+
 
     public DepartmentDto toDto(){
         DepartmentDto departmentDto = DepartmentDto.builder()

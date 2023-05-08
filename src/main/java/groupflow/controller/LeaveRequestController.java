@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class LeaveRequestController {
     @Autowired
     LeaveRequestService leaveRequestService;
-
+    
+    // 1. 연차 신청
+    @PostMapping("")
+    public  byte postdayoff(@RequestBody LeaveRequestDto dto){
+        byte result = leaveRequestService.postdayoff(dto);
+        return result;
+    }
 
 }
