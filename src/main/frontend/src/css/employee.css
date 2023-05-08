@@ -13,7 +13,6 @@
 }
 
  .row:hover {
-    background-color: #82b1ff;
-
+    background-color: #82b1ff1f;
     transition: 1s;
   }

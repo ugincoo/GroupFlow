@@ -15,7 +15,7 @@ let [inoutEmployee,setInoutEmployee]=useState([]);  //카테고리 전체담기
 
     useEffect ( ()=>{
         axios
-            .get("http://localhost:8080/employee/department")
+            .get("http://localhost:8080/employee/print/department")
             .then(r=>{
                 setDepartments(r.data)
             })
@@ -87,7 +87,6 @@ let [inoutEmployee,setInoutEmployee]=useState([]);  //카테고리 전체담기
                   autoWidth
                   label="입/퇴"
                 >
-                  <MenuItem value={0}>전체보기</MenuItem>
                   <MenuItem value={1}>근무자</MenuItem>
                   <MenuItem value={2}>퇴사자</MenuItem>
                 </Select>

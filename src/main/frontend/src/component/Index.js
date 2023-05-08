@@ -5,7 +5,6 @@ import Header from './Header';
 import Footer from './Footer';
 import Login from './Login';
 import Registration from './employee/Registration';
-
 import AllEmplyee from './employee/AllEmplyee';
 
 export default function Index(props) {

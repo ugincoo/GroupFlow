@@ -18,6 +18,7 @@ import styles from '../../css/employee.css'; //css
 
 
 export default function AllEmplyee(props) {
+
     let [allEmplyee,setAllEmplyee] = useState([]);
     let [info,setInfo]=useState({'dno':0 , 'dcendreason':1})    //1 : 입사 2:퇴사 임시값
 
@@ -62,7 +63,7 @@ export default function AllEmplyee(props) {
                     <TableCell  align="center" style={{width:'20%',color:'white'}}>사원번호</TableCell>
                     <TableCell  align="center" style={{width:'10%',color:'white'}}>사원명</TableCell>
                     <TableCell  align="center" style={{width:'10%',color:'white'}}>직급</TableCell>
-                    <TableCell  align="center" style={{width:'10%',color:'white'}}>부서명</TableCell>
+                    <TableCell  align="center" style={{width:'20%',color:'white'}}>부서명</TableCell>
                     <TableCell  align="center" style={{width:'20%',color:'white'}}>핸드폰번호</TableCell>
                   </TableRow>
                 </TableHead>
@@ -74,8 +75,8 @@ export default function AllEmplyee(props) {
                     </TableCell>
                     <TableCell align="center"><a href={"/"+e.eno}>{e.eno}</a></TableCell>
                     <TableCell align="center">{e.ename}</TableCell>
-                    <TableCell align="center">{e.dno}</TableCell>
-                    <TableCell align="center">{e.dno}</TableCell>
+                    <TableCell align="center">{e.pname}</TableCell>
+                    <TableCell align="center">{e.dname}</TableCell>
                     <TableCell align="center">{e.ephone}</TableCell>
                     </TableRow>
                   ))}

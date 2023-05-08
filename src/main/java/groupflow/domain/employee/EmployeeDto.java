@@ -17,7 +17,7 @@ import java.util.List;
 public class EmployeeDto {
     private int eno;
     private String ename;   //이름
-    private int esocialno;  //주민등록번호
+    private long esocialno;  //주민등록번호
     private String eemail;  //이메일
     private String ephone;  //휴대폰번호
     private String ephoto;  //사진
@@ -26,6 +26,11 @@ public class EmployeeDto {
     // 추가
     private int dno; // 부서번호
     private int pno; // 직급번호
+
+    //[장민정 추가]
+    private String dname;
+    private String pname;
+
     // 이미지 첨부파일용
     //private MultipartFile ephotoData;
 

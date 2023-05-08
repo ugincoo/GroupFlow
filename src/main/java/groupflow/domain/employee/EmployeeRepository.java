@@ -21,19 +21,22 @@ public interface EmployeeRepository extends JpaRepository< EmployeeEntity , Inte
     Optional<EmployeeEntity> findLastEmployeeIdByHireDateBetween( @Param("startDate") String startDate , @Param("endDate") String endDate );
 
     @Query( value =
-            "SELECT * FROM groupflow.employee natural join groupflow.department_change " +
-            " where dno= :dno order by dcstartdate desc limit 1 ;",nativeQuery = true ) // 부서별 직원출력하기
-    List<EmployeeEntity> findemployeebydno( int dno);
+           "SELECT * FROM groupflow.employee natural join groupflow.departmentchange where eenddate is null and dno= :dno",nativeQuery = true ) // 부서별 근무직원출력하기
+    List<EmployeeEntity> findemployeebydno_null( int dno); // 부서별 근무자만 출력
 
     @Query( value =
-            "SELECT * FROM groupflow.employee natural join groupflow.department_change " +
-                    " where dcendreason= :dcendreason ;",nativeQuery = true ) // 입/퇴사 직원출력하기
-    List<EmployeeEntity> findemployeebydcendreason( int dcendreason);
+            "SELECT * FROM groupflow.employee natural join groupflow.departmentchange where eenddate is not null and dno= :dno",nativeQuery = true ) // 부서별 근무직원출력하기
+    List<EmployeeEntity> findemployeebydno_notnull( int dno);   // 부서별 퇴사자 출력
 
     @Query( value =
-            "SELECT * FROM groupflow.employee natural join groupflow.department_change " +
-                    " where dcendreason= :dcendreason and dno= :dno ;",nativeQuery = true ) // 입/퇴사 직원출력하기
-    List<EmployeeEntity> findemployeebydcendreason_dno( int dcendreason,int dno);
+            "select * from groupflow.employee where eenddate is null;",nativeQuery = true ) // 전직원 근무자만 출력
+    List<EmployeeEntity> findemployeebyNulleenddate( int dcendreason);
+
+    @Query( value =
+            "select * from groupflow.employee where eenddate is not null;",nativeQuery = true ) // 모든 퇴사자 출력
+    List<EmployeeEntity> findemployeebyNotNULLeenddate( int dcendreason);
+
+
 
 
 
