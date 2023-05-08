@@ -28,7 +28,7 @@ public class EmployeeEntity { // 직원테이블
     @Column
     private String ename;   //이름
     @Column
-    private int esocialno;  //주민등록번호
+    private long esocialno;  //주민등록번호
     @Column
     private String eemail;  //이메일
     @Column
