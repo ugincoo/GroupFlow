@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "LeaveRequest")
+@Table(name = "leaverequest")
 public class LeaveRequestEntity { // 연차테이블
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

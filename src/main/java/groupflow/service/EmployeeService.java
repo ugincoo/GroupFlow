@@ -177,7 +177,7 @@ public class EmployeeService {
             // departmentChangeentity 객체만들어서 DB저장
             DepartmentChangeEntity departmentChangeEntity = DepartmentChangeEntity.builder()
                     .dcstartdate(employeeEntity.getHiredate())
-                    .dcendreason("입사")
+                    .dcstartreason("입사")
                     .build();
             departmentChangeRepository.save(departmentChangeEntity);
             if (!(departmentChangeEntity.getDcno() > 0)) {

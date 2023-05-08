@@ -116,7 +116,7 @@ public class EmployeePrintService {
         // 부서 ----------------------------------------------------------------------------------------
 
         // departmentChangeentity 객체만들어서 DB저장
-        DepartmentChangeEntity departmentChangeEntity = DepartmentChangeEntity.builder().dcendreason("입사").build();
+        DepartmentChangeEntity departmentChangeEntity = DepartmentChangeEntity.builder().dcstartreason("입사").build();
         departmentChangeRepository.save(departmentChangeEntity);
         if ( !(departmentChangeEntity.getDcno() > 0) ){ return 3; } // departmentChangeEntity 저장안됨
 

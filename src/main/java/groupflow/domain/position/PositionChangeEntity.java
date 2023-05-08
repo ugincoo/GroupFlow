@@ -20,7 +20,8 @@ public class PositionChangeEntity { // 직급변경테이블
     @Column
     private LocalDateTime enddate; // 끝날짜
     @Column
-    private String endreason; // 끝날사유
+    private String pcstartreason; // 적용사유
+
     @ManyToOne
     @JoinColumn(name="pno")
     @ToString.Exclude
