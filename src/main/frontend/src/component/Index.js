@@ -6,7 +6,7 @@ import Footer from './Footer';
 import Login from './Login';
 import Registration from './employee/Registration';
 
-import Employees from './employee/Employees';
+import AllEmplyee from './employee/AllEmplyee';
 
 export default function Index(props) {
     return (<>
@@ -16,7 +16,7 @@ export default function Index(props) {
                 <Route path="/" element={ <Main/> }/>
                 <Route path="/login" element={ <Login/> }/>
                 <Route path="/registration" element={ <Registration/> }/>
-                <Route path="/employees" element={ <Employees/> }/>
+                <Route path="/AllEmplyee" element={ <AllEmplyee/> }/>
 
             </Routes>
             <Footer/>
