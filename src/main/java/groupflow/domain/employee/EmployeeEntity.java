@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,7 +28,7 @@ public class EmployeeEntity { // 직원테이블
     @Column
     private String ename;   //이름
     @Column
-    private String esocialno;  //주민등록번호
+    private int esocialno;  //주민등록번호
     @Column
     private String eemail;  //이메일
     @Column
@@ -43,19 +44,23 @@ public class EmployeeEntity { // 직원테이블
 
     // 직급이동테이블
     @OneToMany(mappedBy = "employeeEntity")
-    private List<PositionChangeEntity> positionChangeEntityList;
+    @Builder.Default
+    private List<PositionChangeEntity> positionChangeEntityList=new ArrayList<>();
     
     // 근태테이블
     @OneToMany(mappedBy = "employeeEntity")
-    private List<AttendanceEntity> attendanceEntityList;
+    @Builder.Default
+    private List<AttendanceEntity> attendanceEntityList=new ArrayList<>();
 
     // 연차
     @OneToMany(mappedBy = "employeeEntity")
-    private List<LeaveRequestEntity> leaveRequestEntityList;
+    @Builder.Default
+    private List<LeaveRequestEntity> leaveRequestEntityList=new ArrayList<>();
 
     // 부서이동
     @OneToMany(mappedBy = "employeeEntity")
-    private List<DepartmentChangeEntity> departmentChangeEntityList;
+    @Builder.Default
+    private List<DepartmentChangeEntity> departmentChangeEntityList=new ArrayList<>();
 
     public EmployeeDto toDto(){
         EmployeeDto employeeDto = EmployeeDto.builder()
@@ -69,9 +74,9 @@ public class EmployeeEntity { // 직원테이블
                         this.hiredate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd"))
                 )
                 .build();
-        if ( this.eenddate != null){
-            employeeDto.setEenddate( this.eenddate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd") ) );
-        }
+            if ( this.eenddate != null){
+                employeeDto.setEenddate( this.eenddate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd") ) );
+            }
         return employeeDto;
 
     }

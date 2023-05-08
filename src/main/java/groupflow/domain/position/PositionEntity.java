@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,7 +26,8 @@ public class PositionEntity { // 직급테이블
     private int yearno;     //연차개수
 
     @OneToMany(mappedBy = "positionEntity")
-    private List<PositionChangeEntity> positionChangeEntityList;
+    @Builder.Default
+    private List<PositionChangeEntity> positionChangeEntityList = new ArrayList<>();
 
 
 }

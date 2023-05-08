@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "departmentChange")
+@Table(name = "departmentchange")
 public class DepartmentChangeEntity { // 부서이동테이블
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +24,12 @@ public class DepartmentChangeEntity { // 부서이동테이블
     private LocalDateTime dcenddate; // 끝날짜
 
     @Column
-    private String dcendreason; // 부서변경사유
+    private String dcstartreason; // 부서변경사유
 
     @ManyToOne
     @JoinColumn(name="dno")
     @ToString.Exclude
-    private DepartmentEntity departmentEntity; // 부서테이블FK
+    private DepartmentEntity departmentEntity ; // 부서테이블FK
         
     @ManyToOne
     @JoinColumn(name="eno")
