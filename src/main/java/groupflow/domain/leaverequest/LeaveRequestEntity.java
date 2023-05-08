@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Data
@@ -33,4 +34,18 @@ public class LeaveRequestEntity { // 연차테이블
     @JoinColumn(name="eno")
     @ToString.Exclude
     private EmployeeEntity employeeEntity;
+
+    //출력용
+    public LeaveRequestDto toDto(){
+        return LeaveRequestDto.builder()
+                .lno(this.lno)
+                .approvalstate(this.approvalstate)
+                .requestreason(this.requestreason)
+                .lrequestdate( this.lrequestdate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
+                .approvaldate( this.approvaldate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
+                .lstart(this.lstart.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
+                .lend(this.lend.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
+                .build();
+    }
+
 }
