@@ -44,18 +44,22 @@ public class EmployeeEntity { // 직원테이블
 
     // 직급이동테이블
     @OneToMany(mappedBy = "employeeEntity")
+    @Builder.Default
     private List<PositionChangeEntity> positionChangeEntityList  = new ArrayList<>();
     
     // 근태테이블
     @OneToMany(mappedBy = "employeeEntity")
+    @Builder.Default
     private List<AttendanceEntity> attendanceEntityList  = new ArrayList<>();
 
     // 연차
     @OneToMany(mappedBy = "employeeEntity")
+    @Builder.Default
     private List<LeaveRequestEntity> leaveRequestEntityList  = new ArrayList<>();
 
     // 부서이동
     @OneToMany(mappedBy = "employeeEntity")
+    @Builder.Default
     private List<DepartmentChangeEntity> departmentChangeEntityList  = new ArrayList<>();
 
     public EmployeeDto toDto(){

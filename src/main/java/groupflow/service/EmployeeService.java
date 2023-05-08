@@ -154,10 +154,10 @@ public class EmployeeService {
         // 사원 dto ==> 사원 entity
         EmployeeEntity employeeEntity = employeeDto.toEntity();
         log.info("employeeDto -> Entity : " + employeeEntity);
-        employeeEntity.setPositionChangeEntityList(new ArrayList<>()); //
-        employeeEntity.setAttendanceEntityList(new ArrayList<>()); //
-        employeeEntity.setLeaveRequestEntityList(new ArrayList<>()); //
-        employeeEntity.setDepartmentChangeEntityList(new ArrayList<>()); //
+        employeeEntity.setPositionChangeEntityList(new ArrayList<>());
+        employeeEntity.setAttendanceEntityList(new ArrayList<>());
+        employeeEntity.setLeaveRequestEntityList(new ArrayList<>());
+        employeeEntity.setDepartmentChangeEntityList(new ArrayList<>());
 
         // employeeentity DB저장
         employeeRepository.save(employeeEntity);

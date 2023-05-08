@@ -26,6 +26,7 @@ public class PositionEntity { // 직급테이블
     private int yearno;     //연차개수
 
     @OneToMany(mappedBy = "positionEntity")
+    @Builder.Default
     private List<PositionChangeEntity> positionChangeEntityList = new ArrayList<>();
 
 

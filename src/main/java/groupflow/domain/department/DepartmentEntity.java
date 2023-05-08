@@ -25,5 +25,6 @@ public class DepartmentEntity { // 부서테이블
     private String dname;
 
     @OneToMany(mappedBy = "departmentEntity")
+    @Builder.Default
     private List<DepartmentChangeEntity> departmentChangeEntityList  = new ArrayList<>();
 }
