@@ -22,7 +22,7 @@ export default function SearchEmplyee(props) {
         console.log('넘겨라')
     };
 
-    console.log(setKey)
+    console.log(key)
     return(<>
 
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
