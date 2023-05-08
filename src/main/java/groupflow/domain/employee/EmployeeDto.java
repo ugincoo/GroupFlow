@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
@@ -17,7 +18,7 @@ import java.util.List;
 public class EmployeeDto {
     private int eno;
     private String ename;   //이름
-    private int esocialno;  //주민등록번호
+    private long esocialno;  //주민등록번호
     private String eemail;  //이메일
     private String ephone;  //휴대폰번호
     private String ephoto;  //사진
@@ -27,7 +28,9 @@ public class EmployeeDto {
     private int dno; // 부서번호
     private int pno; // 직급번호
     // 이미지 첨부파일용
-    //private MultipartFile ephotoData;
+    private MultipartFile ephotodata;
+
+
 
 
     public EmployeeEntity toEntity() {

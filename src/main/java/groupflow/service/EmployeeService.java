@@ -189,7 +189,9 @@ public class EmployeeService {
 
 
             // departmentEntity 부서entity 구하기
+            log.info("employeeDto.getDno()"+employeeDto.getDno());
             Optional<DepartmentEntity> optionalDepartmentEntity = departmentRepository.findById(employeeDto.getDno());
+            log.info("optionalDepartmentEntity :"+optionalDepartmentEntity);
             if (optionalDepartmentEntity.isPresent()) {
                 // departmentEntity DB에서 꺼냄
                 DepartmentEntity departmentEntity = optionalDepartmentEntity.get();
@@ -226,6 +228,7 @@ public class EmployeeService {
         // positionChangeEntity 만들기 ( 적용날짜만 저장, 적용날짜 == 입사일 )
         PositionChangeEntity positionChangeEntity = PositionChangeEntity.builder()
                 .pcdate(employeeEntity.getHiredate())
+                .pcstartreason("입사")
                 .build();
         positionChangeRepository.save(positionChangeEntity);
         if (!(positionChangeEntity.getPcno() > 0)) {

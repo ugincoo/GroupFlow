@@ -1,11 +1,14 @@
 package groupflow.controller;
 
 import groupflow.domain.employee.EmployeeDto;
+import groupflow.domain.employee.EmployeeEntity;
 import groupflow.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -18,9 +21,13 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @PostMapping("")
-    public byte registerNewEmployee( @RequestBody EmployeeDto employeeDto) {
-        log.info("c registerNewEmployee 실행 employeeDto : " + employeeDto );
-        //log.info("ephotoFile : " + employeeDto.getEphotoData());
+    public byte registerNewEmployee(
+            @RequestPart("ephotodata") MultipartFile ephotodata,
+            @RequestBody EmployeeDto employeeDto
+    ) {
+
+        log.info("ephotodata : " + ephotodata);
+        log.info("employeeDto : " + employeeDto);
         return employeeService.registerNewEmployee(employeeDto);
     }
 

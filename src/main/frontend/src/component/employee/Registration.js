@@ -13,15 +13,15 @@ const colorPalette = {
 
 export default function Registration() {
     const [imagePreview, setImagePreview] = useState(null);
+    const [ephoto, setEphoto] = useState(null);
     const [ info , setInfo ] = useState({
         ename : '',
         eemail : '',
         ephone : '',
-        ephotoData : null,
         esocialno : '',
         hiredate : '',
         pno : 1 ,
-        bno : 1
+        dno : 1
     })
 
 
@@ -30,16 +30,13 @@ export default function Registration() {
     console.log(info)
     const data = new FormData();
     console.log(data)
-    data.append('ename', info.ename);
-    data.append('eemail', info.eemail);
-    data.append('ephone', info.ephone);
-    data.append('ephotoData', info.ephotoData);
-    data.append('esocialno', info.esocialno);
-    data.append('hiredate', info.hiredate);
-    data.append('pno', info.pno);
-    data.append('bno', info.bno);
-
-    axios.post('http://localhost:8080/employee', data , { headers: { "Content-Type": `application/json`} } )
+    data.append('ephotodata', ephoto );
+    data.append(
+      "info",
+      new Blob([JSON.stringify(info)], { type: "application/json" })
+    );
+    console.log(data)
+    axios.post('http://localhost:8080/employee', data , { headers: { 'Content-Type': 'multipart/form-data'} } )
       .then(response => {
         console.log(response);
       })
@@ -51,8 +48,8 @@ export default function Registration() {
 const handleImageChange = (e) => {
   const file = e.target.files[0];
   console.log(file)
-  //info.ephotoData = file;
-  //setInfo({...info})
+  ephoto = file;
+  setEphoto({...ephoto})
 
   const reader = new FileReader();
   reader.onload = () => {
@@ -61,7 +58,7 @@ const handleImageChange = (e) => {
   reader.readAsDataURL(file);
 };
 
-//const [ephoto, setEphoto] = useState(null);
+
 
 const handleChange = (e) => {
   const { name, value } = e.target;
@@ -177,8 +174,8 @@ const handleChange = (e) => {
                             <Select
                               labelId="demo-simple-select-label"
                               id="demo-simple-select"
-                              name = "bno"
-                              value={info.bno}
+                              name = "dno"
+                              value={info.dno}
                               label="부서"
                               onChange={handleChange}
                             >
