@@ -1,6 +1,8 @@
 package groupflow.domain.leaverequest;
 
+import groupflow.domain.department.DepartmentEntity;
 import groupflow.domain.employee.EmployeeEntity;
+import groupflow.domain.position.PositionEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,6 +36,11 @@ public class LeaveRequestEntity { // 연차테이블
     @JoinColumn(name="eno")
     @ToString.Exclude
     private EmployeeEntity employeeEntity;
+
+    @ManyToOne
+    @JoinColumn(name="dno")
+    @ToString.Exclude
+    private DepartmentEntity departmentEntity;
 
     //출력용
     public LeaveRequestDto toDto(){
