@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,19 +28,22 @@ import java.util.*;
 public class EmployeeService {
 
     @Autowired
-    EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
-    DepartmentChangeEntityRepository departmentChangeRepository;
+    private DepartmentChangeEntityRepository departmentChangeRepository;
 
     @Autowired
-    DepartmentRepository departmentRepository;
+    private DepartmentRepository departmentRepository;
 
     @Autowired
-    PositionChangeEntityRepository positionChangeRepository;
+    private PositionChangeEntityRepository positionChangeRepository;
 
     @Autowired
-    PositionEntityRepository positionEntityRepository;
+    private PositionEntityRepository positionEntityRepository;
+
+    @Autowired
+    private FileService fileService;
 
     /*
     01: 경영지원팀
@@ -131,7 +135,7 @@ public class EmployeeService {
     }
     */
     @Transactional
-    public byte registerNewEmployee(EmployeeDto employeeDto) {
+    public byte registerNewEmployee(MultipartFile multipartFile , EmployeeDto employeeDto) {
         log.info("s registerNewEmployee 실행 employeeDto : " + employeeDto);
 
         // 사번만들기 함수
@@ -146,20 +150,20 @@ public class EmployeeService {
 
         // 사번 dto에 대입
         employeeDto.setEno(eno);
+
         // 사원 dto ==> 사원 entity
         EmployeeEntity employeeEntity = employeeDto.toEntity();
         log.info("employeeDto -> Entity : " + employeeEntity);
+
         employeeEntity.setPositionChangeEntityList(new ArrayList<>());
         employeeEntity.setAttendanceEntityList(new ArrayList<>());
         employeeEntity.setLeaveRequestEntityList(new ArrayList<>());
         employeeEntity.setDepartmentChangeEntityList(new ArrayList<>());
 
+
         // employeeentity DB저장
         employeeRepository.save(employeeEntity);
 
-        // 모든 사원 조회
-        List<EmployeeEntity> employeeEntityList = employeeRepository.findAll();
-        log.info("employeeEntityList : " + employeeEntityList);
 
         // 리포지토리에 엔티티 저장되었는지 확인
         Optional<EmployeeEntity> optionalEmployeeEntity2 = employeeRepository.findById(employeeEntity.getEno());
@@ -171,6 +175,11 @@ public class EmployeeService {
         log.info("employeeEntity :" + optionalEmployeeEntity2.get());
 
         log.info("사원 테이블 생성 완료 ");
+
+        // 사원 이미지 서버폴더에 저장 , 사원사진파일명 DB employeeEntity에 ephoto에 대입
+        String ephoto = fileService.fileupload(multipartFile);
+        log.info("ephoto :" + ephoto);
+        employeeEntity.setEphoto(ephoto);
 
         if ( employeeDto.getDno() > 0 ) { // 이사,상무,사장은 부서 없음
             // 부서이동 ----------------------------------------------------------------------------------------

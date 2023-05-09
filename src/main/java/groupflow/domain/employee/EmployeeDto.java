@@ -27,8 +27,7 @@ public class EmployeeDto {
     // 추가
     private int dno; // 부서번호
     private int pno; // 직급번호
-    // 이미지 첨부파일용
-    private MultipartFile ephotodata;
+
 
 
 

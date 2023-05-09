@@ -28,7 +28,7 @@ public class EmployeeController {
 
         log.info("ephotodata : " + ephotodata);
         log.info("employeeDto : " + employeeDto);
-        return employeeService.registerNewEmployee(employeeDto);
+        return employeeService.registerNewEmployee(ephotodata , employeeDto);
     }
 
     @PostMapping("/login")
