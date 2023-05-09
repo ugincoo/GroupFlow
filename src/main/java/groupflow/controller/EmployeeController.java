@@ -22,8 +22,8 @@ public class EmployeeController {
 
     @PostMapping("")
     public byte registerNewEmployee(
-            @RequestPart("ephotodata") MultipartFile ephotodata,
-            @RequestBody EmployeeDto employeeDto
+            @RequestPart(value = "info") EmployeeDto employeeDto,
+            @RequestPart(value = "ephotodata") MultipartFile ephotodata
     ) {
 
         log.info("ephotodata : " + ephotodata);
