@@ -17,6 +17,8 @@ public class LeaveRequestDto {
     private String lstart; // 연차시작일
     private String lend; // 연차끝일
     private String requestreason; // 신청사
+    // 추가
+    private int pno; // 부서 넘버
 
     // 저장용
     public LeaveRequestEntity toEntity(){
