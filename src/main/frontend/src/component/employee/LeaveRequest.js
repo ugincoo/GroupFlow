@@ -1,11 +1,12 @@
 import React,{ useState, useEffect } from 'react';
 import axios from 'axios';
-/*-------------------mui---------------------*/
+/*------------------------------------------------------------------------------------------  mui modal */
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-/*-------------------------------------------*/
+
+
+
 export default function LeaveRequest(props){
 
  /*   useEffect ( ()=>{
@@ -42,8 +43,13 @@ const [open, setOpen] = React.useState(false);
     setOpen(false);
   };
 
+const day1 = () => {
+    document.querySelector('.day1').value =
+    new Date().toISOString().substring(0, 10);
+}
+
     return(<>
-         <Button onClick={handleOpen}>연차신청</Button>
+         <button onClick={handleOpen}>연차신청</button>
         <Modal
             open={open}
             onClose={handleClose}
@@ -59,7 +65,7 @@ const [open, setOpen] = React.useState(false);
                         <div> 부서 : </div>
                         <div> 직급 : </div>
                         <div> 연차 사용일 </div>
-                        <input type="date" /> <span> ~ </span> <input type="date" />
+                        <input type="date" className="date1" /> <span> ~ </span> <input type="date" className="date2"/>
                         <div>  연차 사유 : </div>
                         <textarea
                             style={{width: "100%", height: "60px" , border: "none", resize: "none"}}
@@ -67,8 +73,8 @@ const [open, setOpen] = React.useState(false);
                     </div>
                 </Container>
               </p>
-              <Button onClick={handleClose}>취소</Button>
-              <Button onClick={handleClose}>신청</Button>
+              <button onClick={handleClose}>취소</button>
+              <button onClick={handleClose}>신청</button>
             </Box>
           </Modal>
     </>);

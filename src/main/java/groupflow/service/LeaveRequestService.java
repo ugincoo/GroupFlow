@@ -14,14 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class LeaveRequestService {
     @Autowired
     LeaveRequestRepository leaveRequestRepository;
-
     @Autowired
     DepartmentRepository departmentRepository;
     @Autowired
@@ -30,16 +31,16 @@ public class LeaveRequestService {
 
 
     //1. 연차신청
-    public  byte postdayoff(LeaveRequestDto dto){
+    public byte post(LeaveRequestDto dto){
         log.info("postdayoff dto : " + dto);
         // 1. 부서 앤티티 찾기 [ 연차 게시물 안에 부서 엔티티객체 대입 하기 위해 ]
         Optional<DepartmentEntity> departmentEntityOptional = departmentRepository.findById(dto.getPno());
         if( !departmentEntityOptional.isPresent()) {
-            return 1; // 만약에 선택 된 카테고리가 없으면 return
+            return 1; // 만약에 선택 된 부서카테고리가 없으면 return
         }
         DepartmentEntity DepartmentEntity = departmentEntityOptional.get();    // 3. 카테고리 엔티티 추출
 
-        //2. 로그인 된 회원의 엔티티 찾기
+       /* //2. 로그인 된 회원의 엔티티 찾기
             // 아직 시큐리티 미완성
         // 인증된  인증 정보 찾기
         Object o = SecurityContextHolder.getContext().getAuthentication.getPrincipal();
@@ -49,7 +50,7 @@ public class LeaveRequestService {
         //형변환
         EmployeeDto loginDto = (EmployeeDto)o;
         // 회원엔티티 찾기
-        EmployeeEntity employeeEntity = employeeRepository.findById(loginDto.getEmployee); // 수정 해야 함
+        EmployeeEntity employeeEntity = employeeRepository.findById(loginDto.getEmployee); // 수정 해야 함*/
 
         //3. 연차 신청하기
         LeaveRequestEntity leaveRequestEntity = leaveRequestRepository.save(dto.toEntity());
@@ -59,11 +60,22 @@ public class LeaveRequestService {
         //4. 연차 - 부서 양방향관계[부서안에 연차 주소 대입]
         DepartmentEntity.getLeaveRequestEntityList().add(leaveRequestEntity);
         leaveRequestEntity.setDepartmentEntity(DepartmentEntity);
-        //5. 연차 - 로그인 회원 양방향관계
+       /* //5. 연차 - 로그인 회원 양방향관계
         employeeEntity.getLeaveRequestEntityList().add(leaveRequestEntity);
-        leaveRequestEntity.setEmployeeEntity(employeeEntity);
+        leaveRequestEntity.setEmployeeEntity(employeeEntity);*/
 
         return 0;
     }
 
+    // 연차 출력
+    public List<LeaveRequestDto> get(){
+        log.info("get Service : ");
+        // 모든 엔티티 호출
+        List<LeaveRequestEntity> entityList = leaveRequestRepository.findAll();
+        // 모든 엔티티를 dto로변환
+        List<LeaveRequestDto> dtoList =
+                entityList.stream().map( o -> o.toDto()).collect(Collectors.toList());
+
+        return dtoList;
+    }
 }
