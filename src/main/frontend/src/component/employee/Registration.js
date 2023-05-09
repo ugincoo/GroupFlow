@@ -12,34 +12,38 @@ const colorPalette = {
 };
 
 export default function Registration() {
-    const [imagePreview, setImagePreview] = useState(null);
-    const [ info , setInfo ] = useState({
+    let [imagePreview, setImagePreview] = useState(null);
+    let [ephoto, setEphoto] = useState(null);
+    let [ info , setInfo ] = useState({
         ename : '',
         eemail : '',
         ephone : '',
-        ephotoData : null,
         esocialno : '',
         hiredate : '',
         pno : 1 ,
-        bno : 1
+        dno : 1
     })
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(info)
+    //console.log("info")
+    //console.log(info)
+    //console.log("ephoto")
+    //console.log(ephoto)
     const data = new FormData();
-    console.log(data)
-    data.append('ename', info.ename);
-    data.append('eemail', info.eemail);
-    data.append('ephone', info.ephone);
-    data.append('ephotoData', info.ephotoData);
-    data.append('esocialno', info.esocialno);
-    data.append('hiredate', info.hiredate);
-    data.append('pno', info.pno);
-    data.append('bno', info.bno);
+    data.append("ephotodata", ephoto );
+    data.append(
+      "info",
+      new Blob([JSON.stringify(info)], { type: "application/json" })
+    );
 
-    axios.post('http://localhost:8080/employee', data , { headers: { "Content-Type": `application/json`} } )
+    for (const entry of data.entries()) {
+      console.log(entry[0], entry[1]);
+    }
+
+
+    axios.post('http://localhost:8080/employee', data , { headers: { 'Content-Type': 'multipart/form-data'} } )
       .then(response => {
         console.log(response);
       })
@@ -50,9 +54,9 @@ export default function Registration() {
 
 const handleImageChange = (e) => {
   const file = e.target.files[0];
-  console.log(file)
-  //info.ephotoData = file;
-  //setInfo({...info})
+  //console.log("file")
+  //console.log(file)
+  setEphoto(file)
 
   const reader = new FileReader();
   reader.onload = () => {
@@ -61,7 +65,7 @@ const handleImageChange = (e) => {
   reader.readAsDataURL(file);
 };
 
-//const [ephoto, setEphoto] = useState(null);
+
 
 const handleChange = (e) => {
   const { name, value } = e.target;
@@ -177,8 +181,8 @@ const handleChange = (e) => {
                             <Select
                               labelId="demo-simple-select-label"
                               id="demo-simple-select"
-                              name = "bno"
-                              value={info.bno}
+                              name = "dno"
+                              value={info.dno}
                               label="부서"
                               onChange={handleChange}
                             >

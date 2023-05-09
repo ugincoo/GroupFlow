@@ -7,6 +7,8 @@ export default function Header(props) {
 
     return (<div>
         헤더입니다
+
+        <a href="/registration">사원등록</a>
         <a href="/allemployee">직원전체출력[관리자입장]</a>
     </div>)
     }
