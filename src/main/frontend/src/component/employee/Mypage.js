@@ -21,20 +21,37 @@ export default function Mypage(props) {
     const gowork=()=>{
         axios.post("http://localhost:8080/employee/gowork").then((r)=>{
             console.log(r.data)
+            if(r.data==true){alert("출근등록 되었습니다.");
+            document.querySelector('.goworkbtn').disabled=true;
+            document.querySelector('.outworkbtn').disabled=false;
+                        }
         })
 
     }
     const outwork=()=>{
         axios.put("http://localhost:8080/employee/outwork").then((r)=>{
-            console.log(r.data)
+            console.log(r.data);
+            if(r.data==true){alert("퇴근등록 되었습니다.");
+            document.querySelector('.outworkbtn').disabled=true;
+            document.querySelector('.goworkbtn').disabled=false;
+
+                                    }
+
         })
 
     }
 
+
+
     return(<>
         <Container>
-            <button type="button" onClick={gowork}  > 출근 </button>
-            <button type="button" onClick={outwork}  > 퇴근 </button>
+            <button
+                type="button" className="goworkbtn"
+                onClick={gowork}  > 출근 </button>
+
+            <button
+                type="button" className="outworkbtn"
+                onClick={outwork}  > 퇴근 </button>
 
         </Container>
     </>)
