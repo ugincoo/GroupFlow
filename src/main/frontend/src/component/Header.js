@@ -62,7 +62,7 @@ export default function Header(props) {
 
               {['left'].map((anchor) => (
                 <React.Fragment key={anchor}>
-                  <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+                  <Button onClick={toggleDrawer(anchor, true)}>메뉴</Button>
                   <Drawer
                     anchor={anchor}
                     open={state[anchor]}
