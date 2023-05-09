@@ -1,6 +1,9 @@
 package groupflow.service;
 
 import groupflow.domain.department.DepartmentChangeDto;
+
+import groupflow.domain.department.DepartmentChangeEntity;
+import groupflow.domain.department.DepartmentChangeEntityRepository;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
 import groupflow.domain.employee.EmployeeRepository;
@@ -8,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class EmployeeUpdateService {
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private DepartmentChangeEntityRepository departmentChangeEntityRepository;
     //기본프로필수정
     @Transactional
     public boolean updateEmployee(EmployeeDto employeeDto) {
@@ -36,9 +40,11 @@ public class EmployeeUpdateService {
     @Transactional
     public boolean updatedepartment(DepartmentChangeDto departmentChangeDto) {
         log.info("Employee departmentChangeDto service!!!!!:" + departmentChangeDto);
-        Optional<EmployeeEntity> optionalEmployeeEntity =employeeRepository.findById(departmentChangeDto.getDcno());
-        if(optionalEmployeeEntity.isPresent()){
-
+        Optional<DepartmentChangeEntity>optionalDepartmentChangeEntity=
+                departmentChangeEntityRepository.findById(departmentChangeDto.getEno());
+        log.info("optionalDepartmentChangeEntity:?????"+optionalDepartmentChangeEntity);
+        if(optionalDepartmentChangeEntity.isPresent()){
+            optionalDepartmentChangeEntity.get().getDepartmentEntity().getDno();
         }
         return true;
 
@@ -48,4 +54,4 @@ public class EmployeeUpdateService {
         // 기존부서변경 레코드를 찾아야됨.
     // 부서변경 필드 / dcstartdate / dcstartreason / departmentEntity / employeeEntity
     //
-} 
+}
