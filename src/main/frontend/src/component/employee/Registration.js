@@ -12,9 +12,9 @@ const colorPalette = {
 };
 
 export default function Registration() {
-    const [imagePreview, setImagePreview] = useState(null);
-    const [ephoto, setEphoto] = useState(null);
-    const [ info , setInfo ] = useState({
+    let [imagePreview, setImagePreview] = useState(null);
+    let [ephoto, setEphoto] = useState(null);
+    let [ info , setInfo ] = useState({
         ename : '',
         eemail : '',
         ephone : '',
@@ -27,15 +27,22 @@ export default function Registration() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(info)
+    //console.log("info")
+    //console.log(info)
+    //console.log("ephoto")
+    //console.log(ephoto)
     const data = new FormData();
-    console.log(data)
-    data.append('ephotodata', ephoto );
+    data.append("ephotodata", ephoto );
     data.append(
       "info",
       new Blob([JSON.stringify(info)], { type: "application/json" })
     );
-    console.log(data)
+
+    for (const entry of data.entries()) {
+      console.log(entry[0], entry[1]);
+    }
+
+
     axios.post('http://localhost:8080/employee', data , { headers: { 'Content-Type': 'multipart/form-data'} } )
       .then(response => {
         console.log(response);
@@ -47,9 +54,9 @@ export default function Registration() {
 
 const handleImageChange = (e) => {
   const file = e.target.files[0];
-  console.log(file)
-  ephoto = file;
-  setEphoto({...ephoto})
+  //console.log("file")
+  //console.log(file)
+  setEphoto(file)
 
   const reader = new FileReader();
   reader.onload = () => {
