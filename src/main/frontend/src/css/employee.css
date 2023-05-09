@@ -1,60 +1,24 @@
-.side{
-    width: 30%;
-    height: 100%;
-    background-color: #448aff;
-    padding: 30px;
-}
+
 .top{
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin:40px 0px;
+    margin:20px 0px;
 }
-html ,body , #root{
-    height:100%
-}
-
 /*--------------------------검색란-------------------------*/
 .keykeyword{
     display: flex;
     flex-direction: row;
     align-items: flex-end;
 }
+.css-65avyl{
+   padding: 110px 0px !important;
+}
+.css-g1cux0 {
 
-#demo-simple-select-standard{
-padding-right: 40px;
+    padding-top: 20px!important;
 }
 
-#standard-basic{
-padding-left: 15px;
-
-    width: 120px;
-}
-
-.MuiDataGrid-columnHeaders{
-
-    color: #d4d4d4;
-    font-size:13px;
-}
-
-.MuiDataGrid-selectedRowCount{
-    display:none !important;
-}
-.MuiDataGrid-root{
-border:none !important;
-}
-
-.css-6h1dhi-MuiDataGrid-root {
---unstable_DataGrid-radius: 0px!important ; }
-
-.css-6h1dhi-MuiDataGrid-root .MuiDataGrid-withBorderColor {
-    border-color: rgb(108 160 248 / 33%) !important;
-}
-.MuiDataGrid-virtualScroller {
-    color: #d4d4d4;
-}
-
-.MuiDataGrid-columnHeaderTitle{
-font-weight: bold !important;
-
+.css-1iyq7zh-MuiDataGrid-columnHeaders{
+background-color: aliceblue;
 }
