@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor 
 @Builder
 public class DepartmentDto {
     private int dno;        //부서번호
