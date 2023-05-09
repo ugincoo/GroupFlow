@@ -6,7 +6,7 @@ import Footer from './Footer';
 import Login from './Login';
 import Mypage from './employee/Mypage';
 import Registration from './employee/Registration';
-import AllEmplyee from './employee/AllEmplyee';
+import AllEmployee from './employee/AllEmplyee';
 import LeaveRequest from './employee/LeaveRequest';
 
 
@@ -19,8 +19,8 @@ export default function Index(props) {
                 <Route path="/login" element={ <Login/> }/>
                 <Route path="/registration" element={ <Registration/> }/>
                 <Route path="/dayoff" element={ <LeaveRequest/> }/>
-                <Route path="/allemployee" element={ <AllEmplyee/> }/>
-                <Route path="/Mypage" element={ <Mypage/> }/>
+                <Route path="/allemployee" element={ <AllEmployee/> }/>
+                <Route path="/mypage" element={ <Mypage/> }/>
 
             </Routes>
             <Footer/>
