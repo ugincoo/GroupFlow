@@ -1,13 +1,14 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 //---------------------------테이블-------------------------------------
-import Table from '@mui/material/Table';
+/*import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Paper from '@mui/material/Paper';*/
+import { DataGrid } from '@mui/x-data-grid';
 //---------------------------컨테이너-------------------------------------
 import Container from '@mui/material/Container';
 //---------------------------사용자-------------------------------------
@@ -16,8 +17,15 @@ import styles from '../../css/employee.css'; //css
 import Department from './Department'; //부서 [하위]
 import SearchEmplyee from './SearchEmplyee'; //검색 [하위]
 
+const columns = [
 
+  { field: 'id', headerName: '사원번호', width: 100 },
+  { field: 'ename', headerName: '사원명', width: 100 },
+  { field: 'pname',headerName: '직급', width: 100},
+  { field: 'dname',headerName: '부서명', width: 120},
+  { field: 'ephone',headerName: '핸드폰번호',width: 150}
 
+];
 export default function AllEmplyee(props) {
 
     let [allEmplyee,setAllEmplyee] = useState([]);
@@ -50,46 +58,47 @@ export default function AllEmplyee(props) {
             info.leavework=leavework;
             setInfo({...info})
         };
+         const searchinfo=(key,keyword)=>{ //키+키워드 검색
+
+            console.log(key + keyword)
+            info.key=key;
+            info.keyword=keyword;
+            setInfo({...info})
+         };
 
 
 
+
+
+  const handleRowClick = (params) => {
+    console.log( params );
+    console.log( params.row );
+    console.log( params.row.eno );
+  };
 
     console.log(allEmplyee)
      return (
-        <Container>
-            <div className="top">
-                <Department departmentchange={departmentchange} inoutEmployee={inoutEmployee} />
-                <SearchEmplyee />
-            </div>
-            <TableContainer component={Paper} style={{width:'70%'}} >
-              <Table  aria-label="simple table" >
-                <TableHead>
-                  <TableRow className="head">
-                    <TableCell  align="center" style={{width:'10%',color:'white'}}>프로필</TableCell>
-                    <TableCell  align="center" style={{width:'20%',color:'white'}}>사원번호</TableCell>
-                    <TableCell  align="center" style={{width:'10%',color:'white'}}>사원명</TableCell>
-                    <TableCell  align="center" style={{width:'10%',color:'white'}}>직급</TableCell>
-                    <TableCell  align="center" style={{width:'20%',color:'white'}}>부서명</TableCell>
-                    <TableCell  align="center" style={{width:'20%',color:'white'}}>핸드폰번호</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {allEmplyee.map((e) => (
-                    <TableRow className="row">
-                    <TableCell align="center">
-                        <img className="ephoto" src={e.ephoto==null?Logo:e.ephoto}/>
-                    </TableCell>
-                    <TableCell align="center"><a href={"/"+e.eno}>{e.eno}</a></TableCell>
-                    <TableCell align="center">{e.ename}</TableCell>
-                    <TableCell align="center">{e.pname}</TableCell>
-                    <TableCell align="center">{e.dname}</TableCell>
-                    <TableCell align="center">{e.ephone}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-        </Container>
+            <div className="side">
+                <div className="top">
+                    <Department departmentchange={departmentchange} inoutEmployee={inoutEmployee} />
+                    <SearchEmplyee searchinfo={searchinfo}/>
+                </div>
+                 <div style={{ height: '100%', width: '100%' }}>
+                      <DataGrid
+                        rows={allEmplyee}
+                        columns={columns}
+                        initialState={{
+                          pagination: {
+                            paginationModel: { page: 0, pageSize: 10 },
+                          },
+                        }}
+                        pageSizeOptions={[10,20]}
+                        onRowClick={handleRowClick}
+
+                      />
+                 </div>
+             </div>
+
         )
 
 

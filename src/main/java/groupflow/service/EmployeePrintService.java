@@ -70,7 +70,7 @@ public class EmployeePrintService {
              int index =  e.getDepartmentChangeEntityList().size()-1;
              employeeDto.setDname( e.getDepartmentChangeEntityList().get(index).getDepartmentEntity().getDname());
              employeeDto.setPname( e.getPositionChangeEntityList().get(index).getPositionEntity().getPname());
-
+             employeeDto.setId(e.getEno());
             dtoList.add(employeeDto);
         });
 

@@ -28,8 +28,9 @@ public class EmployeeDto {
     private int pno; // 직급번호
 
     //[장민정 추가]
-    private String dname;
-    private String pname;
+    private String dname;   //부서명
+    private String pname;   //직급명
+    private int id; //데이타테이블 식별용
 
     // 이미지 첨부파일용
     //private MultipartFile ephotoData;

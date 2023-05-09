@@ -1,26 +1,17 @@
-.ephoto{
-    border: 1px solid #eeeeee;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
+.side{
+    width: 30%;
+    height: 100%;
+    background-color: #448aff;
+    padding: 30px;
 }
-
-.head{
-    background-color: #2979ff;
-}
-.headname{
-    color: white;
-}
-
- .row:hover {
-    background-color: #82b1ff1f;
-    transition: 1s;
-  }
-
 .top{
     display: flex;
     justify-content: space-between;
-    width: 70%;
+    width: 100%;
+    margin:40px 0px;
+}
+html ,body , #root{
+    height:100%
 }
 
 /*--------------------------검색란-------------------------*/
@@ -38,4 +29,32 @@ padding-right: 40px;
 padding-left: 15px;
 
     width: 120px;
+}
+
+.MuiDataGrid-columnHeaders{
+
+    color: #d4d4d4;
+    font-size:17px;
+}
+
+.MuiDataGrid-selectedRowCount{
+    display:none !important;
+}
+.MuiDataGrid-root{
+border:none !important;
+}
+
+.css-6h1dhi-MuiDataGrid-root {
+--unstable_DataGrid-radius: 0px!important ; }
+
+.css-6h1dhi-MuiDataGrid-root .MuiDataGrid-withBorderColor {
+    border-color: rgb(108 160 248 / 33%) !important;
+}
+.MuiDataGrid-virtualScroller {
+    color: #d4d4d4;
+}
+
+.MuiDataGrid-columnHeaderTitle{
+font-weight: bold !important;
+
 }

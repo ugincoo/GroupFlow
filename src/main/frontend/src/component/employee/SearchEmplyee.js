@@ -15,12 +15,18 @@ export default function SearchEmplyee(props) {
   const [key, setKey] =useState(1);
   const [keyword, setKeyword] =useState();
 
-  const handleChange = (e) => {
+  const changeKey = (e) => {    //키값 가져오기
     setKey(e.target.value);
   };
-  const SearchEmplyee = () => {
+  const writeKeyWord = (e) => { //키워드값 가져오기
+    setKeyword(e.target.value)
+  };
+  const SearchEmployee = () => {
         console.log('넘겨라')
+        props.searchinfo(key,keyword)
+
     };
+
 
     console.log(key)
     return(<>
@@ -32,13 +38,13 @@ export default function SearchEmplyee(props) {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={key}
-                  onChange={handleChange}>
+                  onChange={changeKey}>
 
                   <MenuItem value={1}>이름</MenuItem>
                   <MenuItem value={2}>사번</MenuItem>
                 </Select>
-                <TextField className="keyword"   id="standard-basic"  variant="standard" />
-                <SearchIcon onClick={SearchEmplyee}/>
+                <TextField onKeyUp={writeKeyWord} className="keyword"   id="standard-basic"  variant="standard" />
+                <SearchIcon onClick={SearchEmployee}/>
             </div>
           </FormControl>
 
