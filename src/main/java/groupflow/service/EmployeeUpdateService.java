@@ -43,5 +43,9 @@ public class EmployeeUpdateService {
         return true;
 
     }
-
+// 부서변경 -> departmentChangeDto.getEno로 employeeEntity /  departmentChangeDto.getDno -> departmentEntity
+    // 기존부서변경 수정 dcenddate -> 적용날짜 하루전날짜로 수정
+        // 기존부서변경 레코드를 찾아야됨.
+    // 부서변경 필드 / dcstartdate / dcstartreason / departmentEntity / employeeEntity
+    //
 }
