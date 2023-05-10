@@ -32,8 +32,9 @@ export default function Login(props) {
       sx={{
         display: 'flex',
         justifyContent: 'center',
-        height: '500px',
+        height: '350px',
         bgcolor: '#EEF2F6',
+        mt:'50px'
       }}
     >
       <Box
