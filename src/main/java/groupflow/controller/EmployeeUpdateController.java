@@ -26,6 +26,7 @@ public class EmployeeUpdateController {
 
 
     }
+    //부서변경 수정
     @PutMapping("/updatedepartment")
     public boolean updatedepartment(@RequestBody DepartmentChangeDto departmentChangeDto){
         log.info("Employee departmentChangeDto controller?????????:"+departmentChangeDto);

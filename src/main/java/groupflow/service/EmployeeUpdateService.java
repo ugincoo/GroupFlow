@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,11 +46,16 @@ public class EmployeeUpdateService {
         log.info("Employee departmentChangeDto service!!!!!:" + departmentChangeDto);
 
         // 1. 기존 부서 수정 [ 끝날짜 설정 ]
-        DepartmentChangeEntity lastDepartmentChangeEntity=departmentChangeEntityRepository.findAllMyDepartmetChangeList(departmentChangeDto.getEno());
+         DepartmentChangeEntity lastDepartmentChangeEntity=departmentChangeEntityRepository.findAllMyDepartmetChangeList(departmentChangeDto.getEno());
         // 끝날짜에 날짜를 넣어줌 ( 기존부서 끝날짜 = 새로운부서이동 적용날짜(dcstartdate)의 하루전 )
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        departmentChangeDto.getDcstartdate(); ////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dcstartdate = departmentChangeDto.getDcstartdate();
+        LocalDateTime datetime =LocalDate.parse(dcstartdate,formatter).atStartOfDay();
+        lastDepartmentChangeEntity.setDcenddate(datetime);
+       //departmentChangeDto.getDcstartdate();
+
+       //내일이 경리부이동 오늘이 마지막 영업부 시작날짜에 현재날짜의 +1
+
         // 2. 새로운 부서 이동 [ 시작날짜,변경사유,부서entity,직원entity]
         // departmentEntityRepository
         // 1. dto -> entity
