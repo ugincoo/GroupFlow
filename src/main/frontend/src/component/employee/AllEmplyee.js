@@ -10,6 +10,7 @@ import Logo from '../../logo.svg';  //기본사진
 import styles from '../../css/employee.css'; //css
 import Department from './Department'; //부서 [하위]
 import SearchEmplyee from './SearchEmplyee'; //검색 [하위]
+import ViewDetailEmployee from './ViewDetailEmployee'; //검색 [하위]
 import { blue } from '@mui/material/colors';
 
 
@@ -25,7 +26,10 @@ const columns = [
 export default function AllEmplyee(props) {
 
     let [allEmplyee,setAllEmplyee] = useState([]);
-    let [info,setInfo]=useState({'dno':0 , 'leavework':1 , 'key': '' , 'keyword':''})    //1 : 입사 2:퇴사
+    let [info,setInfo]=useState({'dno':0 , 'leavework':1 })    //1 : 입사 2:퇴사
+    let [serchinfo,setSerchinfo]=useState({ 'key':0 , 'keyword':''})
+
+    let [oneEmployee,setOneEmployee] = useState({});
 
 
 
@@ -57,9 +61,26 @@ export default function AllEmplyee(props) {
          const searchinfo=(key,keyword)=>{ //키+키워드 검색
 
             console.log(key + keyword)
-            info.key=key;
-            info.keyword=keyword;
-            setInfo({...info})
+            serchinfo.key=key;
+            serchinfo.keyword=keyword;
+
+
+
+            let object = {
+                dno : info.dno ,
+                leavework : info.leavework ,
+                key : serchinfo.key ,
+                keyword : serchinfo.keyword
+            }
+            console.log(object);
+            axios
+            .get("http://localhost:8080/employee/print/search",{params:object})
+            .then(r=>{
+                  setAllEmplyee(r.data)
+
+
+                 })
+
          };
 
 
@@ -67,48 +88,32 @@ export default function AllEmplyee(props) {
 
 
   const handleRowClick = (params) => {
-    console.log( params );
-    console.log( params.row );
-    console.log( params.row.eno );
+
+    setOneEmployee(params.row)
+
   };
 
     console.log(allEmplyee)
      return (
             <Box sx={{display: 'flex',flexDirection: 'column', justifyContent: 'center',alignItems: 'center',height: '100vh' }} >
-                 <Box sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', mb : 4 }} >
-                    <div className="upperPart">
-                        <div className="top">
-                           <Department departmentchange={departmentchange} inoutEmployee={inoutEmployee} />
 
-                        </div>
-                        <div style={{ height: '100%', width: '100%' }}>
-                           <DataGrid
-                            rows={allEmplyee}
-                            columns={columns}
-                            initialState={{ pagination: {paginationModel: { page: 0, pageSize: 5 }}}}
-                            pageSizeOptions={[5,10]}
-                            onRowClick={handleRowClick}/>
-                        </div>
-                    </div>
-
-               </Box>
                 <Box sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', mb : 4 }} >
-                                   <div className="upperPart">
-                                       <div className="top">
-                                          <Department departmentchange={departmentchange} inoutEmployee={inoutEmployee} />
-                                          <SearchEmplyee searchinfo={searchinfo}/>
-                                       </div>
-                                       <div style={{ height: '100%', width: '100%' }}>
-                                          <DataGrid
-                                           rows={allEmplyee}
-                                           columns={columns}
-                                           initialState={{ pagination: {paginationModel: { page: 0, pageSize: 5 }}}}
-                                           pageSizeOptions={[5,10]}
-                                           onRowClick={handleRowClick}/>
-                                       </div>
-                                   </div>
-
-                              </Box>
+                   <div className="upperPart">
+                       <div className="top">
+                          <Department departmentchange={departmentchange} inoutEmployee={inoutEmployee} />
+                          <SearchEmplyee searchinfo={searchinfo}/>
+                       </div>
+                       <div style={{ height: '100%', width: '100%' }}>
+                          <DataGrid
+                           rows={allEmplyee}
+                           columns={columns}
+                           initialState={{ pagination: {paginationModel: { page: 0, pageSize: 5 }}}}
+                           pageSizeOptions={[5,10]}
+                           onRowClick={handleRowClick}/>
+                       </div>
+                   </div>
+                </Box>
+                <ViewDetailEmployee oneEmployee={oneEmployee} />
 
             </Box>
 

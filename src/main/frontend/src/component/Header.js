@@ -27,10 +27,10 @@ export default function Header(props) {
           setState({ ...state, [anchor]: open });
         };
 
-        let 사원등록 =<a style={{textDecoration: 'none', color: '#cdd1e1c7',fontWeight: 'bold'}} href="/registration">사원등록</a>
-        let 직원출력 = <a style={{textDecoration: 'none', color: '#cdd1e1c7',fontWeight: 'bold'}} href="/allemployee">직원출력</a>
-        let 연차모달 =<a style={{textDecoration: 'none', color: '#cdd1e1c7',fontWeight: 'bold'}} href="/dayoff">연차모달</a>
-        let 마이페이지 =<a style={{textDecoration: 'none', color: '#cdd1e1c7',fontWeight: 'bold'}} href="/mypage">마이페이지</a>
+        let 사원등록 =<a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/registration">사원등록</a>
+        let 직원출력 = <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/allemployee">직원출력</a>
+        let 연차모달 =<a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/dayoff">연차모달</a>
+        let 마이페이지 =<a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/mypage">마이페이지</a>
 
         const list = (anchor) => (
             <Box

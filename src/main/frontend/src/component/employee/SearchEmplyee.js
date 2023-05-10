@@ -12,7 +12,7 @@ import styles from '../../css/employee.css'; //css
 import SearchIcon from '@mui/icons-material/Search';
 
 export default function SearchEmplyee(props) {
-  const [key, setKey] =useState(1);
+  const [key, setKey] =useState(0);
   const [keyword, setKeyword] =useState();
 
   const changeKey = (e) => {    //키값 가져오기
@@ -39,7 +39,7 @@ export default function SearchEmplyee(props) {
                   id="demo-simple-select-standard"
                   value={key}
                   onChange={changeKey}>
-
+                  <MenuItem value={0}>검색</MenuItem>
                   <MenuItem value={1}>이름</MenuItem>
                   <MenuItem value={2}>사번</MenuItem>
                 </Select>
