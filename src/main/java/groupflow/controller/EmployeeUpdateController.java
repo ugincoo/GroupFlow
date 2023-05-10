@@ -18,7 +18,7 @@ public class EmployeeUpdateController {
     @Autowired
     private EmployeeUpdateService employeeUpdateService;
     //기본프로필 수정
-    @PutMapping("") 
+    @PutMapping("")
     public boolean updateEmployee(@RequestBody EmployeeDto employeeDto){
         log.info("Employee update controller?????????:"+employeeDto);
         boolean result =employeeUpdateService.updateEmployee(employeeDto);
