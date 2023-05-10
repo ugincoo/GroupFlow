@@ -33,10 +33,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf() // 사이트간 요청위조 방지 [post,put] http 불가능
+/*                .csrf() // 사이트간 요청위조 방지 [post,put] http 불가능
                     .ignoringAntMatchers("http://localhost:3000/login") // login url은 csrf 무시
-                    .ignoringAntMatchers("/employee/login") // login url은 csrf 무시
-                .and()
+                    .ignoringAntMatchers("/employee/login") // login url은 csrf 무시*/
+                /*.and()*/
                     .formLogin()
                         .loginPage("http://localhost:3000/login")    // 로그인페이지로 사용할 url
                         .loginProcessingUrl("/employee/login")   // 로그인 처리할 매핑 url
@@ -49,6 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/employee/logout"))     // 로그아웃처리 요청할 매핑 url
                 .logoutSuccessUrl("http://localhost:3000/login")       // 로그아웃처리 성공시 매핑 url
                 .invalidateHttpSession(true);   // 세션초기화X
+        http.cors(); // CORS 정책 사용
+        http.csrf().disable();
     }
 
     @Bean   // 빈 등록

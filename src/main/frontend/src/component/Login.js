@@ -15,10 +15,7 @@ export default function Login(props) {
   };
   */
 
-  axios.get("http://localhost:8080/login/confirm")
-    .then((r) =>{
-        console.log(r.data)
-    })
+
 
   const colorPalette = {
     lightest: blue.A100,
