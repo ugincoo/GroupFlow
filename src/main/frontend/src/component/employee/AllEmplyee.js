@@ -26,7 +26,7 @@ const columns = [
 export default function AllEmplyee(props) {
 
     let [allEmplyee,setAllEmplyee] = useState([]);
-    let [info,setInfo]=useState({'dno':0 , 'leavework':1 })    //1 : 입사 2:퇴사
+    let [info,setInfo]=useState({'dno':0 , 'leavework':1, 'key':0 , 'keyword':'' })    //1 : 입사 2:퇴사
     let [serchinfo,setSerchinfo]=useState({ 'key':0 , 'keyword':''})
 
     let [oneEmployee,setOneEmployee] = useState({});
@@ -37,7 +37,7 @@ export default function AllEmplyee(props) {
         //전직원 출력하기[관리자입장]
         useEffect( ()=>{
           axios
-            .get("http://localhost:8080/employee/print",{params:info})
+            .get("http://localhost:8080/employee/print/search",{params:info})
             .then(r=>{
              setAllEmplyee(r.data)
             })
@@ -61,9 +61,9 @@ export default function AllEmplyee(props) {
          const searchinfo=(key,keyword)=>{ //키+키워드 검색
 
             console.log(key + keyword)
-            serchinfo.key=key;
-            serchinfo.keyword=keyword;
-
+            info.key=key;
+            info.keyword=keyword;
+/*
 
 
             let object = {
@@ -79,13 +79,9 @@ export default function AllEmplyee(props) {
                   setAllEmplyee(r.data)
 
 
-                 })
+                 })*/
 
          };
-
-
-
-
 
   const handleRowClick = (params) => {
 
