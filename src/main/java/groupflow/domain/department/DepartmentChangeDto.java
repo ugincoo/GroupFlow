@@ -1,6 +1,10 @@
 package groupflow.domain.department;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,10 +19,18 @@ public class DepartmentChangeDto {
     private int eno ; // 사원테이블FK
 
     public DepartmentChangeEntity toEntity() {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dcstartdate = this.dcstartdate;
+        LocalDateTime startdatetime = LocalDate.parse(dcstartdate,formatter).atStartOfDay();
+
+        String dcenddate = this.dcenddate;
+        LocalDateTime enddatetime = LocalDate.parse(dcenddate,formatter).atStartOfDay();
+
         return DepartmentChangeEntity.builder()
                 .dcno(this.dcno)
-                .dcstartdate(this.toEntity().getDcstartdate())
-                .dcenddate(this.toEntity().getDcenddate())
+                .dcstartdate(startdatetime)
+                //.dcenddate(enddatetime)
                 .dcstartreason(this.dcstartreason)
                 .build();
     }
