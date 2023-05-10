@@ -1,5 +1,6 @@
 package groupflow.domain.position;
 
+import groupflow.domain.leaverequest.LeaveRequestEntity;
 import groupflow.domain.position.PositionChangeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,7 @@ public class PositionEntity { // 직급테이블
     @OneToMany(mappedBy = "positionEntity")
     @Builder.Default
     private List<PositionChangeEntity> positionChangeEntityList = new ArrayList<>();
+
 
 
 }

@@ -31,6 +31,18 @@ public class EmployeeDto implements UserDetails {
     private int dno; // 부서번호
     private int pno; // 직급번호
 
+    //[장민정 추가]
+    private String dname;   //부서명
+    private String pname;   //직급명
+    private int id; //데이타테이블 식별용
+
+    // 이미지 첨부파일용
+    //private MultipartFile ephotoData;
+
+
+
+
+
     public EmployeeEntity toEntity() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
