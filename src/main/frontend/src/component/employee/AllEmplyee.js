@@ -37,7 +37,7 @@ export default function AllEmplyee(props) {
         //전직원 출력하기[관리자입장]
         useEffect( ()=>{
           axios
-            .get("http://localhost:8080/employee/print",{params:info})
+            .get("/employee/print",{params:info})
             .then(r=>{
              setAllEmplyee(r.data)
             })
@@ -74,7 +74,7 @@ export default function AllEmplyee(props) {
             }
             console.log(object);
             axios
-            .get("http://localhost:8080/employee/print/search",{params:object})
+            .get("/employee/print/search",{params:object})
             .then(r=>{
                   setAllEmplyee(r.data)
 

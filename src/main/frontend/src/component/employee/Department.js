@@ -14,7 +14,7 @@ let [departments,setDepartments]=useState([]);  //카테고리 전체담기
 
     useEffect ( ()=>{
         axios
-            .get("http://localhost:8080/employee/print/department")
+            .get("/employee/print/department")
             .then(r=>{
                 setDepartments(r.data)
             })

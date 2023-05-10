@@ -57,7 +57,7 @@ export default function Login(props) {
         >
           Welcome to the Company
         </Typography>
-        <form action="http://localhost:8080/employee/login" method="post">
+        <form action="/employee/login" method="post">
             <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <TextField

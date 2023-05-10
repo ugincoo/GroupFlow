@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -15,6 +16,8 @@ import styles from '../css/header.css'; //css
 
 
 export default function Header(props) {
+
+    axios.get('/login/confirm').then( r => { console.log( r ) } )
 
       const [state, setState] = React.useState({
         left: false,

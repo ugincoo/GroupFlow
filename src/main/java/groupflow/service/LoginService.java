@@ -44,6 +44,6 @@ public class LoginService implements UserDetailsService {
         Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("loginInfo : " + o);
         if ( o.equals("anonymousUser")){ return EmployeeDto.builder().ename("못찾음").build(); }
-        return null;
+        return (EmployeeDto) o;
     }
 }

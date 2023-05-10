@@ -19,7 +19,7 @@ export default function Mypage(props) {
     const[mypage, setmypage]= useState();
 
     const gowork=()=>{
-        axios.post("http://localhost:8080/employee/gowork").then((r)=>{
+        axios.post("/employee/gowork").then((r)=>{
             console.log(r.data)
             if(r.data==true){alert("출근등록 되었습니다.");
             document.querySelector('.goworkbtn').disabled=true;
@@ -29,7 +29,7 @@ export default function Mypage(props) {
 
     }
     const outwork=()=>{
-        axios.put("http://localhost:8080/employee/outwork").then((r)=>{
+        axios.put("/employee/outwork").then((r)=>{
             console.log(r.data);
             if(r.data==true){alert("퇴근등록 되었습니다.");
             document.querySelector('.outworkbtn').disabled=true;

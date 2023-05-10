@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequestMapping("/login/confirm")
-@CrossOrigin("http://localhost:3000")
 public class LoginController {
 
     @Autowired

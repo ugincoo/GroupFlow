@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/employee/print")
-@CrossOrigin("http://localhost:3000")
 public class EmployeePrintController {
 
     @Autowired

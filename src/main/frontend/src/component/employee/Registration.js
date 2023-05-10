@@ -43,7 +43,7 @@ export default function Registration() {
     }
 
 
-    axios.post('http://localhost:8080/employee', data , { headers: { 'Content-Type': 'multipart/form-data'} } )
+    axios.post('/employee', data , { headers: { 'Content-Type': 'multipart/form-data'} } )
       .then(response => {
         console.log(response);
       })

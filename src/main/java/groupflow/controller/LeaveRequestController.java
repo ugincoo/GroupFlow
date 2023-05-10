@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/dayoff")
 @Slf4j
-@CrossOrigin("http://localhost:3000")
 public class LeaveRequestController {
     @Autowired
     LeaveRequestService leaveRequestService;
