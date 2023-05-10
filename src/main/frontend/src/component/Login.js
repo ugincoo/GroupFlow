@@ -4,13 +4,16 @@ import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import { blue } from '@mui/material/colors';
 
 export default function Login(props) {
+/*
   const [userId, setUserId] = useState('');
   const [userName, setUserName] = useState('');
-
+*/
+  /*
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`ID: ${userId}, Name: ${userName}`);
   };
+  */
 
   const colorPalette = {
     lightest: blue.A100,
@@ -52,37 +55,41 @@ export default function Login(props) {
         >
           Welcome to the Company
         </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              label="사번"
-              variant="outlined"
-              fullWidth
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
-              sx={{ mb: 1 }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="이름"
-              variant="outlined"
-              fullWidth
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              sx={{ mb: 2 }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              sx={{ bgcolor: colorPalette.main, color: 'white', mt: 2, width: '100%' }}
-              onClick={handleSubmit}
-            >
-              로그인
-            </Button>
-          </Grid>
-        </Grid>
+        <form action="/employee/login" method="post">
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  label="사번"
+                  variant="outlined"
+                  fullWidth
+                  name = "eno"
+                  {/*value={userId}*/}
+                  {/*onChange={(e) => setUserId(e.target.value)}*/}
+                  sx={{ mb: 1 }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="이름"
+                  variant="outlined"
+                  fullWidth
+                  name="ename"
+                  {/*value={userName}*/}
+                  {/*onChange={(e) => setUserName(e.target.value)}*/}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  sx={{ bgcolor: colorPalette.main, color: 'white', mt: 2, width: '100%' }}
+                  type="submit"
+                >
+                  로그인
+                </Button>
+              </Grid>
+            </Grid>
+        </form>
       </Box>
     </Box>
   );

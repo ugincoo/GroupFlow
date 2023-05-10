@@ -1,6 +1,6 @@
 package groupflow.config;
 
-import groupflow.service.LoginLogoutService;
+import groupflow.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,12 +13,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private LoginLogoutService loginLogoutService;
+    private LoginService loginService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // auth.userDetailsService() : DetailsService가 구현된 서비스 대입
-        auth.userDetailsService( loginLogoutService );
+        auth.userDetailsService(loginService);
     }
 
     // configure : http 보안관련담당메소드
