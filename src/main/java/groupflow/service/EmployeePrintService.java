@@ -1,11 +1,9 @@
 package groupflow.service;
 
-import com.sun.xml.bind.api.Bridge;
 import groupflow.domain.department.*;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
 import groupflow.domain.employee.EmployeeRepository;
-import groupflow.domain.position.PositionChangeEntity;
 import groupflow.domain.position.PositionChangeEntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -51,7 +46,7 @@ public class EmployeePrintService {
 
     //직원 출력[관리자입장]
     @Transactional
-    public List<EmployeeDto> allEmplyee(int dno,int leavework){
+    public List<EmployeeDto> allEmplyee(int dno, int leavework){
         System.out.println("dno1"+dno);System.out.println("dcendreason1"+leavework);
         List<EmployeeEntity> entityList=null;
         if(dno==0&&leavework==1){ //근무하는 전체직원
@@ -77,7 +72,51 @@ public class EmployeePrintService {
         return dtoList;
     }
 
-    //부서 출력[직원입장]
+    @Transactional
+    public List<EmployeeDto> searchEmplyee(int dno, int leavwork , int key, String keyword){
+        List<EmployeeEntity> entityList=null;
+        if(key!=0){
+            entityList = employeeRepository.findemployeebyKeyWord(keyword);
+        }
+
+
+        List<EmployeeDto> dtoList=new ArrayList<>();
+
+        entityList.forEach((e)->{
+
+            int index =  e.getDepartmentChangeEntityList().size()-1;
+
+            if( e.getDepartmentChangeEntityList().get( index).getDepartmentEntity().getDno() == dno ){
+
+                // 근무자 = null
+                if( leavwork == 1 && e.getEenddate() == null  ){
+                    EmployeeDto employeeDto=e.toDto();
+                    employeeDto.setDname( e.getDepartmentChangeEntityList().get(index).getDepartmentEntity().getDname());
+                    employeeDto.setPname( e.getPositionChangeEntityList().get(index).getPositionEntity().getPname());
+                    employeeDto.setId(e.getEno());
+                    dtoList.add(employeeDto);
+                }else{
+                    EmployeeDto employeeDto=e.toDto();
+                    employeeDto.setDname( e.getDepartmentChangeEntityList().get(index).getDepartmentEntity().getDname());
+                    employeeDto.setPname( e.getPositionChangeEntityList().get(index).getPositionEntity().getPname());
+                    employeeDto.setId(e.getEno());
+                    dtoList.add(employeeDto);
+                }
+
+            }else if( dno == 0 ){
+                EmployeeDto employeeDto=e.toDto();
+                employeeDto.setDname( e.getDepartmentChangeEntityList().get(index).getDepartmentEntity().getDname());
+                employeeDto.setPname( e.getPositionChangeEntityList().get(index).getPositionEntity().getPname());
+                employeeDto.setId(e.getEno());
+                dtoList.add(employeeDto);
+
+            }
+        });
+
+        return dtoList;
+    }
+
+
     public List<DepartmentDto> getDepartment(){ //부서셀렉트[관리자입장]
         System.out.println("getDepartment:");
         List<DepartmentEntity> entityList=departmentRepository.findAll();

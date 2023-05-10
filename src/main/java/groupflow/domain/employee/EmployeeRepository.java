@@ -35,6 +35,9 @@ public interface EmployeeRepository extends JpaRepository< EmployeeEntity , Inte
     @Query( value =
             "select * from groupflow.employee where eenddate is not null;",nativeQuery = true ) // 모든 퇴사자 출력
     List<EmployeeEntity> findemployeebyNotNULLeenddate(@Param("leavework") int leavework);
+    @Query( value =
+            "select * from groupflow.employee where ename like %:keyword% or eno like %:keyword% ",nativeQuery = true ) // 모든 퇴사자 출력
+    List<EmployeeEntity> findemployeebyKeyWord(@Param("keyword") String keyword);
 
 
 
