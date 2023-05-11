@@ -9,7 +9,7 @@ import Registration from './employee/Registration';
 import AllEmployee from './employee/AllEmplyee';
 import LeaveRequest from './employee/LeaveRequest';
 
-//  <Route path="/dayoff" element={ <LeaveRequest/> }/>
+
 
 export default function Index(props) {
     return (<>
@@ -19,7 +19,7 @@ export default function Index(props) {
                 <Route path="/" element={ <Main/> }/>
                 <Route path="/login" element={ <Login/> }/>
                 <Route path="/registration" element={ <Registration/> }/>
-
+                <Route path="/off" element={ <LeaveRequest/> }/>
                 <Route path="/allemployee" element={ <AllEmployee/> }/>
                 <Route path="/mypage" element={ <Mypage/> }/>
 

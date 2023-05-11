@@ -5,8 +5,7 @@
 
      color: rgb(219 223 235)!important; }
 
-.css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
-    background-color: #0c5272!important;}
+
 
 .css-6h1dhi-MuiDataGrid-root .MuiDataGrid-row.Mui-selected {
     background-color: rgb(25 118 210 / 0%)!important;}
@@ -14,3 +13,6 @@
 .MuiDataGrid-root .MuiDataGrid-cell:focus {
      outline: none!important;
  }
+
+ .css-wf16b5 {
+     background-color: #0c5272!important; }
