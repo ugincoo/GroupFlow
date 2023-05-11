@@ -118,7 +118,7 @@ public class EmployeeUpdateService {
             //기존 직급 레코드 갖고오기(//찾은 직원엔티티에 직급변경리시트가 있음. 왜?직급변경한직원의 기존 레코드를 갖고와서 수정해야하니깐)
             List<PositionChangeEntity> positionChangeEntityList=employeeEntity.getPositionChangeEntityList();
             if(!positionChangeEntityList.isEmpty()){//찾으면
-                int lastindex=positionChangeEntityList.size()-1; //직급체인지리스트에 -1해서 최근꺼 갖고오는거 변수만듬
+                int lastindex=positionChangeEntityList.size()-2; //직급체인지리스트에 -1해서 최근꺼 갖고오는거 변수만듬
                 PositionChangeEntity positionChangeEntity1=positionChangeEntityList.get(lastindex);//
                 positionChangeEntity1.setEnddate(positionChangeDto.toEntity().getPcdate().minusDays(1));
             }
