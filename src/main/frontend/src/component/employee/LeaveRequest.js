@@ -7,7 +7,18 @@ import Container from '@mui/material/Container';
 
 export default function LeaveRequest(props){
 // mui 모달
-const [open, setOpen] = React.useState(false);
+let [open, setOpen] = React.useState(false);
+
+useEffect (()=>{
+    axios.get('/login/contirm')
+        .then(r=>{
+            console.log(r);
+            console.log(r.data);
+        })
+        .error(err => {
+            console.log(err);
+        })
+}, [] );
 
 const onApplication = () => {
     let info = {
