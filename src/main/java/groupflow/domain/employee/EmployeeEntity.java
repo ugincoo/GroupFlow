@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -37,10 +38,10 @@ public class EmployeeEntity { // 직원테이블
     private String ephoto;  //사진
     
     @Column
-    private LocalDateTime hiredate; //입사일
+    private LocalDate hiredate; //입사일
     
     @Column
-    private LocalDateTime eenddate; //퇴사일
+    private LocalDate eenddate; //퇴사일
 
     // 직급이동테이블
     @OneToMany(mappedBy = "employeeEntity")
@@ -70,12 +71,10 @@ public class EmployeeEntity { // 직원테이블
                 .eemail(this.eemail)
                 .ephone(this.ephone)
                 .ephoto(this.ephoto)
-                .hiredate(
-                        this.hiredate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd"))
-                )
+                .hiredate( this.hiredate.toString() )
                 .build();
             if ( this.eenddate != null){
-                employeeDto.setEenddate( this.eenddate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd") ) );
+                employeeDto.setEenddate( this.eenddate.toString() );
             }
         return employeeDto;
 

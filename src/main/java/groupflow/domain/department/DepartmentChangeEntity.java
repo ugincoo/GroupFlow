@@ -4,6 +4,7 @@ import groupflow.domain.employee.EmployeeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,10 +19,10 @@ public class DepartmentChangeEntity { // 부서이동테이블
     private int dcno; // 식별번호
 
     @Column
-    private LocalDateTime dcstartdate; // 적용날짜
+    private LocalDate dcstartdate; // 적용날짜
 
     @Column
-    private LocalDateTime dcenddate; // 끝날짜
+    private LocalDate dcenddate; // 끝날짜
 
     @Column
     private String dcstartreason; // 부서변경사유

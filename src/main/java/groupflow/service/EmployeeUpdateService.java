@@ -47,11 +47,9 @@ public class EmployeeUpdateService {
 
         // 1. 기존 부서 수정 [ 끝날짜 설정 ]
          DepartmentChangeEntity lastDepartmentChangeEntity=departmentChangeEntityRepository.findAllMyDepartmetChangeList(departmentChangeDto.getEno());
+
         // 끝날짜에 날짜를 넣어줌 ( 기존부서 끝날짜 = 새로운부서이동 적용날짜(dcstartdate)의 하루전 )
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String dcstartdate = departmentChangeDto.getDcstartdate();
-        LocalDateTime datetime =LocalDate.parse(dcstartdate,formatter).atStartOfDay();
-        lastDepartmentChangeEntity.setDcenddate(datetime);
+        lastDepartmentChangeEntity.setDcenddate(departmentChangeDto.toEntity().getDcstartdate().minusDays(1));
        //departmentChangeDto.getDcstartdate();
 
        //내일이 경리부이동 오늘이 마지막 영업부 시작날짜에 현재날짜의 +1
