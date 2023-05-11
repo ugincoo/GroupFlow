@@ -22,11 +22,17 @@ export default function ViewDetailEmployee(props) {
         eenddate : ''
     })
 
-    // 부서카테고리 axios통신으로 가져온 리스트 상태변수
-    // 직급카테고리 axios통신으로 가져온 리스트 상태변수
+    // 부서카테고리 axios통신으로 가져올 리스트 상태변수
+    // 직급카테고리 axios통신으로 가져올 리스트 상태변수
+    let [ positionList , setPositionlist ] = useState([]);
+    let [ departmentList , setDepartmentList ] = useState([]);
 
     // 선택한 사원이 바뀔때마다 실행
     useEffect(()=>{
+        //직급,부서 DB에서 가져오기
+        axios.get("/position/all").then((r)=>{ setPositionlist(r.data) })
+        axios.get("/department/all").then((r)=>{ setDepartmentList(r.data) })
+
         eno = props.oneEmployee.eno
         info.ename = props.oneEmployee.ename
         info.eemail = props.oneEmployee.eemail
@@ -38,6 +44,7 @@ export default function ViewDetailEmployee(props) {
         info.dno = props.oneEmployee.dno
         info.dname = props.oneEmployee.dname
         info.eenddate = props.oneEmployee.eenddate
+        setInfo({...info})
         // 사진도 처리해야함
 
     },[props.oneEmployee])
@@ -78,6 +85,8 @@ const handleImageChange = (e) => {
 
   const reader = new FileReader();
   reader.onload = () => {
+    console.log("reader.result")
+    console.log(reader.result)
     setImagePreview(reader.result);
   };
   reader.readAsDataURL(file);
@@ -174,15 +183,11 @@ const handleChange = (e) => {
                                               label="직급"
                                               onChange={handleChange}
                                             >
-                                              <MenuItem value={1}>사원</MenuItem>
-                                              <MenuItem value={2}>주임</MenuItem>
-                                              <MenuItem value={3}>대리</MenuItem>
-                                              <MenuItem value={4}>과장</MenuItem>
-                                              <MenuItem value={5}>차장</MenuItem>
-                                              <MenuItem value={6}>부장</MenuItem>
-                                              <MenuItem value={7}>이사</MenuItem>
-                                              <MenuItem value={8}>상무</MenuItem>
-                                              <MenuItem value={9}>사장</MenuItem>
+                                                {
+                                                    positionList.map( (p) => {
+                                                        return   <MenuItem value={p.pno}>{ p.pname }</MenuItem>
+                                                    })
+                                                }
                                             </Select>
                                           </FormControl>
                                     </Grid>
@@ -197,15 +202,11 @@ const handleChange = (e) => {
                                               label="부서"
                                               onChange={handleChange}
                                             >
-                                              <MenuItem value={1}>경영지원팀</MenuItem>
-                                              <MenuItem value={2}>인사팀</MenuItem>
-                                              <MenuItem value={3}>영업팀</MenuItem>
-                                              <MenuItem value={4}>마케팅팀</MenuItem>
-                                              <MenuItem value={5}>디자인팀</MenuItem>
-                                              <MenuItem value={6}>생산팀</MenuItem>
-                                              <MenuItem value={7}>자재팀</MenuItem>
-                                              <MenuItem value={8}>IT팀</MenuItem>
-                                              <MenuItem value={9}>회계팀</MenuItem>
+                                                {
+                                                    departmentList.map( (d) => {
+                                                        return   <MenuItem value={d.dno}>{ d.dname }</MenuItem>
+                                                    })
+                                                }
                                             </Select>
                                           </FormControl>
                                     </Grid>

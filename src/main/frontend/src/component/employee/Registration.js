@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import axios from 'axios';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
@@ -23,7 +23,16 @@ export default function Registration() {
         pno : 1 ,
         dno : 1
     })
+    let [ positionList , setPositionlist ] = useState([]);
+    let [ departmentList , setDepartmentList ] = useState([]);
+    console.log(positionList)
+    console.log(departmentList)
 
+    // 부서랑 직급목록 가져오기
+    useEffect(()=>{
+        axios.get("/position/all").then((r)=>{ setPositionlist(r.data) })
+        axios.get("/department/all").then((r)=>{ setDepartmentList(r.data) })
+    },[])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -163,15 +172,11 @@ const handleChange = (e) => {
                               label="직급"
                               onChange={handleChange}
                             >
-                              <MenuItem value={1}>사원</MenuItem>
-                              <MenuItem value={2}>주임</MenuItem>
-                              <MenuItem value={3}>대리</MenuItem>
-                              <MenuItem value={4}>과장</MenuItem>
-                              <MenuItem value={5}>차장</MenuItem>
-                              <MenuItem value={6}>부장</MenuItem>
-                              <MenuItem value={7}>이사</MenuItem>
-                              <MenuItem value={8}>상무</MenuItem>
-                              <MenuItem value={9}>사장</MenuItem>
+                            {
+                                positionList.map( (p) => {
+                                    return   <MenuItem value={p.pno}>{ p.pname }</MenuItem>
+                                })
+                            }
                             </Select>
                           </FormControl>
                     </Grid>
@@ -186,15 +191,11 @@ const handleChange = (e) => {
                               label="부서"
                               onChange={handleChange}
                             >
-                              <MenuItem value={1}>경영지원팀</MenuItem>
-                              <MenuItem value={2}>인사팀</MenuItem>
-                              <MenuItem value={3}>영업팀</MenuItem>
-                              <MenuItem value={4}>마케팅팀</MenuItem>
-                              <MenuItem value={5}>디자인팀</MenuItem>
-                              <MenuItem value={6}>생산팀</MenuItem>
-                              <MenuItem value={7}>자재팀</MenuItem>
-                              <MenuItem value={8}>IT팀</MenuItem>
-                              <MenuItem value={9}>회계팀</MenuItem>
+                            {
+                                departmentList.map( (d) => {
+                                    return   <MenuItem value={d.dno}>{ d.dname }</MenuItem>
+                                })
+                            }
                             </Select>
                           </FormControl>
                     </Grid>
