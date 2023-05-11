@@ -28,10 +28,13 @@ export default function Registration() {
     console.log(positionList)
     console.log(departmentList)
 
+    axios.get("/login/confirm").then((r)=>{ console.log('로그인정보가져오기'); console.log(r.data); })
+
     // 부서랑 직급목록 가져오기
     useEffect(()=>{
         axios.get("/position/all").then((r)=>{ setPositionlist(r.data) })
         axios.get("/department/all").then((r)=>{ setDepartmentList(r.data) })
+
     },[])
 
   const handleSubmit = (e) => {

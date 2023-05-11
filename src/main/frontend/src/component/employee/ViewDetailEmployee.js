@@ -27,11 +27,15 @@ export default function ViewDetailEmployee(props) {
     let [ positionList , setPositionlist ] = useState([]);
     let [ departmentList , setDepartmentList ] = useState([]);
 
-    // 선택한 사원이 바뀔때마다 실행
+    // 처음실행
     useEffect(()=>{
         //직급,부서 DB에서 가져오기
         axios.get("/position/all").then((r)=>{ setPositionlist(r.data) })
         axios.get("/department/all").then((r)=>{ setDepartmentList(r.data) })
+    },[])
+
+    // 선택한 사원이 바뀔때마다 실행
+    useEffect(()=>{
 
         eno = props.oneEmployee.eno
         info.ename = props.oneEmployee.ename
