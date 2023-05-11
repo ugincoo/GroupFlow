@@ -27,7 +27,7 @@ export default function AllEmplyee(props) {
 
     let [allEmplyee,setAllEmplyee] = useState([]);
     let [info,setInfo]=useState({'dno':0 , 'leavework':1, 'key':0 , 'keyword':'' })    //1 : 입사 2:퇴사
-    let [serchinfo,setSerchinfo]=useState({ 'key':0 , 'keyword':''})
+    let [serchinfo,setSerchinfo]=useState({ 'key':0 , 'keyword':''})    //삭제예정
 
     let [oneEmployee,setOneEmployee] = useState({});
 

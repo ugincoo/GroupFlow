@@ -27,7 +27,8 @@ public class EmployeePrintController {
     }
     @GetMapping("/search")
     public List<EmployeeDto> searchEmplyee(@RequestParam int dno, @RequestParam int leavework ,@RequestParam int key, @RequestParam String keyword){ //전직원 출력[관리자입장]
-        log.info("key:"+key);log.info("keyword:"+keyword); log.info("dno1:"+dno);
+        log.info("key:"+key);log.info("keyword:"+keyword);
+        log.info("dno:"+dno);log.info("dcendreason:"+leavework);
         List<EmployeeDto> result = employeePrintService.searchEmplyee(dno,leavework,key,keyword);
         return  result;
     }
