@@ -4,6 +4,7 @@ import groupflow.domain.employee.EmployeeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Entity
 @Data
@@ -16,9 +17,9 @@ public class PositionChangeEntity { // 직급변경테이블
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pcno; // 식별번호
     @Column
-    private LocalDateTime pcdate; // 적용날짜
+    private LocalDate pcdate; // 적용날짜
     @Column
-    private LocalDateTime enddate; // 끝날짜
+    private LocalDate enddate; // 끝날짜
     @Column
     private String pcstartreason; // 적용사유
 

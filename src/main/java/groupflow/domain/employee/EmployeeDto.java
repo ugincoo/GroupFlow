@@ -54,11 +54,11 @@ public class EmployeeDto implements UserDetails {
                 .ephone(this.ephone)
                 .ephoto(this.ephoto)
                 // LocalDate파싱후 -> LocalDateTime으로 변환
-                .hiredate( LocalDate.parse(this.hiredate , formatter).atStartOfDay() )
+                .hiredate( LocalDate.parse(this.hiredate) )
                 .build();
         // 퇴사일 값이 있으면 String -> LocalDate -> LocalDateTime 변환 Entity eenddate필드에 대입
         if ( this.eenddate != null) {
-            employeeEntity.setEenddate(LocalDate.parse(this.eenddate, formatter).atStartOfDay());
+            employeeEntity.setEenddate( LocalDate.parse(this.eenddate) );
         }
         return employeeEntity;
     }
