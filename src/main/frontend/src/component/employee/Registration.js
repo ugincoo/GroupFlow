@@ -80,11 +80,11 @@ const handleChange = (e) => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        bgcolor: colorPalette.light,
+        bgcolor: 'white'
       }}
     >
       <Box
-        sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', mb : 4 }}
+        sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'aliceblue', width: '100%', maxWidth: '1200px', mb : 4 }}
       >
         <Typography
           sx={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 'bold', color: colorPalette.dark, textAlign: 'left', }}
@@ -95,7 +95,7 @@ const handleChange = (e) => {
         </Typography>
       </Box>
 
-      <Box sx={{ p: 6, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', }} >
+      <Box sx={{ p: 6, borderRadius: 3, boxShadow: 1, bgcolor: 'aliceblue', width: '100%', maxWidth: '1200px', }} >
         <form onSubmit={handleSubmit}>
           <Grid container spacing={5}>
             <Grid item xs={12} sm={2}>
