@@ -27,9 +27,8 @@ export default function AllEmplyee(props) {
 
     let [allEmplyee,setAllEmplyee] = useState([]);
     let [info,setInfo]=useState({'dno':0 , 'leavework':1, 'key':0 , 'keyword':'' })    //1 : 입사 2:퇴사
-    let [serchinfo,setSerchinfo]=useState({ 'key':0 , 'keyword':''})    //삭제예정
-
-    let [oneEmployee,setOneEmployee] = useState({});
+    let [mydno,setMydno] = useState();
+    let [oneEmployee,setOneEmployee] = useState({});//상세보기에 ID넘기는 기능
 
 
 
@@ -37,12 +36,22 @@ export default function AllEmplyee(props) {
         //전직원 출력하기[관리자입장]
         useEffect( ()=>{
           axios
-            .get("/employee/print",{params:info})
+            .get("/employee/print/search",{params:info})
             .then(r=>{
              setAllEmplyee(r.data)
             })
             .catch(err=>{console.log(err)})
         },[info])
+
+        //로그인한 자신의 부서구하기
+        useEffect( ()=>{
+            axios
+                .get("/employee/print/finddno")
+                .then(r=>{
+                console.log(r.data)
+                setMydno(r.data)
+                })
+        },[mydno])
 
 
 
@@ -63,25 +72,11 @@ export default function AllEmplyee(props) {
             console.log(key + keyword)
             info.key=key;
             info.keyword=keyword;
-/*
-
-
-            let object = {
-                dno : info.dno ,
-                leavework : info.leavework ,
-                key : serchinfo.key ,
-                keyword : serchinfo.keyword
-            }
-            console.log(object);
-            axios
-            .get("/employee/print/search",{params:object})
-            .then(r=>{
-                  setAllEmplyee(r.data)
-
-
-                 })*/
-
+            setInfo({...info})
          };
+
+
+
 
 
 
