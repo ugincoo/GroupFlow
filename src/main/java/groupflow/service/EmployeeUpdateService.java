@@ -39,7 +39,7 @@ public class EmployeeUpdateService {
         }
         return true;
 
-    }
+    } 
     //부서변경
     @Transactional
     public boolean updatedepartment(DepartmentChangeDto departmentChangeDto) {
