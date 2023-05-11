@@ -15,9 +15,7 @@ useEffect (()=>{
             console.log(r);
             console.log(r.data);
         })
-        .error(err => {
-            console.log(err);
-        })
+
 }, [] );
 
 const onApplication = () => {
