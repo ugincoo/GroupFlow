@@ -12,6 +12,7 @@ import groupflow.domain.position.PositionEntity;
 import groupflow.domain.position.PositionEntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -40,21 +41,22 @@ public class LeaveRequestService {
             return 1; // 만약에 선택 된 부서카테고리가 없으면 return
         }
         DepartmentEntity DepartmentEntity = departmentEntityOptional.get();    // 3. 카테고리 엔티티 추출
-/*
+
        //2. 로그인 된 회원의 엔티티 찾기
             // 아직 시큐리티 미완성
         // 인증된  인증 정보 찾기
-        Object o = SecurityContextHolder.getContext().getAuthentication.getPrincipal();
+        Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(o.equals("anonymousUser")){
             return 2;
         }
         //형변환
         EmployeeDto loginDto = (EmployeeDto)o;
-        // 회원엔티티 찾기
-        EmployeeEntity employeeEntity = employeeRepository.findById(loginDto.getEmployee); // 수정 해야 함
-        //ㅈ직원 부서 가져오기
+        // 로그인 한 사원 찾기
+        EmployeeEntity employeeEntity = employeeRepository.findByEno(loginDto.getEno()); // 수정 해야 함
+
+        //***직원 부서 가져오기
         employeeEntity.getDepartmentChangeEntityList().get(7).getDepartmentEntity().getDno();
-       */ //3. 연차 신청하기
+        //3. 연차 신청하기
         LeaveRequestEntity leaveRequestEntity = leaveRequestRepository.save(dto.toEntity());
         // 4. 신청자 부서의 최고 pno에게 전달
         EmployeeEntity applicant = leaveRequestEntity.getEmployeeEntity(); // 신청자 정보 가져오기
