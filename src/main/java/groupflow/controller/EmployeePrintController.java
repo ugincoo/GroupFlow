@@ -18,13 +18,13 @@ public class EmployeePrintController {
     @Autowired
     private EmployeePrintService employeePrintService;
 
-    @GetMapping("")
+  /*  @GetMapping("")
     public List<EmployeeDto> allEmplyee(@RequestParam int dno, @RequestParam int leavework){ //전직원 출력[관리자입장]
         System.out.println("dno:"+dno);
         System.out.println("dcendreason:"+leavework);
         List<EmployeeDto> result = employeePrintService.allEmplyee(dno,leavework);
         return  result;
-    }
+    }*/
     @GetMapping("/search")
     public List<EmployeeDto> searchEmplyee(@RequestParam int dno, @RequestParam int leavework ,@RequestParam int key, @RequestParam String keyword){ //전직원 출력[관리자입장]
         log.info("key:"+key);log.info("keyword:"+keyword);
@@ -35,9 +35,15 @@ public class EmployeePrintController {
 
     @GetMapping("/department")
     public List<DepartmentDto> getDepartment(){ //부서셀렉트에출력[관리자입장]
-
         List<DepartmentDto> result = employeePrintService.getDepartment();
         return  result;
+    }
+
+    @GetMapping("/finddno")
+    public int getdno(){
+        int result = employeePrintService.getdno();
+        log.info("result:"+result);
+        return result;
     }
 
 

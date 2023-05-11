@@ -6,6 +6,7 @@ import groupflow.domain.position.PositionEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -20,15 +21,15 @@ public class LeaveRequestEntity { // 연차테이블
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lno;
     @Column
-    private LocalDateTime lrequestdate; // 신청날짜
+    private LocalDate lrequestdate; // 신청날짜
     @Column
-    private LocalDateTime approvaldate; // 결재일
+    private LocalDate approvaldate; // 결재일
     @Column
     private byte approvalstate; // 결재상태
     @Column
-    private LocalDateTime lstart; // 연차시작일
+    private LocalDate lstart; // 연차시작일
     @Column
-    private LocalDateTime lend; // 연차끝일
+    private LocalDate lend; // 연차끝일
     @Column
     private String requestreason; // 신청사유
 
@@ -48,10 +49,10 @@ public class LeaveRequestEntity { // 연차테이블
                 .lno(this.lno)
                 .approvalstate(this.approvalstate)
                 .requestreason(this.requestreason)
-                .lrequestdate( this.lrequestdate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
-                .approvaldate( this.approvaldate.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
-                .lstart(this.lstart.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
-                .lend(this.lend.toLocalDate().format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
+                .lrequestdate( this.lrequestdate.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
+                .approvaldate( this.approvaldate.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
+                .lstart(this.lstart.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
+                .lend(this.lend.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
                 .build();
     }
 

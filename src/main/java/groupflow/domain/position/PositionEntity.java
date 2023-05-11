@@ -30,6 +30,12 @@ public class PositionEntity { // 직급테이블
     @Builder.Default
     private List<PositionChangeEntity> positionChangeEntityList = new ArrayList<>();
 
-
+    public PositionDto toDto(){
+        return PositionDto.builder()
+                .pno(this.pno)
+                .pname(this.pname)
+                .yearno(this.yearno)
+                .build();
+    }
 
 }

@@ -20,24 +20,12 @@ public interface EmployeeRepository extends JpaRepository< EmployeeEntity , Inte
             , nativeQuery = true ) // '2023-01-01' // '2023-12-31'
     Optional<EmployeeEntity> findLastEmployeeIdByHireDateBetween( @Param("startDate") String startDate , @Param("endDate") String endDate );
 
-    @Query( value =
-           "SELECT * FROM groupflow.employee natural join groupflow.departmentchange where eenddate is null and dno= :dno" ,nativeQuery = true )
-    List<EmployeeEntity> findemployeebydnoNull(@Param("dno") int dno); // 부서별 근무자만 출력
 
-    @Query( value =
-            "SELECT * FROM groupflow.employee natural join groupflow.departmentchange where eenddate is not null and dno= :dno",nativeQuery = true )
-        List<EmployeeEntity> findemployeebydnoNotnull(@Param("dno") int dno);   // 부서별 퇴사자만 출력
 
-    @Query( value =
-            "select * from groupflow.employee where eenddate is null;",nativeQuery = true ) // 전직원 근무자만 출력
-    List<EmployeeEntity> findemployeebyNulleenddate(@Param("leavework") int leavework);
-
-    @Query( value =
-            "select * from groupflow.employee where eenddate is not null;",nativeQuery = true ) // 모든 퇴사자 출력
-    List<EmployeeEntity> findemployeebyNotNULLeenddate(@Param("leavework") int leavework);
-    @Query( value =
-            "select * from groupflow.employee where ename like %:keyword% or eno like %:keyword% ",nativeQuery = true ) // 모든 퇴사자 출력
+    @Query( value = "select * from groupflow.employee where ename like %:keyword% or eno like %:keyword% ",nativeQuery = true ) // 이름,사번검색
     List<EmployeeEntity> findemployeebyKeyWord(@Param("keyword") String keyword);
+
+
 
 
     // 아이디 찾기 - 오유진
