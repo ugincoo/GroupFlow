@@ -10,3 +10,4 @@ import java.util.Optional;
 public interface DepartmentRepository extends JpaRepository< DepartmentEntity , Integer > {
 
 }
+

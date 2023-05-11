@@ -40,7 +40,8 @@ public interface EmployeeRepository extends JpaRepository< EmployeeEntity , Inte
     List<EmployeeEntity> findemployeebyKeyWord(@Param("keyword") String keyword);
 
 
-
+    // 아이디 찾기 - 오유진
+    EmployeeEntity findByEno(int Eno);
 
 
 

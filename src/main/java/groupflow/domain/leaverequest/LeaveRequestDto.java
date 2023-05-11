@@ -1,5 +1,6 @@
 package groupflow.domain.leaverequest;
 
+import groupflow.domain.employee.EmployeeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class LeaveRequestDto {
     private String requestreason; // 신청사
     // 추가
     private int pno; // 부서 넘버
+
 
     // 저장용
     public LeaveRequestEntity toEntity(){
