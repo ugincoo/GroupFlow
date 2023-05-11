@@ -10,7 +10,7 @@ export default function LeaveRequest(props){
 let [open, setOpen] = React.useState(false);
 
 useEffect (()=>{
-    axios.get('/login/contirm')
+    axios.get('/login/confirm')
         .then(r=>{
             console.log(r);
             console.log(r.data);
