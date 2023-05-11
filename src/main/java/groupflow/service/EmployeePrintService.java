@@ -75,9 +75,7 @@ public class EmployeePrintService {
     @Transactional
     public List<EmployeeDto> searchEmplyee(int dno, int leavwork , int key, String keyword){
         List<EmployeeEntity> entityList=null;
-        if(key!=0){
-            entityList = employeeRepository.findemployeebyKeyWord(keyword);
-        }
+        if(key!=0){  entityList = employeeRepository.findemployeebyKeyWord(keyword);}
 
 
         List<EmployeeDto> dtoList=new ArrayList<>();
@@ -86,31 +84,32 @@ public class EmployeePrintService {
 
             int index =  e.getDepartmentChangeEntityList().size()-1;
 
-            if( e.getDepartmentChangeEntityList().get( index).getDepartmentEntity().getDno() == dno ){
+
+            if( e.getDepartmentChangeEntityList().get( index).getDepartmentEntity().getDno() == dno || dno==0){
 
                 // 근무자 = null
-                if( leavwork == 1 && e.getEenddate() == null  ){
+                if( leavwork == 1 && e.getEenddate() == null || leavwork ==2&&e.getEenddate()!=null ){
                     EmployeeDto employeeDto=e.toDto();
                     employeeDto.setDname( e.getDepartmentChangeEntityList().get(index).getDepartmentEntity().getDname());
                     employeeDto.setPname( e.getPositionChangeEntityList().get(index).getPositionEntity().getPname());
                     employeeDto.setId(e.getEno());
                     dtoList.add(employeeDto);
-                }else{
+                }/*else{
                     EmployeeDto employeeDto=e.toDto();
                     employeeDto.setDname( e.getDepartmentChangeEntityList().get(index).getDepartmentEntity().getDname());
                     employeeDto.setPname( e.getPositionChangeEntityList().get(index).getPositionEntity().getPname());
                     employeeDto.setId(e.getEno());
                     dtoList.add(employeeDto);
-                }
+                }*/
 
-            }else if( dno == 0 ){
+            }/*else if( dno == 0 ){
                 EmployeeDto employeeDto=e.toDto();
                 employeeDto.setDname( e.getDepartmentChangeEntityList().get(index).getDepartmentEntity().getDname());
                 employeeDto.setPname( e.getPositionChangeEntityList().get(index).getPositionEntity().getPname());
                 employeeDto.setId(e.getEno());
                 dtoList.add(employeeDto);
 
-            }
+            }*/
         });
 
         return dtoList;
