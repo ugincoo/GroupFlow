@@ -5,19 +5,35 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Container from '@mui/material/Container';
 
-
-
 export default function LeaveRequest(props){
+// mui 모달
+const [open, setOpen] = React.useState(false);
 
- /*   useEffect ( ()=>{
-        axios
-            .post("http://localhost:8080/dayoff")
-            .then(r=>{
-                console.log(r.data)
-            })
-            .catch(err=>{console.log("err : " + err)} )
-    },[])
-*/
+const onApplication = () => {
+    let info = {
+        lstart :document.querySelector('.lstart').value,
+        lend :document.querySelector('.lend').value,
+        requestreason :document.querySelector('.requestReason').value
+    }
+    axios
+        .post("/dayoff",info)
+        .then(r=>{
+             console.log("r.data : " + r.data);
+            if(r.data == 1){
+               console.log(r.data+"번");
+            }else if (r.data == 2){
+                console.log(r.data+"번");
+
+            }else if (r.data == 3){
+                console.log(r.data+"번");
+                alert('연차 신청 되었습니다.');
+            }
+
+        })
+        .catch(err=>{console.log("err : " + err)} )
+
+}
+
 
 // 모달 style
     const style = {
@@ -35,7 +51,7 @@ export default function LeaveRequest(props){
       pb: 3,
     };
 
-const [open, setOpen] = React.useState(false);
+// 모달 열기 / 닫기
   const handleOpen = () => {
     setOpen(true);
   };
@@ -43,10 +59,6 @@ const [open, setOpen] = React.useState(false);
     setOpen(false);
   };
 
-const day1 = () => {
-    document.querySelector('.day1').value =
-    new Date().toISOString().substring(0, 10);
-}
 
     return(<>
          <button onClick={handleOpen}>연차신청</button>
@@ -61,20 +73,20 @@ const day1 = () => {
               <p id="child-modal-description">
                 <Container>
                     <div>
-                        <div> 이름 : </div>
-                        <div> 부서 : </div>
-                        <div> 직급 : </div>
+                        <div> 이름 : <span className="ename">  </span> </div>
+                        <div> 부서 : <span className="dno"> </span> </div>
+                        <div> 직급 : <span className="pno"> </span> </div>
                         <div> 연차 사용일 </div>
-                        <input type="date" className="date1" /> <span> ~ </span> <input type="date" className="date2"/>
+                        <input type="date" className="lstart" /> <span> ~ </span> <input type="date" className="lend"/>
                         <div>  연차 사유 : </div>
-                        <textarea
+                        <textarea className="requestReason"
                             style={{width: "100%", height: "60px" , border: "none", resize: "none"}}
                             placeholder="연차 사유를 상세하게 작성해주세요." / >
                     </div>
                 </Container>
               </p>
               <button onClick={handleClose}>취소</button>
-              <button onClick={handleClose}>신청</button>
+              <button onClick={onApplication}>신청</button>
             </Box>
           </Modal>
     </>);

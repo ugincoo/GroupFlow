@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
@@ -28,10 +29,9 @@ public class LeaveRequestDto {
                 .lno(this.lno)
                 .approvalstate(this.approvalstate)
                 .requestreason(this.requestreason)
-                .lrequestdate( LocalDateTime.parse(this.lrequestdate) )
-                .approvaldate( LocalDateTime.parse(this.approvaldate) )
-                .lstart(LocalDateTime.parse(this.lstart))
-                .lend(LocalDateTime.parse(this.lend))
+                .lrequestdate( LocalDate.now() )
+                .lstart(LocalDate.parse(this.lstart))
+                .lend(LocalDate.parse(this.lend))
                 .build();
     }
 }
