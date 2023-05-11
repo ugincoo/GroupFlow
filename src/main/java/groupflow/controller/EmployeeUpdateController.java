@@ -3,6 +3,7 @@ package groupflow.controller;
 import groupflow.domain.department.DepartmentChangeDto;
 import groupflow.domain.employee.EmployeeDto;
 
+import groupflow.domain.position.PositionChangeDto;
 import groupflow.service.EmployeeUpdateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +18,32 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmployeeUpdateController {
     @Autowired
     private EmployeeUpdateService employeeUpdateService;
+
     //기본프로필 수정
     @PutMapping("")
-    public boolean updateEmployee(@RequestBody EmployeeDto employeeDto){
-        log.info("Employee update controller?????????:"+employeeDto);
-        boolean result =employeeUpdateService.updateEmployee(employeeDto);
+    public boolean updateEmployee(@RequestBody EmployeeDto employeeDto) {
+        log.info("Employee update controller?????????:" + employeeDto);
+        boolean result = employeeUpdateService.updateEmployee(employeeDto);
         return result;
 
 
     }
+
     //부서변경 수정
     @PutMapping("/updatedepartment")
-    public boolean updatedepartment(@RequestBody DepartmentChangeDto departmentChangeDto){
-        log.info("Employee departmentChangeDto controller?????????:"+departmentChangeDto);
-        boolean result =employeeUpdateService.updatedepartment(departmentChangeDto);
+    public boolean updatedepartment(@RequestBody DepartmentChangeDto departmentChangeDto) {
+        log.info("Employee updatedepartment controller?????????:" + departmentChangeDto);
+        boolean result = employeeUpdateService.updatedepartment(departmentChangeDto);
         return result;
 
 
+    }
+
+    //직급변경 수정
+    @PutMapping("/updateposition")
+    public boolean updateposition(@RequestBody PositionChangeDto positionChangeDto) {
+        log.info("Employee updateposition controller?????????:" + positionChangeDto);
+        boolean result = employeeUpdateService.updateposition(positionChangeDto);
+        return result;
     }
 }

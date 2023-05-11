@@ -5,8 +5,10 @@ import groupflow.domain.department.*;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
 import groupflow.domain.employee.EmployeeRepository;
+import groupflow.domain.position.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,10 @@ public class EmployeeUpdateService {
     private DepartmentChangeEntityRepository departmentChangeEntityRepository;
     @Autowired
     private DepartmentRepository departmentRepository;
+    @Autowired
+    private PositionChangeEntityRepository positionChangeEntityRepository;
+    @Autowired
+    private PositionEntityRepository positionEntityRepository;
     //기본프로필수정
     @Transactional
     public boolean updateEmployee(EmployeeDto employeeDto) {
@@ -89,4 +95,50 @@ public class EmployeeUpdateService {
         // 기존부서변경 레코드를 찾아야됨.
     // 부서변경 필드 / dcstartdate / dcstartreason / departmentEntity / employeeEntity
     //
+
+    //직급변경
+    @Transactional
+    public boolean updateposition(PositionChangeDto positionChangeDto){
+        //기존 직급변경 레코드 갖고와야함
+
+
+
+
+        PositionChangeEntity positionChangeEntity=positionChangeDto.toEntity();//인수로 받은 포지션체인지Dto를 엔티티로 변환하여 변수에 저장
+        positionChangeEntityRepository.save(positionChangeEntity);//변환해서 db에 저장 positionChangeEntity안에는 pcno,pcdate,enddate,pcstartreason가있음
+        //pno와 eno는 없기떄문에 밑에서 찾아서 positionChangeEntity에 add 해주면 여기서 알아서 엔티티에 저장됌.
+
+        //1.eno 로 직원엔티티찾기
+        Optional<EmployeeEntity>optionalEmployeeEntity=employeeRepository.findById(positionChangeDto.getEno());
+        if(optionalEmployeeEntity.isPresent()){
+            EmployeeEntity employeeEntity=optionalEmployeeEntity.get();//찾은 직원 엔티티
+            positionChangeEntity.setEmployeeEntity(employeeEntity);//찾은 직원 엔티티를 직급변경엔티티에 저장해줬음
+            employeeEntity.getPositionChangeEntityList().add(positionChangeEntity);//양방향
+
+            //기존 직급 레코드 갖고오기(//찾은 직원엔티티에 직급변경리시트가 있음. 왜?직급변경한직원의 기존 레코드를 갖고와서 수정해야하니깐)
+            List<PositionChangeEntity> positionChangeEntityList=employeeEntity.getPositionChangeEntityList();
+            if(!positionChangeEntityList.isEmpty()){//찾으면
+                int lastindex=positionChangeEntityList.size()-1; //직급체인지리스트에 -1해서 최근꺼 갖고오는거 변수만듬
+                PositionChangeEntity positionChangeEntity1=positionChangeEntityList.get(lastindex);//
+                positionChangeEntity1.setEnddate(positionChangeDto.toEntity().getPcdate().minusDays(1));
+            }
+
+        }
+
+        //2.pno 로 직급엔티티찾기
+        Optional<PositionEntity> optionalPositionEntity=positionEntityRepository.findById(positionChangeDto.getPno());
+        if(optionalPositionEntity.isPresent()){
+            PositionEntity positionEntity=optionalPositionEntity.get();//찾은 직급테이블
+            positionChangeEntity.setPositionEntity(positionEntity);//찾은 직급엔티티를 직급변경엔티티에 저장해줬음
+            positionEntity.getPositionChangeEntityList().add(positionChangeEntity);//양방향
+
+        }
+
+    //인수롤 받은 직급변경dto를 받아와서 엔티티로 저장해야함 ???왜?? DB가 엔티티니깐 엔티티로 변환해야함.
+        //직급변경dto를 직급변경엔티티로 변환하니깐 dto에서는 pno와,eno가 없어서 이 2개를 찾아서 dto를 엔티티로 같이 엔티티로 저장해야함.
+        //pno,eno찾았음 찾아서 그거를 직급변경dto에 저장해서 직급변경엔티티로 변환해야해!
+        return true;
+    }
+
+
 }
