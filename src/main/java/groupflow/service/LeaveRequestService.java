@@ -16,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,7 +42,7 @@ public class LeaveRequestService {
         // 인증된  인증 정보 찾기
         Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(o.equals("anonymousUser")){
-            return 1;
+            return 1; // 로그인 세션 없을때 반환
         }
         //형변환
         EmployeeDto loginDto = (EmployeeDto)o;
@@ -56,7 +58,7 @@ public class LeaveRequestService {
         LeaveRequestEntity leaveRequestEntity = leaveRequestRepository.save(dto.toEntity());
 
         if (leaveRequestEntity.getLno() < 1){
-            return 2;
+            return 2; 
         }
         //4. 연차 - 부서 양방향관계[부서안에 연차 주소 대입]
         departmentEntity.getLeaveRequestEntityList().add(leaveRequestEntity);
@@ -65,33 +67,22 @@ public class LeaveRequestService {
         employeeEntity.getLeaveRequestEntityList().add(leaveRequestEntity);
         leaveRequestEntity.setEmployeeEntity(employeeEntity);
 
-        return 3;
+        return 3; //성공시 반환
     }
 
-    // 연차 출력
-    public List<LeaveRequestDto> get(){
+    // 개인 연차 출력
+    public List<LeaveRequestDto> myget(){
         log.info("get Service : ");
-        // 모든 엔티티 호출
-        List<LeaveRequestEntity> entityList = leaveRequestRepository.findAll();
-        //1. 로그인 된 회원의 엔티티 찾기
-        // 인증된  인증 정보 찾기
-        Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(o.equals("anonymousUser")){
-            // 모든 엔티티를 dto로변환
-            List<LeaveRequestDto> dtoList =
-                entityList.stream().map( m -> m.toDto()).collect(Collectors.toList());
-
-        }
-        //형변환
-        EmployeeDto loginDto = (EmployeeDto)o;
-        // 로그인 한 사원 찾기
-        EmployeeEntity employeeEntity = employeeRepository.findByEno(loginDto.getEno()); // 수정 해야 함
-        log.info("employeeEntity" + employeeEntity);
-
-        // 모든 엔티티를 dto로변환
-        List<LeaveRequestDto> dtoList =
-                entityList.stream().map( m-> m.toDto()).collect(Collectors.toList());
-
+        // 1. 로그인 인증세션 -->dto 형변환
+        EmployeeDto employeeDto = (EmployeeDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // 2. 회원 엔티티티 찾기
+        EmployeeEntity entity = employeeRepository.findByEno(employeeDto.getEno());
+        // 3. 개인 연차 정보를 담을 리스트 생성
+        List<LeaveRequestDto> dtoList = new ArrayList<>() ;
+        // 4. 리스트에 담기
+        entity.getLeaveRequestEntityList().forEach( (e) -> {
+            dtoList.add(e.toDto());
+        } );
         return dtoList;
     }
 }

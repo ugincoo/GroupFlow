@@ -22,8 +22,8 @@ public class LeaveRequestController {
         return leaveRequestService.post(dto);
     }
 
-    @GetMapping("")
-    public List<LeaveRequestDto> get(){
-        return leaveRequestService.get();
+    @GetMapping("/myget")
+    public List<LeaveRequestDto> myget(){
+        return leaveRequestService.myget();
     }
 }

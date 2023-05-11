@@ -11,6 +11,9 @@ const [open, setOpen] = React.useState(false);
 
 const onApplication = () => {
     let info = {
+        ename :document.querySelector('.ename').value,
+        dno :document.querySelector('.dno').value,
+        pno :document.querySelector('.pno').value,
         lstart :document.querySelector('.lstart').value,
         lend :document.querySelector('.lend').value,
         requestreason :document.querySelector('.requestReason').value
@@ -27,6 +30,7 @@ const onApplication = () => {
             }else if (r.data == 3){
                 console.log(r.data+"번");
                 alert('연차 신청 되었습니다.');
+                window.location.href="../component/employee/LeaveRequestList"
             }
 
         })
