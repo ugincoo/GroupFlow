@@ -136,7 +136,7 @@ public class EmployeeUpdateService {
                 positionChangeEntity1.setEnddate(positionChangeDto.toEntity().getPcdate().minusDays(1));
             }
 
-        }
+        } 
 
         //2.pno 로 직급엔티티찾기
         Optional<PositionEntity> optionalPositionEntity=positionEntityRepository.findById(positionChangeDto.getPno());
