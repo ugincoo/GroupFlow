@@ -24,7 +24,7 @@ public class EmployeeDto implements UserDetails {
     private long esocialno;  //주민등록번호
     private String eemail;  //이메일
     private String ephone;  //휴대폰번호
-    private String ephoto;  //사진
+    private String ephoto;  //사진 파일명
     private String hiredate; //입사일
     private String eenddate; //퇴사일
     // 추가

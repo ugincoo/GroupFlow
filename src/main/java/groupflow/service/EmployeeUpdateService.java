@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,19 +32,31 @@ public class EmployeeUpdateService {
     private PositionChangeEntityRepository positionChangeEntityRepository;
     @Autowired
     private PositionEntityRepository positionEntityRepository;
+
+    @Autowired
+    private FileService fileService;
     //기본프로필수정
     @Transactional
-    public boolean updateEmployee(EmployeeDto employeeDto) {
+    public boolean updateEmployee(EmployeeDto employeeDto , MultipartFile ephotodata) {
         log.info("Employee update service!!!!!:" + employeeDto);
+        log.info("ephotodata : " +  ephotodata);
         Optional<EmployeeEntity> optionalEmployeeEntity =employeeRepository.findById(employeeDto.getEno());
         if(optionalEmployeeEntity.isPresent()){
             EmployeeEntity entity=optionalEmployeeEntity.get();
+            log.info("테스트중");
+            log.info("EmployeeEntity : "  + entity );
             entity.setEname(employeeDto.getEname());
             entity.setEsocialno(employeeDto.getEsocialno());
             entity.setEemail(employeeDto.getEemail());
             entity.setEphone(employeeDto.getEphone());
+            // 이미지수정
+                // 서버에 이미지를 저장
+                //  fileService.fileupload(multipartFile); --> 서버에 이미지를 저장후 파일명을 반환
+            String ephotoname = fileService.fileupload(ephotodata);
+            entity.setEphoto(ephotoname);//엔티티에 ephot라는 필드를 ephotoname로 수정
+            return true;
         }
-        return true;
+        return false;
 
     }
     //부서변경
@@ -69,14 +82,14 @@ public class EmployeeUpdateService {
         //dto에서 to엔티티로 변환하는 함수에 eno,dno를 엔티티로 변환하는 식이 없어서 엔티티2개를 찾아서 departmentChangeEntity 넣어서 저장해야함
 
         Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(departmentChangeDto.getEno());
-        if(optionalEmployeeEntity.isPresent()) {
+        if(!optionalEmployeeEntity.isPresent()) {  return false;}
             EmployeeEntity employeeEntity = optionalEmployeeEntity.get();//직원 엔티티
             departmentChangeEntity.setEmployeeEntity(employeeEntity);//eno로 찾은 직원엔티티(모든한줄레코드)를 부서변경레코드에 저장해줬음//단반향
             employeeEntity.getDepartmentChangeEntityList().add(departmentChangeEntity);//양방향
             //직원엔티티에(나의목록) 부서변경리스트안에 부서변경이력을 넣어주겠다.
 
 
-        }
+
         // 양방향으로 employeeEntity의 departChangeEntityList 에 departmentChangeEntity 추가
 
         Optional<DepartmentEntity> optionalDepartmentEntity=departmentRepository.findById(departmentChangeDto.getDno());

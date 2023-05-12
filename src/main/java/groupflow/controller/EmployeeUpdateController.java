@@ -7,10 +7,8 @@ import groupflow.domain.position.PositionChangeDto;
 import groupflow.service.EmployeeUpdateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController 
 @Slf4j
@@ -21,9 +19,12 @@ public class EmployeeUpdateController {
 
     //기본프로필 수정
     @PutMapping("")
-    public boolean updateEmployee(@RequestBody EmployeeDto employeeDto) {
+    public boolean updateEmployee(
+            @RequestPart(value = "info") EmployeeDto employeeDto,
+            @RequestPart(value = "ephotodata") MultipartFile ephotodata
+    ) {
         log.info("Employee update controller?????????:" + employeeDto);
-        boolean result = employeeUpdateService.updateEmployee(employeeDto);
+        boolean result = employeeUpdateService.updateEmployee(employeeDto,ephotodata);
         return result;
 
 

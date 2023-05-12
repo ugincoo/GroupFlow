@@ -118,6 +118,7 @@ public class EmployeePrintService {
 
         int dno=0;
         Object o= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("문제테스트중");
         EmployeeDto employeeDto=(EmployeeDto) o;
         Optional<EmployeeEntity> employeeEntity=employeeRepository.findById(employeeDto.getEno());
         if(employeeEntity.isPresent()){

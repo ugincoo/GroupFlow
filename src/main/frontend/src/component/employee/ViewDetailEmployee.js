@@ -5,13 +5,13 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 
 export default function ViewDetailEmployee(props) {
-
     let [imagePreview, setImagePreview] = useState(null);
     let [ephoto, setEphoto] = useState(null);
     // props.oneEmployee로 전달받은 사번 상태변수
     let [ eno , setEno ] = useState(0);
     // 기본정보 입력값
     let [ info , setInfo ] = useState({
+        eno : 0 ,
         ename : '',
         eemail : '',
         ephone : '',
@@ -37,7 +37,7 @@ export default function ViewDetailEmployee(props) {
     // 선택한 사원이 바뀔때마다 실행
     useEffect(()=>{
 
-        eno = props.oneEmployee.eno
+        info.eno = props.oneEmployee.eno
         info.ename = props.oneEmployee.ename
         info.eemail = props.oneEmployee.eemail
         info.ephone = props.oneEmployee.ephone
@@ -56,23 +56,24 @@ export default function ViewDetailEmployee(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //console.log("info")
-    //console.log(info)
+    console.log("info")
+    console.log(info)
     //console.log("ephoto")
     //console.log(ephoto)
+
     const data = new FormData();
     data.append("ephotodata", ephoto );
     data.append(
       "info",
       new Blob([JSON.stringify(info)], { type: "application/json" })
     );
-
+    /*
     for (const entry of data.entries()) {
       console.log(entry[0], entry[1]);
-    }
+    }*/
 
 
-    axios.post('/employee', data , { headers: { 'Content-Type': 'multipart/form-data'} } )
+    axios.put('/employee', data , { headers: { 'Content-Type': 'multipart/form-data'} } )
       .then(response => {
         console.log(response);
       })
@@ -224,7 +225,7 @@ const handleChange = (e) => {
                                 sx={{ bgcolor: '#0c5272', color: 'white', width: '100%' }}
                                 type="submit"
                               >
-                                등록하기
+                                수정하기
                               </Button>
                             </Grid>
                         </Grid>
