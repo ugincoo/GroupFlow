@@ -139,6 +139,16 @@ public class EmployeeUpdateService {
         //pno,eno찾았음 찾아서 그거를 직급변경dto에 저장해서 직급변경엔티티로 변환해야해!
         return true;
     }
+    //재직-->퇴사변경
+    @Transactional
+    public  boolean updateenddate(EmployeeDto employeeDto){
+        Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(employeeDto.getEno());
+        if(optionalEmployeeEntity.isPresent()){
 
+            EmployeeEntity employeeEntity =optionalEmployeeEntity.get();//찾은 직원 엔티티
+            employeeEntity.setEenddate(employeeDto.toEntity().getEenddate());
+        }
+        return true;
+    }
 
 }
