@@ -25,11 +25,11 @@ public class AttendanceService {
     @Autowired
     private EmployeeRepository employeeRepository;
     //출근퇴근---------------------------------------------------------------------------------------------
-    int eno=2023001;
+
     @Transactional
-    public  boolean gowork( ){
+    public  boolean gowork(EmployeeDto employeeDto ){
         log.info("gowork실행");
-         Optional<EmployeeEntity> optionalEmployeeEntity =employeeRepository.findById(eno);
+         Optional<EmployeeEntity> optionalEmployeeEntity =employeeRepository.findById(employeeDto.getEno());
         log.info("optionalEmployeeEntity??"+optionalEmployeeEntity);
          if(optionalEmployeeEntity.isPresent()){
              EmployeeEntity entity=optionalEmployeeEntity.get(); log.info("entity:"+entity);
@@ -49,8 +49,8 @@ public class AttendanceService {
     }
     //퇴근
     @Transactional
-    public  boolean outwork(){
-        Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(eno);//eno 를 이용해서 직원엔티티 찾는다
+    public  boolean outwork(EmployeeDto employeeDto){
+        Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(employeeDto.getEno());//eno 를 이용해서 직원엔티티 찾는다
         if(optionalEmployeeEntity.isPresent()){
             List<AttendanceEntity> attendanceEntityList =optionalEmployeeEntity.get().getAttendanceEntityList();//찾은 직원엔티티에는 근태리스트가 있음 .꺼내라 왜?출근한 직원의 정보를 갖고와야해서
             log.info("attendanceEntityList??:"+attendanceEntityList);
@@ -70,8 +70,11 @@ public class AttendanceService {
         return false;
 
     }
-
-
+    //출퇴근출력
+ /*  public List<AttebdanceDto> gooutwork(){
+    employeeRepository.findById()
+    }
+    */
 }
 
 
