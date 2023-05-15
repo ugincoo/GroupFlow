@@ -35,4 +35,8 @@ public class EmployeeController {
         return employeeService.eLogin( employeeDto );
     }
 
+    @GetMapping("/select/info")
+    public EmployeeDto employeeInfo( int eno ){
+        return employeeService.employeeInfo(eno);
+    }
 }
