@@ -90,17 +90,24 @@ public class LeaveRequestService {
 
     // 3. 부서 연차 출력 [ 부장 직급 ]
     @Transactional
-    public List<LeaveRequestDto> pget(){
+    public List<LeaveRequestDto> pget(int dno){
         log.info("get Service");
+        // 1. 로그인 인증세션 -->dto 형변환
+        EmployeeDto employeeDto = (EmployeeDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // 2. 로그인 한 직원 정보 가져오기
+        EmployeeEntity entity = employeeRepository.findByEno(employeeDto.getEno());
+
         // 1. 부서 별 직원 내역 가져오기
         List<LeaveRequestEntity>  entityList= leaveRequestRepository.findAll();
         //2. 엔티티로 형변환
         List<LeaveRequestDto> list = new ArrayList<>();
-        entityList.forEach(e -> {
-            list.add(e.toDto());
-        });
-        return list;
-
+        if(list.get(dno).equals(entity.getDepartmentChangeEntityList().get(dno))){
+            entityList.forEach(e -> {
+                list.add(e.toDto());
+            });
+            return list;
+        }
+        return null;
 
     }
 }
