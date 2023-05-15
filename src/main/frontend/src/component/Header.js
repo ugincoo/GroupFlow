@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+import Workbtn from './employee/Workbtn';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -46,7 +46,7 @@ export default function Header(props) {
               onKeyDown={toggleDrawer(anchor, false)}
             >
               <List>
-                {[사원등록, 직원출력, 연차모달, 로그인,로그아웃,연차내역,부서연차내역,마이페이지].map((text, index) => (
+                {[사원등록, 직원출력, 연차모달, 로그인,로그아웃,연차내역,부서연차내역,마이페이지,<Workbtn/>].map((text, index) => (
                   <ListItem key={text} disablePadding>
                     <ListItemButton>
                       <ListItemIcon>
