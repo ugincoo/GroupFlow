@@ -24,7 +24,7 @@ public class EmployeeDto implements UserDetails {
     private long esocialno;  //주민등록번호
     private String eemail;  //이메일
     private String ephone;  //휴대폰번호
-    private String ephoto;  //사진
+    private String ephoto;  //사진 파일명
     private String hiredate; //입사일
     private String eenddate; //퇴사일
     // 추가
@@ -37,7 +37,7 @@ public class EmployeeDto implements UserDetails {
     private int id; //데이타테이블 식별용
 
     // 이미지 첨부파일용
-    //private MultipartFile ephotoData;
+    private MultipartFile ephotoData;
 
 
 
@@ -53,9 +53,11 @@ public class EmployeeDto implements UserDetails {
                 .eemail(this.eemail)
                 .ephone(this.ephone)
                 .ephoto(this.ephoto)
-                // LocalDate파싱후 -> LocalDateTime으로 변환
-                .hiredate( LocalDate.parse(this.hiredate) )
                 .build();
+
+        if ( this.hiredate != null) {
+            employeeEntity.setHiredate( LocalDate.parse(this.hiredate) );
+        }
         // 퇴사일 값이 있으면 String -> LocalDate -> LocalDateTime 변환 Entity eenddate필드에 대입
         if ( this.eenddate != null) {
             employeeEntity.setEenddate( LocalDate.parse(this.eenddate) );
