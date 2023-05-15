@@ -9,16 +9,11 @@ export default function LeaveRequest(props){
 // mui 모달
 let [open, setOpen] = React.useState(false);
 
-useEffect (()=>{
-    axios.get('/login/confirm')
-        .then(r=>{
-            console.log(r);
-            console.log(r.data);
-        })
+const onApplication = (e) => {
+    console.log(e);
+    console.log(e.target);
+    console.log(e.data);
 
-}, [] );
-
-const onApplication = () => {
     let info = {
         ename :document.querySelector('.ename').value,
         dno :document.querySelector('.dno').value,
