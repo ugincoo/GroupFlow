@@ -173,60 +173,63 @@ const handleChange = (e) => {
                                         <TextField disabled label="입사일" variant="outlined" fullWidth type="date" name="hiredate" value={info.hiredate} onChange={handleChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
                                     </Grid>
                                     <Grid item xs={12} sm={3}>
-                                        <TextField label="입사일" variant="outlined" fullWidth type="date" name="hiredate" value={info.eenddate} onChange={handleChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
+                                        <TextField label="퇴사일" variant="outlined" fullWidth type="date" name="eenddate" value={props.oneEmployee.eenddate} onChange={handleChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6} >
-                                        <FormControl fullWidth sx={{ mb:2 }}>
-                                            <InputLabel id="demo-simple-select-label">직급</InputLabel>
-                                            <Select
-                                              labelId="demo-simple-select-label"
-                                              id="demo-simple-select"
-                                              name = "pno"
-                                              value={info.pno}
-                                              label="직급"
-                                              onChange={handleChange}
-                                            >
-                                                {
-                                                    positionList.map( (p) => {
-                                                        return   <MenuItem value={p.pno}>{ p.pname }</MenuItem>
-                                                    })
-                                                }
-                                            </Select>
-                                          </FormControl>
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <FormControl fullWidth>
-                                            <InputLabel id="demo-simple-select-label">부서</InputLabel>
-                                            <Select
-                                              labelId="demo-simple-select-label"
-                                              id="demo-simple-select"
-                                              name = "dno"
-                                              value={info.dno}
-                                              label="부서"
-                                              onChange={handleChange}
-                                            >
-                                                {
-                                                    departmentList.map( (d) => {
-                                                        return   <MenuItem value={d.dno}>{ d.dname }</MenuItem>
-                                                    })
-                                                }
-                                            </Select>
-                                          </FormControl>
+                                    <Grid item xs={12} sm={12} >
+                                        <Button
+                                            variant="contained"
+                                            sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
+                                            type="submit"
+                                          >
+                                            기본정보 수정하기
+                                        </Button>
                                     </Grid>
                                 </Grid>
                             </Grid>
 
 
                             <Grid item xs={12}>
-                              <Button
-                                variant="contained"
-                                sx={{ bgcolor: '#0c5272', color: 'white', width: '100%' }}
-                                type="submit"
-                              >
-                                수정하기
-                              </Button>
+                                <Grid item xs={12} sm={6} >
+                                    <FormControl fullWidth sx={{ mb:2 }}>
+                                        <InputLabel id="demo-simple-select-label">직급</InputLabel>
+                                        <Select
+                                          labelId="demo-simple-select-label"
+                                          id="demo-simple-select"
+                                          name = "pno"
+                                          value={info.pno}
+                                          label="직급"
+                                          onChange={handleChange}
+                                        >
+                                            {
+                                                positionList.map( (p) => {
+                                                    return   <MenuItem value={p.pno}>{ p.pname }</MenuItem>
+                                                })
+                                            }
+                                        </Select>
+                                      </FormControl>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">부서</InputLabel>
+                                        <Select
+                                          labelId="demo-simple-select-label"
+                                          id="demo-simple-select"
+                                          name = "dno"
+                                          value={info.dno}
+                                          label="부서"
+                                          onChange={handleChange}
+                                        >
+                                            {
+                                                departmentList.map( (d) => {
+                                                    return   <MenuItem value={d.dno}>{ d.dname }</MenuItem>
+                                                })
+                                            }
+                                        </Select>
+                                      </FormControl>
+                                </Grid>
+
                             </Grid>
                         </Grid>
                     </form>

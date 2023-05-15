@@ -9,6 +9,8 @@ import groupflow.domain.position.PositionChangeEntity;
 import groupflow.domain.position.PositionEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,8 +18,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -60,6 +64,16 @@ public class LoginService implements UserDetailsService {
             PositionEntity positionEntity = positionChangeEntityList.get(positionChangeEntityList.size()-1).getPositionEntity();
             DepartmentEntity departmentEntity = departmentChangeEntityList.get(departmentChangeEntityList.size()-1).getDepartmentEntity();
 
+            ////////////////////////////////
+            // 로그인시 권한목록에 추가
+            Set<GrantedAuthority> securityPermissionList = new HashSet<>(); // securityPermissionList : 권한목록
+            // 2. 권한객체 만들기 [ DB 존재하는 권한명( ROLE_!!!! )으로  ]
+            // 권한 없을경우 : ROLE_ANONYMOUS  / 권한 있을경우 ROLE_권한명 : ROLE_admin , ROLE_user
+            SimpleGrantedAuthority permission1 = new SimpleGrantedAuthority( "ROLE_"+positionEntity.getPname() );
+            // 3. 만든 권한객체를 권한목록[컬렉션]에  추가
+            securityPermissionList.add( permission1 );
+
+            ////////////////////////////////
 
             return EmployeeDto.builder()
                     .eno(employeeEntity.getEno())
@@ -68,6 +82,7 @@ public class LoginService implements UserDetailsService {
                     .pname(positionEntity.getPname())
                     .dno(departmentEntity.getDno())
                     .dname(departmentEntity.getDname())
+                    .securityPermissionList( securityPermissionList )// 4. UserDetails 에 권한목록 대입
                     .build();
         }
         return null;

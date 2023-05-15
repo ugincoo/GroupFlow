@@ -13,6 +13,8 @@ import groupflow.domain.position.PositionEntity;
 import groupflow.domain.position.PositionEntityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -286,6 +288,32 @@ public class EmployeeService {
     // 로그인
     public EmployeeDto eLogin( EmployeeDto employeeDto ){
         log.info("s eLogin eno : "+employeeDto.getEno() +" ename : "+employeeDto.getEname());
+        return null;
+    }
+
+    // 사원정보 출력위해서 부서번호,부서명,직급번호,직급명
+    public EmployeeDto employeeInfo( int eno ){
+        log.info("employeeInfo eno : "+ eno);
+        // 입력받은 사번으로 employeeEntity찾기
+        Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findById(eno);
+        log.info("optionalEmployeeEntity : " + optionalEmployeeEntity);
+        if(optionalEmployeeEntity.isPresent()){
+            EmployeeEntity employeeEntity = optionalEmployeeEntity.get();
+            List<DepartmentChangeEntity> departmentChangeEntityList = employeeEntity.getDepartmentChangeEntityList();
+            List<PositionChangeEntity> positionChangeEntityList = employeeEntity.getPositionChangeEntityList();
+
+            PositionEntity positionEntity = positionChangeEntityList.get(positionChangeEntityList.size()-1).getPositionEntity();
+            DepartmentEntity departmentEntity = departmentChangeEntityList.get(departmentChangeEntityList.size()-1).getDepartmentEntity();
+
+            return EmployeeDto.builder()
+                    .eno(employeeEntity.getEno())
+                    .ename(employeeEntity.getEname())
+                    .pno(positionEntity.getPno())
+                    .pname(positionEntity.getPname())
+                    .dno(departmentEntity.getDno())
+                    .dname(departmentEntity.getDname())
+                    .build();
+        }
         return null;
     }
 }

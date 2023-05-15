@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data@AllArgsConstructor@NoArgsConstructor@Builder
 public class EmployeeDto implements UserDetails {
@@ -38,6 +39,9 @@ public class EmployeeDto implements UserDetails {
 
     // 이미지 첨부파일용
     private MultipartFile ephotoData;
+
+    // 로그인시 권한 인증용
+    private Set<GrantedAuthority> securityPermissionList; // securityPermissionList : 권한목록
 
 
 
