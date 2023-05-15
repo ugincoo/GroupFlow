@@ -31,8 +31,6 @@ export default function AllEmplyee(props) {
     let [oneEmployee,setOneEmployee] = useState({});//상세보기에 ID넘기는 기능
 
 
-
-
         //전직원 출력하기[관리자입장]
         useEffect( ()=>{
           axios
