@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data@AllArgsConstructor@NoArgsConstructor@Builder
 public class AttendanceListDto {
-
+    //내부서 직원들만 출력하기용 dto
     private int eno;
     private int dno;
     private int pno;

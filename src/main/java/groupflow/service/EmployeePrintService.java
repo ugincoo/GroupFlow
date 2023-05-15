@@ -6,6 +6,7 @@ import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
 import groupflow.domain.employee.EmployeeRepository;
 import groupflow.domain.position.PositionChangeEntityRepository;
+import groupflow.domain.position.PositionEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -134,6 +135,7 @@ public class EmployeePrintService {
         Object o= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         EmployeeDto employeeDto=(EmployeeDto) o;
         Optional<EmployeeEntity> employeeEntity=employeeRepository.findById(employeeDto.getEno());
+
         List<AttendanceListDto>attendanceListDtoList=new ArrayList<>();
 
         if(employeeEntity.isPresent()){
@@ -144,8 +146,21 @@ public class EmployeePrintService {
         List<EmployeeEntity> entityList= employeeRepository.findByDno(dno);
         log.info("entityList:"+entityList);
         entityList.forEach((e)->{
-            e.getEno()
+            int index2=e.getPositionChangeEntityList().size()-1;
 
+            DepartmentEntity departmentEntity=e.getDepartmentChangeEntityList().get(index2).getDepartmentEntity();
+            PositionEntity positionEntity=e.getPositionChangeEntityList().get(index2).getPositionEntity();
+
+            AttendanceListDto attendanceListDto=AttendanceListDto.builder()
+                            .eno(e.getEno())
+                            .dno(departmentEntity.getDno())
+                            .pno(positionEntity.getPno())
+                            .ename(e.getEname())
+                            .dname(departmentEntity.getDname())
+                            .pname(positionEntity.getPname())
+                            .build();
+
+            attendanceListDtoList.add(attendanceListDto);
         });
         return attendanceListDtoList;
     }
