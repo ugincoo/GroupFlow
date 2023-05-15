@@ -260,71 +260,67 @@ const PostionSubmit = (e)=>{
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Divider variant="fullWidth" orientation="horizontal" />
+                        </Grid>
+                        <Divider variant="fullWidth" orientation="horizontal" />
+                        <Grid container spacing={2}>
+                            <Grid item xs={2} sm={2} >
+                                <FormControl required fullWidth sx={{ mb:2 }}>
+                                    <InputLabel id="demo-simple-select-label">직급</InputLabel>
+                                    <Select
+                                      required
+                                      labelId="demo-simple-select-label"
+                                      id="demo-simple-select"
+                                      name = "pno"
+                                      value={positionSelect.pno}
+                                      label="직급"
+                                      onChange={positionChange}
+                                    >
+                                        {
+                                            positionList.map( (p) => {
+                                                return   <MenuItem value={p.pno}>{ p.pname }</MenuItem>
+                                            })
+                                        }
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={2} sm={2}>
+                                <TextField required label="직급변경일" variant="outlined" fullWidth type="date" name="pcdate"  value={positionSelect.pcdate} onChange={positionChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
+                            </Grid>
+                            <Grid item xs={6} sm={6} >
+                                <TextField required id="outlined-required" label="직급변경사유" name="pcstartreason" value={positionSelect.pcstartreason} onChange={positionChange} sx={{ mb:2 }} fullWidth />
+                            </Grid>
+                            <Grid item xs={2} sm={2} >
+                                <Button
+                                    variant="contained"
+                                    sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
+                                    type="button"
+                                    onClick={PostionSubmit}
+                                  >
+                                    직급변경
+                                </Button>
+                            </Grid>
+                        </Grid>
 
-                            <form noValidate onSubmit={PostionSubmit}>
-                                <Grid item xs={12} sm={10}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} sm={2} >
-                                            <FormControl required fullWidth sx={{ mb:2 }}>
-                                                <InputLabel id="demo-simple-select-label">직급</InputLabel>
-                                                <Select
-                                                  required
-                                                  labelId="demo-simple-select-label"
-                                                  id="demo-simple-select"
-                                                  name = "pno"
-                                                  value={positionSelect.pno}
-                                                  label="직급"
-                                                  onChange={positionChange}
-                                                >
-                                                    {
-                                                        positionList.map( (p) => {
-                                                            return   <MenuItem value={p.pno}>{ p.pname }</MenuItem>
-                                                        })
-                                                    }
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
-                                        <Grid item xs={12} sm={2}>
-                                            <TextField required label="직급변경일" variant="outlined" fullWidth type="date" name="pcdate"  value={positionSelect.pcdate} onChange={positionChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} >
-                                            <TextField required id="outlined-required" label="직급변경사유" name="pcstartreason" value={positionSelect.pcstartreason} onChange={positionChange} sx={{ mb:2 }} fullWidth />
-                                        </Grid>
-                                        <Grid item xs={12} sm={2} >
-                                            <Button
-                                                variant="contained"
-                                                sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
-                                                type="submit"
-                                              >
-                                                직급변경
-                                            </Button>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                            </form>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6}>
-                                        <FormControl fullWidth>
-                                            <InputLabel id="demo-simple-select-label">부서</InputLabel>
-                                            <Select
-                                              labelId="demo-simple-select-label"
-                                              id="demo-simple-select"
-                                              name = "dno"
-                                              value={departmentSelect.dno}
-                                              label="부서"
-                                              onChange={departmentChange}
-                                            >
-                                                {
-                                                    departmentList.map( (d) => {
-                                                        return   <MenuItem value={d.dno}>{ d.dname }</MenuItem>
-                                                    })
-                                                }
-                                            </Select>
-                                        </FormControl>
-                                    </Grid>
-                                </Grid>
-
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">부서</InputLabel>
+                                    <Select
+                                      labelId="demo-simple-select-label"
+                                      id="demo-simple-select"
+                                      name = "dno"
+                                      value={departmentSelect.dno}
+                                      label="부서"
+                                      onChange={departmentChange}
+                                    >
+                                        {
+                                            departmentList.map( (d) => {
+                                                return   <MenuItem value={d.dno}>{ d.dname }</MenuItem>
+                                            })
+                                        }
+                                    </Select>
+                                </FormControl>
+                            </Grid>
                         </Grid>
                 </Box>
     </>)
