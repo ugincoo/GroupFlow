@@ -16,6 +16,7 @@ import styles from '../css/header.css'; //css
 
 
 export default function Header(props) {
+        axios.get('/login/confirm').then( r => { console.log( r ) } )
            let page=[
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/registration">사원등록</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/allemployee">직원출력</a>},
@@ -27,7 +28,7 @@ export default function Header(props) {
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a>} //유진 추가
                 ]
            let 출근현황 = <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/attendancestatus">출근현황</a>
-        axios.get('/login/confirm').then( r => { console.log( r ) } )
+
 
       const [state, setState] = React.useState({
         left: false,
