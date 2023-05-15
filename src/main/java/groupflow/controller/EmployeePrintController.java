@@ -14,18 +14,13 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/employee/print")
 public class EmployeePrintController {
+//장민정 page
 
     @Autowired
     private EmployeePrintService employeePrintService;
 
-  /*  @GetMapping("")
-    public List<EmployeeDto> allEmplyee(@RequestParam int dno, @RequestParam int leavework){ //전직원 출력[관리자입장]
-        System.out.println("dno:"+dno);
-        System.out.println("dcendreason:"+leavework);
-        List<EmployeeDto> result = employeePrintService.allEmplyee(dno,leavework);
-        return  result;
-    }*/
-    @GetMapping("/search")
+
+    @GetMapping("")
     public List<EmployeeDto> searchEmplyee(@RequestParam int dno, @RequestParam int leavework ,@RequestParam int key, @RequestParam String keyword){ //전직원 출력[관리자입장]
         log.info("key:"+key);log.info("keyword:"+keyword);
         log.info("dno:"+dno);log.info("dcendreason:"+leavework);
@@ -33,19 +28,27 @@ public class EmployeePrintController {
         return  result;
     }
 
-    @GetMapping("/department")
-    public List<DepartmentDto> getDepartment(){ //부서셀렉트에출력[관리자입장]
+    @GetMapping("/department")//부서셀렉트에출력[관리자입장]
+    public List<DepartmentDto> getDepartment(){
         List<DepartmentDto> result = employeePrintService.getDepartment();
         return  result;
     }
 
-    @GetMapping("/finddno")
+    @GetMapping("/finddno") //경영지원팀만 상세보기 가능
     public int getdno(){
         int result = employeePrintService.getdno();
         log.info("result:"+result);
         return result;
     }
 
+    @GetMapping("/findmyemployees") //우리부서 직원들 구하기
+    public List<EmployeeDto> getEmployees(){
+        log.info("컨트롤");
+        List<EmployeeDto> result=employeePrintService.getMyEmployees();
+        log.info("우리직원"+result);
+        return result;
+
+    }
 
 
 

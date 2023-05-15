@@ -36,7 +36,7 @@ export default function AllEmplyee(props) {
         //전직원 출력하기[관리자입장]
         useEffect( ()=>{
           axios
-            .get("/employee/print/search",{params:info})
+            .get("/employee/print",{params:info})
             .then(r=>{
              setAllEmplyee(r.data)
             })
@@ -90,9 +90,13 @@ export default function AllEmplyee(props) {
 
     console.log(allEmplyee)
      return (
-            <Box sx={{display: 'flex',flexDirection: 'column', justifyContent: 'center',alignItems: 'center',height: '100%', mt : 10 }} >
 
-                <Box sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', mb : 4  }} >
+
+             <Box sx={{display: 'flex',flexDirection: 'column', justifyContent: 'center',alignItems: 'center',height: '100vh' }} >
+
+
+                <Box
+                 sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', mb : 4 }} >
                    <div className="upperPart">
                        <div className="top">
                           <Department departmentchange={departmentchange} inoutEmployee={inoutEmployee} />
@@ -108,7 +112,8 @@ export default function AllEmplyee(props) {
                        </div>
                    </div>
                 </Box>
-                <ViewDetailEmployee oneEmployee={oneEmployee} />
+                {mydno==1 ? <ViewDetailEmployee oneEmployee={oneEmployee} /> : ''}
+
 
             </Box>
 

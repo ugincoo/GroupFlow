@@ -6,17 +6,22 @@ import Modal from '@mui/material/Modal';
 import Container from '@mui/material/Container';
 
 export default function LeaveRequest(props){
+// 0. 로그인 정보 변수
+const [ login,setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) );
 // mui 모달
 let [open, setOpen] = React.useState(false);
 
-useEffect (()=>{
-    axios.get('/login/confirm')
-        .then(r=>{
-            console.log(r);
+// 1. 로그인 정보 호출
+useEffect ( () => {
+    axios.get('/login/confirm').then( r => {
+        if(r.data != ''){  // 만약에 로그인이 null이 아니면
+            sessionStorage.setItem( "login_token",JSON.stringify(r.data) ) ;
+            setLogin( JSON.parse(sessionStorage.getItem( "login_token" ) ) );
             console.log(r.data);
-        })
+        }
+    } )
+},[] );
 
-}, [] );
 
 const onApplication = () => {
     let info = {
