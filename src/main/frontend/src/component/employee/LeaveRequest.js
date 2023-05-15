@@ -23,8 +23,6 @@ useEffect ( () => {
 },[] );
 
 
-}, [] );
-
 const onApplication = () => {
     let info = {
         ename :document.querySelector('.ename').value,

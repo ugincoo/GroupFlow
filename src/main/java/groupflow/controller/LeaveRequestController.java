@@ -23,7 +23,7 @@ public class LeaveRequestController {
     }
 
     @GetMapping("/myget")
-    public List<LeaveRequestDto> myget(@RequestParam int eno){
-        return leaveRequestService.myget(eno);
+    public List<LeaveRequestDto> myget(){
+        return leaveRequestService.myget();
     }
 }

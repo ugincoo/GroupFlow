@@ -67,7 +67,6 @@ export default function LeaveRequestList(props){
      return (
 
      <Container>
-        <div>  연차 신청수 : { totalCount } </div>
          <TableContainer component={Paper}>
            <Table sx={{ minWidth: 650 }} aria-label="simple table">
              <TableHead>
