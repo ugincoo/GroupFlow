@@ -13,7 +13,7 @@ import java.util.UUID;
 public class FileService {
 
     // * 첨부파일이 저장 될 경로 [ 1. 배포 전 2.배포 후 ]
-    String path = "C:\\java\\";
+    String path = "C:\\Users\\504\\Desktop\\GroupFlow\\build\\resources\\main\\static\\static\\media\\";
 
     public String fileupload( MultipartFile multipartFile ) {
         log.info("File upload : " + multipartFile);

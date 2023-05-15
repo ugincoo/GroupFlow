@@ -35,7 +35,7 @@ public class EmployeeController {
         return employeeService.eLogin( employeeDto );
     }
 
-    @GetMapping("/employee/info")
+    @GetMapping("/select/info")
     public EmployeeDto employeeInfo( int eno ){
         return employeeService.employeeInfo(eno);
     }

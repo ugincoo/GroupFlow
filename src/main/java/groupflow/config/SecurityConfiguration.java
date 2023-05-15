@@ -38,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .ignoringAntMatchers("/employee/login") // login url은 csrf 무시*/
                 /*.and()*/
                 .authorizeHttpRequests()
-                    .antMatchers("/offlist").hasRole("부장")
+                    .antMatchers("/offlist").hasRole("DIRECTOR")
                     .antMatchers("/**").permitAll()
                 .and()
                 .formLogin()
@@ -51,8 +51,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/employee/logout"))     // 로그아웃처리 요청할 매핑 url
-                .logoutSuccessUrl("/login")       // 로그아웃처리 성공시 매핑 url
-                .invalidateHttpSession(true);   // 세션초기화X
+                .logoutSuccessUrl("/login")         // 로그아웃처리 성공시 매핑 url
+                .invalidateHttpSession(true);       // 세션초기화X
 
         http.csrf().disable();
     }

@@ -76,7 +76,7 @@ public class EmployeeDto implements UserDetails {
 
     @Override // 인증된 권한반환
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.securityPermissionList;
     }
 
     @Override // 패스워드 반환

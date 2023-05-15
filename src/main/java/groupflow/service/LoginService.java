@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +31,7 @@ public class LoginService implements UserDetailsService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String stringEno) throws UsernameNotFoundException {
         int eno = Integer.parseInt(stringEno);
@@ -40,12 +42,42 @@ public class LoginService implements UserDetailsService {
         if (optionalEmployeeEntity.isPresent()){
             log.info("employeeDto : " +optionalEmployeeEntity.get().toDto());
 
-                   EmployeeDto employeeDto = optionalEmployeeEntity.get().toDto();
-                   log.info("employeeDto 테스트 : " + employeeDto);
-                   employeeDto.setEname(new BCryptPasswordEncoder().encode(employeeDto.getEname()));
-                    return employeeDto;
+            EmployeeEntity employeeEntity = optionalEmployeeEntity.get();
+            log.info("employeeEntity 테스트 : " + employeeEntity);
+
+            // 부서변경이력, 직급변경이력
+            List<DepartmentChangeEntity> departmentChangeEntityList = employeeEntity.getDepartmentChangeEntityList();
+            List<PositionChangeEntity> positionChangeEntityList = employeeEntity.getPositionChangeEntityList();
+
+            // 부서,직급 Entity
+            PositionEntity positionEntity = positionChangeEntityList.get(positionChangeEntityList.size()-1).getPositionEntity();
+            DepartmentEntity departmentEntity = departmentChangeEntityList.get(departmentChangeEntityList.size()-1).getDepartmentEntity();
+            ////////////////////////////////
+            // 로그인시 권한목록에 추가
+            Set<GrantedAuthority> securityPermissionList = new HashSet<>(); // securityPermissionList : 권한목록
+            // 2. 권한객체 만들기 [ DB 존재하는 권한명( ROLE_!!!! )으로  ]
+            // 권한 없을경우 : ROLE_ANONYMOUS  / 권한 있을경우 ROLE_권한명 : ROLE_admin , ROLE_user
+            String prole = "";
+            if ( positionEntity.getPname().equals("부장") ){ prole = "DIRECTOR"; }
+            SimpleGrantedAuthority permission1 = new SimpleGrantedAuthority( "ROLE_"+prole ); // 직급
+            log.info("permission1: " + permission1);
+            SimpleGrantedAuthority permission2 = new SimpleGrantedAuthority( "ROLE_"+departmentEntity.getDname() ); // 부서
+            log.info("permission2: " + permission2);
+            // 3. 만든 권한객체를 권한목록[컬렉션]에  추가
+            securityPermissionList.add( permission1 );
+            securityPermissionList.add( permission2 );
+
+            EmployeeDto employeeDto = employeeEntity.toDto();
+            employeeDto.setEname(new BCryptPasswordEncoder().encode(employeeDto.getEname()));
+            employeeDto.setPno(positionEntity.getPno());
+            employeeDto.setPname(positionEntity.getPname());
+            employeeDto.setDno(departmentEntity.getDno());
+            employeeDto.setDname(departmentEntity.getDname());
+            employeeDto.setSecurityPermissionList(securityPermissionList);
+            ////////////////////////////////
+            return employeeDto;
         }
-        return new EmployeeDto();
+        return null;
     }
 
     // 로그인확인
@@ -54,6 +86,7 @@ public class LoginService implements UserDetailsService {
         log.info("loginInfo : " + o);
         if ( o.equals("anonymousUser")){ return EmployeeDto.builder().ename("못찾음").build(); }
         EmployeeDto employeeDto = (EmployeeDto) o;
+        /*
         Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findById(employeeDto.getEno());
         log.info("optionalEmployeeEntity : " + optionalEmployeeEntity);
         if(optionalEmployeeEntity.isPresent()){
@@ -64,16 +97,7 @@ public class LoginService implements UserDetailsService {
             PositionEntity positionEntity = positionChangeEntityList.get(positionChangeEntityList.size()-1).getPositionEntity();
             DepartmentEntity departmentEntity = departmentChangeEntityList.get(departmentChangeEntityList.size()-1).getDepartmentEntity();
 
-            ////////////////////////////////
-            // 로그인시 권한목록에 추가
-            Set<GrantedAuthority> securityPermissionList = new HashSet<>(); // securityPermissionList : 권한목록
-            // 2. 권한객체 만들기 [ DB 존재하는 권한명( ROLE_!!!! )으로  ]
-            // 권한 없을경우 : ROLE_ANONYMOUS  / 권한 있을경우 ROLE_권한명 : ROLE_admin , ROLE_user
-            SimpleGrantedAuthority permission1 = new SimpleGrantedAuthority( "ROLE_"+positionEntity.getPname() );
-            // 3. 만든 권한객체를 권한목록[컬렉션]에  추가
-            securityPermissionList.add( permission1 );
 
-            ////////////////////////////////
 
             return EmployeeDto.builder()
                     .eno(employeeEntity.getEno())
@@ -82,9 +106,8 @@ public class LoginService implements UserDetailsService {
                     .pname(positionEntity.getPname())
                     .dno(departmentEntity.getDno())
                     .dname(departmentEntity.getDname())
-                    .securityPermissionList( securityPermissionList )// 4. UserDetails 에 권한목록 대입
                     .build();
-        }
-        return null;
+        }*/
+        return (EmployeeDto) o;
     }
 }

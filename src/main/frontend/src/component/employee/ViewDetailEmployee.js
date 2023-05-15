@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
-import { Box, Typography, TextField, Button, Grid } from '@mui/material';
+import { Box, Typography, TextField, Button, Grid , Divider } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 
@@ -17,10 +17,31 @@ export default function ViewDetailEmployee(props) {
         ephone : '',
         esocialno : '',
         hiredate : '',
-        pno : 1 ,
-        dno : 1 ,
-        eenddate : ''
     })
+
+    // 퇴사처리용 입력값
+    let [ eenddate , setEenddate ] = useState('')
+
+    // 직급변경용 입력값
+    let [ positionSelect , setPositionSelect ] = useState({
+        eno : 0 ,
+        pno : 0 ,
+        pcdate : '' ,
+        pcstartreason : ''
+    })
+    console.log("positionSelect")
+    console.log(positionSelect)
+    // 부서변경용 입력값
+    let [ departmentSelect , setDepartmentSelect ] = useState({
+        eno : 0 ,
+        dno : 0 ,
+        dcstartdate : '',
+        dcstartreason : ''
+    })
+    console.log("departmentSelect")
+    console.log(departmentSelect)
+
+
 
     // 부서카테고리 axios통신으로 가져올 리스트 상태변수
     // 직급카테고리 axios통신으로 가져올 리스트 상태변수
@@ -36,28 +57,40 @@ export default function ViewDetailEmployee(props) {
 
     // 선택한 사원이 바뀔때마다 실행
     useEffect(()=>{
-
+        console.log(props.oneEmployee)
         info.eno = props.oneEmployee.eno
         info.ename = props.oneEmployee.ename
         info.eemail = props.oneEmployee.eemail
         info.ephone = props.oneEmployee.ephone
         info.esocialno = props.oneEmployee.esocialno
         info.hiredate = props.oneEmployee.hiredate
-        info.pno = props.oneEmployee.pno
-        info.pname = props.oneEmployee.pname
-        info.dno = props.oneEmployee.dno
-        info.dname = props.oneEmployee.dname
-        info.eenddate = props.oneEmployee.eenddate
         setInfo({...info})
-        // 사진도 처리해야함
-
+        // 사진띄우기
+        setImagePreview('http://localhost:8080/static/media/'+props.oneEmployee.ephoto)
+        // 퇴사처리용
+        setEenddate(props.oneEmployee.eenddate)
+        // 부서,직급
+        let eno = props.oneEmployee.eno;
+        console.log("eno : "+eno)
+        axios.get("/employee/select/info",{params:{eno:eno}})
+            .then(r=>{
+                console.log(r.data)
+                //직급
+                positionSelect.eno = eno
+                positionSelect.pno = r.data.pno
+                setPositionSelect({...positionSelect})
+                //부서
+                departmentSelect.eno = eno
+                departmentSelect.dno = r.data.dno
+                setDepartmentSelect({...departmentSelect})
+            })
     },[props.oneEmployee])
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("info")
-    console.log(info)
+    //console.log("info")
+    //console.log(info)
     //console.log("ephoto")
     //console.log(ephoto)
 
@@ -90,19 +123,48 @@ const handleImageChange = (e) => {
 
   const reader = new FileReader();
   reader.onload = () => {
-    console.log("reader.result")
-    console.log(reader.result)
+    //console.log("reader.result")
+    //console.log(reader.result)
     setImagePreview(reader.result);
   };
   reader.readAsDataURL(file);
 };
 
 
-
+// 기본정보 입력값 change
 const handleChange = (e) => {
-  const { name, value } = e.target;
-  setInfo({ ...info, [name]: value  });
+    const { name, value } = e.target;
+    setInfo({ ...info, [name]: value });
 };
+
+// 직급변경 입력값 change
+const positionChange = (e) => {
+    const { name, value } = e.target;
+    setPositionSelect({...positionSelect, [name]: value })
+}
+
+// 부서변경 입력값 change
+const departmentChange = (e) => {
+    const { name, value } = e.target;
+    setDepartmentSelect({...departmentSelect, [name]: value})
+}
+
+// 퇴사일 입력값
+const eenddateChange = (e)=>{
+    console.log(e.target.value)
+    setEenddate( e.target.value )
+}
+
+// 퇴사처리
+const resignation = (e)=>{
+    console.log("resignation")
+    console.log(info.en)
+}
+// 직급변경처리
+const PostionSubmit = (e)=>{
+    console.log("PostionSubmit")
+    console.log(positionSelect)
+}
 
     return (<>
                 <Box
@@ -118,7 +180,6 @@ const handleChange = (e) => {
                 </Box>
 
                 <Box sx={{ p: 6, borderRadius: 3, boxShadow: 1, bgcolor: 'aliceblue', width: '100%', maxWidth: '1200px', }} >
-                    <form onSubmit={handleSubmit}>
                         <Grid container spacing={5}>
                             <Grid item xs={12} sm={2}>
                                 <input  accept="image/*" id="ephoto" type="file" onChange={handleImageChange} style={{ display: 'none' }} />
@@ -173,67 +234,98 @@ const handleChange = (e) => {
                                         <TextField disabled label="입사일" variant="outlined" fullWidth type="date" name="hiredate" value={info.hiredate} onChange={handleChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
                                     </Grid>
                                     <Grid item xs={12} sm={3}>
-                                        <TextField label="퇴사일" variant="outlined" fullWidth type="date" name="eenddate" value={props.oneEmployee.eenddate} onChange={handleChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
+                                        <TextField label="퇴사일" variant="outlined" fullWidth type="date" name="eenddate" value={eenddate} onChange={eenddateChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={12} >
+                                    <Grid item xs={12} sm={9} >
                                         <Button
                                             variant="contained"
                                             sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
-                                            type="submit"
+                                            type="button"
+                                            onClick={handleSubmit}
                                           >
                                             기본정보 수정하기
                                         </Button>
                                     </Grid>
+                                    <Grid item xs={12} sm={3} >
+                                    <Button
+                                            variant="contained"
+                                            sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
+                                            type="button"
+                                            onClick={resignation}
+                                          >
+                                            퇴사
+                                        </Button>
+                                    </Grid>
                                 </Grid>
                             </Grid>
+                            <Divider variant="fullWidth" orientation="horizontal" />
 
-
-                            <Grid item xs={12}>
-                                <Grid item xs={12} sm={6} >
-                                    <FormControl fullWidth sx={{ mb:2 }}>
-                                        <InputLabel id="demo-simple-select-label">직급</InputLabel>
-                                        <Select
-                                          labelId="demo-simple-select-label"
-                                          id="demo-simple-select"
-                                          name = "pno"
-                                          value={info.pno}
-                                          label="직급"
-                                          onChange={handleChange}
-                                        >
-                                            {
-                                                positionList.map( (p) => {
-                                                    return   <MenuItem value={p.pno}>{ p.pname }</MenuItem>
-                                                })
-                                            }
-                                        </Select>
-                                      </FormControl>
+                            <form noValidate onSubmit={PostionSubmit}>
+                                <Grid item xs={12} sm={10}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} sm={2} >
+                                            <FormControl required fullWidth sx={{ mb:2 }}>
+                                                <InputLabel id="demo-simple-select-label">직급</InputLabel>
+                                                <Select
+                                                  required
+                                                  labelId="demo-simple-select-label"
+                                                  id="demo-simple-select"
+                                                  name = "pno"
+                                                  value={positionSelect.pno}
+                                                  label="직급"
+                                                  onChange={positionChange}
+                                                >
+                                                    {
+                                                        positionList.map( (p) => {
+                                                            return   <MenuItem value={p.pno}>{ p.pname }</MenuItem>
+                                                        })
+                                                    }
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item xs={12} sm={2}>
+                                            <TextField required label="직급변경일" variant="outlined" fullWidth type="date" name="pcdate"  value={positionSelect.pcdate} onChange={positionChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6} >
+                                            <TextField required id="outlined-required" label="직급변경사유" name="pcstartreason" value={positionSelect.pcstartreason} onChange={positionChange} sx={{ mb:2 }} fullWidth />
+                                        </Grid>
+                                        <Grid item xs={12} sm={2} >
+                                            <Button
+                                                variant="contained"
+                                                sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
+                                                type="submit"
+                                              >
+                                                직급변경
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">부서</InputLabel>
-                                        <Select
-                                          labelId="demo-simple-select-label"
-                                          id="demo-simple-select"
-                                          name = "dno"
-                                          value={info.dno}
-                                          label="부서"
-                                          onChange={handleChange}
-                                        >
-                                            {
-                                                departmentList.map( (d) => {
-                                                    return   <MenuItem value={d.dno}>{ d.dname }</MenuItem>
-                                                })
-                                            }
-                                        </Select>
-                                      </FormControl>
+                            </form>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6}>
+                                        <FormControl fullWidth>
+                                            <InputLabel id="demo-simple-select-label">부서</InputLabel>
+                                            <Select
+                                              labelId="demo-simple-select-label"
+                                              id="demo-simple-select"
+                                              name = "dno"
+                                              value={departmentSelect.dno}
+                                              label="부서"
+                                              onChange={departmentChange}
+                                            >
+                                                {
+                                                    departmentList.map( (d) => {
+                                                        return   <MenuItem value={d.dno}>{ d.dname }</MenuItem>
+                                                    })
+                                                }
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
                                 </Grid>
 
-                            </Grid>
                         </Grid>
-                    </form>
                 </Box>
-
     </>)
 }
