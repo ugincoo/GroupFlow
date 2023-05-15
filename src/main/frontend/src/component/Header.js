@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 
 import Box from '@mui/material/Box';
@@ -16,6 +16,8 @@ import styles from '../css/header.css'; //css
 
 
 export default function Header(props) {
+
+
 
     axios.get('/login/confirm').then( r => { console.log( r ) } )
 
@@ -37,6 +39,7 @@ export default function Header(props) {
         let 로그인 =<a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/login">로그인</a>
         let 로그아웃 =<a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/employee/logout">로그아웃</a>
         let 연차내역 = <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/offlist">연차내역</a> //유진 추가
+        let 출근현황 = <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/attendancestatus">출근현황</a>
         const list = (anchor) => (
             <Box
               role="presentation"
@@ -56,6 +59,18 @@ export default function Header(props) {
                 ))}
               </List>
               <Divider />
+              <List>
+                  {[출근현황].map((text, index) => (
+                    <ListItem key={text} disablePadding>
+                      <ListItemButton>
+                        <ListItemIcon>
+                          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                        </ListItemIcon>
+                        <ListItemText primary={text} />
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
+                </List>
 
             </Box>
           );

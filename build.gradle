@@ -26,6 +26,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-security' // 시큐리티
+    implementation 'org.springframework.boot:spring-boot-starter-websocket' //웹소켓
 }
 
 tasks.named('test') {

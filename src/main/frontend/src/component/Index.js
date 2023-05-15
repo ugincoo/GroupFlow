@@ -9,6 +9,7 @@ import Registration from './employee/Registration';
 import AllEmployee from './employee/AllEmplyee';
 import LeaveRequest from './employee/LeaveRequest';
 import LeaveRequestList from './employee/LeaveRequestList';
+import AttendanceStatus from './employee/AttendanceStatus';
 
 
 export default function Index(props) {
@@ -23,6 +24,7 @@ export default function Index(props) {
                 <Route path="/offlist" element={ <LeaveRequestList/> }/>
                 <Route path="/allemployee" element={ <AllEmployee/> }/>
                 <Route path="/mypage" element={ <Mypage/> }/>
+                <Route path="/attendancestatus" element={ <AttendanceStatus/> }/>
 
             </Routes>
             <Footer/>

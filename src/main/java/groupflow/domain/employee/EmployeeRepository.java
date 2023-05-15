@@ -21,7 +21,7 @@ public interface EmployeeRepository extends JpaRepository< EmployeeEntity , Inte
     Optional<EmployeeEntity> findLastEmployeeIdByHireDateBetween( @Param("startDate") String startDate , @Param("endDate") String endDate );
 
 
-
+    //이름,사원 검색-장민정
     @Query( value = "select * from groupflow.employee where ename like %:keyword% or eno like %:keyword% ",nativeQuery = true ) // 이름,사번검색
     List<EmployeeEntity> findemployeebyKeyWord(@Param("keyword") String keyword);
 
@@ -30,6 +30,10 @@ public interface EmployeeRepository extends JpaRepository< EmployeeEntity , Inte
 
     // 아이디 찾기 - 오유진
     EmployeeEntity findByEno(int Eno);
+
+    //부서직원들찾기-장민정
+    @Query(value="SELECT * FROM groupflow.employee natural join groupflow.departmentchange where dno= :dno and eenddate is null",nativeQuery = true)
+    List<EmployeeEntity> findByDno(@Param("dno") int dno);
 
 
 
