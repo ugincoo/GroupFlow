@@ -1,5 +1,6 @@
 package groupflow.service;
 
+import groupflow.domain.attendance.AttendanceListDto;
 import groupflow.domain.department.*;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
@@ -114,11 +115,10 @@ public class EmployeePrintService {
         return dtoList;
     }
 
-    public int getdno(){
+    public int getdno(){ // 로그인한 직원의 부서 가져오기 왜? 관리부가 아니면 상세보기안나오게하려고
 
         int dno=0;
         Object o= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        log.info("문제테스트중");
         EmployeeDto employeeDto=(EmployeeDto) o;
         Optional<EmployeeEntity> employeeEntity=employeeRepository.findById(employeeDto.getEno());
         if(employeeEntity.isPresent()){
@@ -128,4 +128,25 @@ public class EmployeePrintService {
         return dno;
     }
 
+    //내가속한 부서의 직원들 출력하기
+    public List<AttendanceListDto> getMyEmployees() {
+        int dno=0;
+        Object o= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        EmployeeDto employeeDto=(EmployeeDto) o;
+        Optional<EmployeeEntity> employeeEntity=employeeRepository.findById(employeeDto.getEno());
+        List<AttendanceListDto>attendanceListDtoList=new ArrayList<>();
+
+        if(employeeEntity.isPresent()){
+            int index =  employeeEntity.get().getDepartmentChangeEntityList().size()-1;
+            dno=employeeEntity.get().getDepartmentChangeEntityList().get(index).getDepartmentEntity().getDno();
+        }
+        log.info("mydno:"+dno);
+        List<EmployeeEntity> entityList= employeeRepository.findByDno(dno);
+        log.info("entityList:"+entityList);
+        entityList.forEach((e)->{
+            e.getEno()
+
+        });
+        return attendanceListDtoList;
+    }
 }

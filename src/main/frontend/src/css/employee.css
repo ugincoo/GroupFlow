@@ -21,4 +21,9 @@
 
 .css-1iyq7zh-MuiDataGrid-columnHeaders{
 background-color: aliceblue;
+
+}
+
+.css-12dkb5y .MuiDataGrid-row.Mui-selected:hover, .css-12dkb5y .MuiDataGrid-row.Mui-selected.Mui-hovered ,.css-12dkb5y .MuiDataGrid-row.Mui-selected{
+    background-color: white!important;
 }

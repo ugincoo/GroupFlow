@@ -26,11 +26,13 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-security' // 시큐리티
+    implementation 'org.springframework.boot:spring-boot-starter-websocket' //웹소켓
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
 
 /* 스프링부트 빌드시 리액트도 같이 빌드  */
 def frontendDir = "$projectDir/src/main/frontend" // 리액트 프로젝트 경로
@@ -71,9 +73,11 @@ task buildReact(type: Exec) { // 리액트 빌드[실행] npm start
     }
 }
 
+
 task copyReactBuildFiles(type: Copy) {  // 리액트 빌드후 파일을 스프링[resources]로 빌드파일 저장
     dependsOn "buildReact"
     from "$frontendDir/build"
     into "$projectDir/src/main/resources/static"
 }
+
 
