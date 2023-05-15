@@ -144,7 +144,7 @@ public class EmployeePrintService {
         List<EmployeeEntity> entityList= employeeRepository.findByDno(dno);
         log.info("entityList:"+entityList);
         entityList.forEach((e)->{
-            e.getEno()
+            //e.getEno()
 
         });
         return attendanceListDtoList;

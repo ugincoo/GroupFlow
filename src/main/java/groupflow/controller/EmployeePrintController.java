@@ -1,5 +1,6 @@
 package groupflow.controller;
 
+import groupflow.domain.attendance.AttendanceListDto;
 import groupflow.domain.department.DepartmentDto;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.service.EmployeePrintService;
@@ -42,9 +43,9 @@ public class EmployeePrintController {
     }
 
     @GetMapping("/findmyemployees") //우리부서 직원들 구하기
-    public List<EmployeeDto> getEmployees(){
+    public List<AttendanceListDto> getEmployees(){
         log.info("컨트롤");
-        List<EmployeeDto> result=employeePrintService.getMyEmployees();
+        List<AttendanceListDto> result=employeePrintService.getMyEmployees();
         log.info("우리직원"+result);
         return result;
 

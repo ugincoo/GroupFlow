@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 /*.and()*/
                 /*
                 .authorizeHttpRequests()
-                    .antMatchers("/offlist").hasRole("DIRECTOR")
+                    .antMatchers("/offlist").hasRole("부장")
                     .antMatchers("/**").permitAll()
                 .and()
                 */

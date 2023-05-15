@@ -59,7 +59,7 @@ public class LoginService implements UserDetailsService {
             // 권한 없을경우 : ROLE_ANONYMOUS  / 권한 있을경우 ROLE_권한명 : ROLE_admin , ROLE_user
             String prole = "";
             if ( positionEntity.getPname().equals("부장") ){ prole = "DIRECTOR"; }
-            SimpleGrantedAuthority permission1 = new SimpleGrantedAuthority( "ROLE_"+prole ); // 직급
+            SimpleGrantedAuthority permission1 = new SimpleGrantedAuthority( "ROLE_"+positionEntity.getPname() ); // 직급
             log.info("permission1: " + permission1);
             SimpleGrantedAuthority permission2 = new SimpleGrantedAuthority( "ROLE_"+departmentEntity.getDname() ); // 부서
             log.info("permission2: " + permission2);
@@ -81,22 +81,23 @@ public class LoginService implements UserDetailsService {
     }
 
     // 로그인확인
-    public EmployeeDto loginInfo( ){
+    public EmployeeDto loginInfo( ) {
         Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("loginInfo : " + o);
-        if ( o.equals("anonymousUser")){ return EmployeeDto.builder().ename("못찾음").build(); }
+        if (o.equals("anonymousUser")) {
+            return EmployeeDto.builder().ename("못찾음").build();
+        }
         EmployeeDto employeeDto = (EmployeeDto) o;
-        /*
+
         Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findById(employeeDto.getEno());
         log.info("optionalEmployeeEntity : " + optionalEmployeeEntity);
-        if(optionalEmployeeEntity.isPresent()){
+        if (optionalEmployeeEntity.isPresent()) {
             EmployeeEntity employeeEntity = optionalEmployeeEntity.get();
             List<DepartmentChangeEntity> departmentChangeEntityList = employeeEntity.getDepartmentChangeEntityList();
             List<PositionChangeEntity> positionChangeEntityList = employeeEntity.getPositionChangeEntityList();
 
-            PositionEntity positionEntity = positionChangeEntityList.get(positionChangeEntityList.size()-1).getPositionEntity();
-            DepartmentEntity departmentEntity = departmentChangeEntityList.get(departmentChangeEntityList.size()-1).getDepartmentEntity();
-
+            PositionEntity positionEntity = positionChangeEntityList.get(positionChangeEntityList.size() - 1).getPositionEntity();
+            DepartmentEntity departmentEntity = departmentChangeEntityList.get(departmentChangeEntityList.size() - 1).getDepartmentEntity();
 
 
             return EmployeeDto.builder()
@@ -107,7 +108,11 @@ public class LoginService implements UserDetailsService {
                     .dno(departmentEntity.getDno())
                     .dname(departmentEntity.getDname())
                     .build();
-        }*/
-        return (EmployeeDto) o;
+
+        }
+        return EmployeeDto.builder()
+                .eno(0)
+                .ename("로그인안함")
+                .build();
     }
 }
