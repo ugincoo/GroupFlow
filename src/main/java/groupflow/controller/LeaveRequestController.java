@@ -21,9 +21,16 @@ public class LeaveRequestController {
     public  byte post(@RequestBody LeaveRequestDto dto){
         return leaveRequestService.post(dto);
     }
-
+    
+    // 2. 개인 연차 출력
     @GetMapping("/myget")
     public List<LeaveRequestDto> myget(){
         return leaveRequestService.myget();
+    }
+    
+    // 3. 부서 연차 출력 [ 부장 직급 ]
+    @GetMapping("")
+    public List<LeaveRequestDto> pget(){
+        return leaveRequestService.pget();
     }
 }

@@ -47,12 +47,14 @@ public class LeaveRequestEntity { // 연차테이블
     public LeaveRequestDto toDto(){
         return LeaveRequestDto.builder()
                 .lno(this.lno)
+                .ename(this.getEmployeeEntity().getEname())
                 .approvalstate(this.approvalstate)
                 .requestreason(this.requestreason)
                 .lrequestdate( this.lrequestdate.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
                 //.approvaldate( this.approvaldate.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
                 .lstart(this.lstart.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
                 .lend(this.lend.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
+                .dno(this.departmentEntity.getDno())
                 .build();
     }
 

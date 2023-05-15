@@ -46,8 +46,8 @@ public class LeaveRequestService {
         }
         //형변환
         EmployeeDto loginDto = (EmployeeDto)o;
-        // 로그인 한 사원 찾기
-        EmployeeEntity employeeEntity = employeeRepository.findByEno(loginDto.getEno()); // 수정 해야 함
+        // 로그인 한 직원 찾기
+        EmployeeEntity employeeEntity = employeeRepository.findByEno(loginDto.getEno());
         log.info("employeeEntity" + employeeEntity);
         //***직원 부서 가져오기
         DepartmentEntity departmentEntity = employeeEntity.getDepartmentChangeEntityList().get(
@@ -70,13 +70,15 @@ public class LeaveRequestService {
         return 3; //성공시 반환
     }
 
-    // 개인 연차 출력
+    // 2. 개인 연차 출력
+    @Transactional
     public List<LeaveRequestDto> myget(){
         log.info("get Service");
         // 1. 로그인 인증세션 -->dto 형변환
         EmployeeDto employeeDto = (EmployeeDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        // 2. 회원 엔티티티 찾기
+        // 2. 로그인 한 직원 정보 가져오기
         EmployeeEntity entity = employeeRepository.findByEno(employeeDto.getEno());
+
         // 3. 개인 연차 정보를 담을 리스트 생성
         List<LeaveRequestDto> dtoList = new ArrayList<>() ;
         // 4. 리스트에 담기
@@ -84,6 +86,22 @@ public class LeaveRequestService {
             dtoList.add(e.toDto());
         } );
         return dtoList;
+    }
+
+    // 3. 부서 연차 출력 [ 부장 직급 ]
+    @Transactional
+    public List<LeaveRequestDto> pget(){
+        log.info("get Service");
+        // 1. 부서 별 직원 내역 가져오기
+        List<LeaveRequestEntity>  entityList= leaveRequestRepository.findAll();
+        //2. 엔티티로 형변환
+        List<LeaveRequestDto> list = new ArrayList<>();
+        entityList.forEach(e -> {
+            list.add(e.toDto());
+        });
+        return list;
+
+
     }
 }
 /*
