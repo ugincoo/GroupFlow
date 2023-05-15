@@ -155,11 +155,31 @@ public class EmployeeUpdateService {
     //재직-->퇴사변경
     @Transactional
     public  boolean updateenddate(EmployeeDto employeeDto){
+
         Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(employeeDto.getEno());
         if(optionalEmployeeEntity.isPresent()){
 
             EmployeeEntity employeeEntity =optionalEmployeeEntity.get();//찾은 직원 엔티티
-            employeeEntity.setEenddate(employeeDto.toEntity().getEenddate());
+            employeeEntity.setEenddate(employeeDto.toEntity().getEenddate());//직원엔티티에 퇴사일 저장
+
+            List<DepartmentChangeEntity>departmentChangeEntityList= employeeEntity.getDepartmentChangeEntityList();//부서변경테이블
+            //찾은직원엔티티에 직급변경리스트를 찾아서 리스트로 담는다.
+            log.info("departmentChangeEntityList??????:"+departmentChangeEntityList);
+            if(!departmentChangeEntityList.isEmpty()){//찾으면
+                int lastIndex=departmentChangeEntityList.size()-1;
+                DepartmentChangeEntity departmentChangeEntity=departmentChangeEntityList.get(lastIndex);
+                departmentChangeEntity.setDcenddate(employeeDto.toEntity().getEenddate());//찾은 부서변경테이블에 퇴사날짜 저장
+
+                List<PositionChangeEntity> positionChangeEntityList=employeeEntity.getPositionChangeEntityList();//찾은 직급변경 리스트
+                if(!positionChangeEntityList.isEmpty()){//빈칸이 아니면 즉, 있으면
+                    int lastIndex2=positionChangeEntityList.size()-1;
+                    PositionChangeEntity positionChangeEntity=positionChangeEntityList.get(lastIndex2);
+                    positionChangeEntity.setEnddate(employeeDto.toEntity().getEenddate());//찾은 직급변경엔티티에 퇴사날짜 저장
+                }
+
+            }
+          // departmentChangeEntity.setDcenddate(employeeDto.toEntity().getEenddate());
+
         }
         return true;
     }

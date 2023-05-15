@@ -30,13 +30,16 @@ export default function Header(props) {
           setState({ ...state, [anchor]: open });
         };
 
+
+
         let 사원등록 =<a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/registration">사원등록</a>
         let 직원출력 = <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/allemployee">직원출력</a>
         let 연차모달 =<a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/off">연차모달</a>
-        let 마이페이지 =<a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/mypage">마이페이지</a>
         let 로그인 =<a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/login">로그인</a>
         let 로그아웃 =<a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/employee/logout">로그아웃</a>
         let 연차내역 = <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/offlist">연차내역</a> //유진 추가
+        let 마이페이지 =<a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/mypage">마이페이지</a>
+
         let 부서연차내역 = <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a> //유진 추가
         const list = (anchor) => (
             <Box
@@ -45,7 +48,7 @@ export default function Header(props) {
               onKeyDown={toggleDrawer(anchor, false)}
             >
               <List>
-                {[사원등록, 직원출력, 연차모달, 마이페이지,로그인,로그아웃,연차내역,부서연차내역].map((text, index) => (
+                {[사원등록, 직원출력, 연차모달, 로그인,로그아웃,연차내역,부서연차내역,마이페이지].map((text, index) => (
                   <ListItem key={text} disablePadding>
                     <ListItemButton>
                       <ListItemIcon>
