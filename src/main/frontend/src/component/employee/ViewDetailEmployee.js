@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
-import Styles from '../../css/viewDetailEmployee.css'
 import { Box, Typography, TextField, Button, Grid , Divider } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
@@ -172,6 +171,7 @@ const positionSubmit = (e)=>{
     console.log(positionSelect)
     axios.put("/employee/updateposition",positionSelect).then(r=>{
         console.log(r.data)
+        if ( r.data == true ){ alert('직급이 변경되었습니다.')}else{alert('직급변경 실패 - 관리자문의')}
     })
 }
 
@@ -181,6 +181,7 @@ const departmentSubmit = (e)=>{
     console.log(departmentSelect)
     axios.put("/employee/updatedepartment",departmentSelect).then(r=>{
         console.log(r.data)
+        if ( r.data == true ){ alert('부서가 변경되었습니다.')}else{alert('부서변경 실패 - 관리자문의')}
     })
 }
 
