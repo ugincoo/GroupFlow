@@ -6,23 +6,28 @@ import Modal from '@mui/material/Modal';
 import Container from '@mui/material/Container';
 
 export default function LeaveRequest(props){
+// 0. 로그인 정보 변수
+const [ login,setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) );
 // mui 모달
 let [open, setOpen] = React.useState(false);
 
-useEffect (()=>{
-    axios.get('/login/confirm')
-        .then(r=>{
-            console.log(r);
+// 1. 로그인 정보 호출
+useEffect ( () => {
+    axios.get('/login/confirm').then( r => {
+        if(r.data != ''){  // 만약에 로그인이 null이 아니면
+            sessionStorage.setItem( "login_token",JSON.stringify(r.data) ) ;
+            setLogin( JSON.parse(sessionStorage.getItem( "login_token" ) ) );
             console.log(r.data);
-        })
+        }
+    } )
+},[] )
 
-}, [] );
 
-const onApplication = () => {
+
+
+
+const onApplication = (e) => {
     let info = {
-        ename :document.querySelector('.ename').value,
-        dno :document.querySelector('.dno').value,
-        pno :document.querySelector('.pno').value,
         lstart :document.querySelector('.lstart').value,
         lend :document.querySelector('.lend').value,
         requestreason :document.querySelector('.requestReason').value
@@ -86,9 +91,9 @@ const onApplication = () => {
               <p id="child-modal-description">
                 <Container>
                     <div>
-                        <div> 이름 : <span className="ename">  </span> </div>
-                        <div> 부서 : <span className="dno"> </span> </div>
-                        <div> 직급 : <span className="pno"> </span> </div>
+                        <div> 이름 : <span className="ename"> {login.ename}  </span> </div>
+                        <div> 부서 : <span className="dname"> {login.dname}  </span>  </div>
+                        <div> 직급 : <span className="pname"> {login.pname} </span>   </div>
                         <div> 연차 사용일 </div>
                         <input type="date" className="lstart" /> <span> ~ </span> <input type="date" className="lend"/>
                         <div>  연차 사유 : </div>

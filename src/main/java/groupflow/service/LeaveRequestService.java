@@ -72,7 +72,7 @@ public class LeaveRequestService {
 
     // 개인 연차 출력
     public List<LeaveRequestDto> myget(){
-        log.info("get Service : ");
+        log.info("get Service");
         // 1. 로그인 인증세션 -->dto 형변환
         EmployeeDto employeeDto = (EmployeeDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // 2. 회원 엔티티티 찾기
