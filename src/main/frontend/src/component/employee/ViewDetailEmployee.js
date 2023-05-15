@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
-import Styles from '../../css/viewDetailEmployee.css'
 import { Box, Typography, TextField, Button, Grid , Divider } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
@@ -86,6 +85,7 @@ export default function ViewDetailEmployee(props) {
                 setDepartmentSelect({...departmentSelect})
             })
     },[props.oneEmployee])
+  // 사원정보 갖고오기
 
 
   const handleSubmit = (e) => {
@@ -160,16 +160,29 @@ const eenddateChange = (e)=>{
 const resignation = (e)=>{
     console.log("resignation")
     console.log(eenddate)
+    let info = { eenddate : eenddate , eno : props.oneEmployee.eno }
+    axios.put("/employee/updateenddate",positionSelect).then(r=>{
+        console.log(r.data)
+    })
 }
 // 직급변경처리
 const positionSubmit = (e)=>{
     console.log("PostionSubmit")
     console.log(positionSelect)
+    axios.put("/employee/updateposition",positionSelect).then(r=>{
+        console.log(r.data)
+        if ( r.data == true ){ alert('직급이 변경되었습니다.')}else{alert('직급변경 실패 - 관리자문의')}
+    })
 }
 
+// 부서변경처리
 const departmentSubmit = (e)=>{
     console.log("departmentSubmit")
     console.log(departmentSelect)
+    axios.put("/employee/updatedepartment",departmentSelect).then(r=>{
+        console.log(r.data)
+        if ( r.data == true ){ alert('부서가 변경되었습니다.')}else{alert('부서변경 실패 - 관리자문의')}
+    })
 }
 
     return (<>
@@ -269,98 +282,91 @@ const departmentSubmit = (e)=>{
                         </Grid>
                 </Box>
 
-                <Grid container  spacing={2}>
-                    <Grid item xs={12} sm={6} >
-                            <Box sx={{ p: 6, borderRadius: 3, boxShadow: 1, bgcolor: 'aliceblue', width: '100%', maxWidth: '400px'}} >
-                                    <Typography
-                                      sx={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 'bold', color: '#0c5272', textAlign: 'left', mb : 3 }}
-                                      variant="h6"
-                                      component="h2"
-                                    >
-                                      직급변경
-                                    </Typography>
 
-                                            <FormControl required fullWidth sx={{ mb:2 }}>
-                                                <InputLabel id="demo-simple-select-label">직급</InputLabel>
-                                                <Select
-                                                  required
-                                                  labelId="demo-simple-select-label"
-                                                  id="demo-simple-select"
-                                                  name = "pno"
-                                                  value={positionSelect.pno}
-                                                  label="직급"
-                                                  onChange={positionChange}
-                                                >
-                                                    {
-                                                        positionList.map( (p) => {
-                                                            return   <MenuItem value={p.pno}>{ p.pname }</MenuItem>
-                                                        })
-                                                    }
-                                                </Select>
-                                            </FormControl>
 
-                                            <TextField required label="직급변경일" variant="outlined" fullWidth type="date" name="pcdate"  value={positionSelect.pcdate} onChange={positionChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
+                            <Box sx={{ p: 6, mt:4, borderRadius: 3, boxShadow: 1, bgcolor: 'aliceblue', width: '100%', maxWidth: '1200px'}} >
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6} >
+                                        <Typography
+                                          sx={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 'bold', color: '#0c5272', textAlign: 'left', mb : 3 }}
+                                          variant="h6"
+                                          component="h2"
+                                        >
+                                          직급변경
+                                        </Typography>
+                                        <FormControl required fullWidth sx={{ mb:2 }}>
+                                            <InputLabel id="demo-simple-select-label">직급</InputLabel>
+                                            <Select
+                                              required
+                                              labelId="demo-simple-select-label"
+                                              id="demo-simple-select"
+                                              name = "pno"
+                                              value={positionSelect.pno}
+                                              label="직급"
+                                              onChange={positionChange}
+                                            >
+                                                {
+                                                    positionList.map( (p) => {
+                                                        return   <MenuItem value={p.pno}>{ p.pname }</MenuItem>
+                                                    })
+                                                }
+                                            </Select>
+                                        </FormControl>
 
-                                            <TextField required id="outlined-required" label="직급변경사유" name="pcstartreason" value={positionSelect.pcstartreason} onChange={positionChange} sx={{ mb:2 }} fullWidth />
+                                        <TextField required label="직급변경일" variant="outlined" fullWidth type="date" name="pcdate"  value={positionSelect.pcdate} onChange={positionChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
 
-                                            <Button
-                                                variant="contained"
-                                                sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
-                                                type="button"
-                                                onClick={positionSubmit}
-                                              >
-                                                직급변경
-                                            </Button>
+                                        <TextField required id="outlined-required" label="직급변경사유" name="pcstartreason" value={positionSelect.pcstartreason} onChange={positionChange} sx={{ mb:2 }} fullWidth />
 
+                                        <Button
+                                            variant="contained"
+                                            sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
+                                            type="button"
+                                            onClick={positionSubmit}
+                                          >
+                                            직급변경
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} >
+                                        <Typography
+                                          sx={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 'bold', color: '#0c5272', textAlign: 'left', mb : 3 }}
+                                          variant="h6"
+                                          component="h2"
+                                        >
+                                          부서변경
+                                        </Typography>
+                                        <FormControl required fullWidth sx={{ mb:2 }}>
+                                            <InputLabel id="demo-simple-select-label">부서</InputLabel>
+                                            <Select
+                                              labelId="demo-simple-select-label"
+                                              id="demo-simple-select"
+                                              name = "dno"
+                                              value={departmentSelect.dno}
+                                              label="부서"
+                                              onChange={departmentChange}
+                                            >
+                                                {
+                                                    departmentList.map( (d) => {
+                                                        return   <MenuItem value={d.dno}>{ d.dname }</MenuItem>
+                                                    })
+                                                }
+                                            </Select>
+                                        </FormControl>
+
+                                        <TextField required label="부서변경일" variant="outlined" fullWidth type="date" name="dcstartdate"  value={departmentSelect.dcstartdate} onChange={departmentChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
+
+                                        <TextField required id="outlined-required" label="부서변경사유" name="dcstartreason" value={departmentSelect.dcstartreason} onChange={departmentChange} sx={{ mb:2 }} fullWidth />
+
+                                        <Button
+                                            variant="contained"
+                                            sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
+                                            type="button"
+                                            onClick={departmentSubmit}
+                                          >
+                                            부서변경
+                                        </Button>
+                                    </Grid>
+                                </Grid>
                             </Box>
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <Box sx={{ p: 6, borderRadius: 3, boxShadow: 1, bgcolor: 'aliceblue', width: '100%', maxWidth: '400px'  }} >
-                                <Typography
-                                  sx={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 'bold', color: '#0c5272', textAlign: 'left', mb : 3 }}
-                                  variant="h6"
-                                  component="h2"
-                                >
-                                  부서변경
-                                </Typography>
-
-                                <FormControl required fullWidth sx={{ mb:2 }}>
-                                    <InputLabel id="demo-simple-select-label">부서</InputLabel>
-                                    <Select
-                                      labelId="demo-simple-select-label"
-                                      id="demo-simple-select"
-                                      name = "dno"
-                                      value={departmentSelect.dno}
-                                      label="부서"
-                                      onChange={departmentChange}
-                                    >
-                                        {
-                                            departmentList.map( (d) => {
-                                                return   <MenuItem value={d.dno}>{ d.dname }</MenuItem>
-                                            })
-                                        }
-                                    </Select>
-                                </FormControl>
-
-                                <TextField required label="부서변경일" variant="outlined" fullWidth type="date" name="dcstartdate"  value={departmentSelect.dcstartdate} onChange={departmentChange} InputLabelProps={{ shrink: true }} sx={{ mb:2 }} />
-
-                                <TextField required id="outlined-required" label="부서변경사유" name="dcstartreason" value={departmentSelect.dcstartreason} onChange={departmentChange} sx={{ mb:2 }} fullWidth />
-
-                                <Button
-                                    variant="contained"
-                                    sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
-                                    type="button"
-                                    onClick={departmentSubmit}
-                                  >
-                                    부서변경
-                                </Button>
-
-                        </Box>
-                    </Grid>
-                </Grid>
-
-
 
     </>)
 }

@@ -58,6 +58,8 @@ export default function Registration() {
     axios.post('/employee', data , { headers: { 'Content-Type': 'multipart/form-data'} } )
       .then(response => {
         console.log(response);
+        if( response.data == 5 ){ alert('사원등록이 완료되었습니다.')}
+
       })
       .catch(error => {
         console.log(error);

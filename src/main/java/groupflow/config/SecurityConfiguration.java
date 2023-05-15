@@ -37,10 +37,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .ignoringAntMatchers("http://localhost:3000/login") // login url은 csrf 무시
                     .ignoringAntMatchers("/employee/login") // login url은 csrf 무시*/
                 /*.and()*/
+                /*
                 .authorizeHttpRequests()
-                    .antMatchers("/offlist").hasRole("DIRECTOR")
+                    .antMatchers("/offlist").hasRole("부장")
                     .antMatchers("/**").permitAll()
                 .and()
+                */
                 .formLogin()
                         .loginPage("/login")    // 로그인페이지로 사용할 url
                         .loginProcessingUrl("/employee/login")   // 로그인 처리할 매핑 url
