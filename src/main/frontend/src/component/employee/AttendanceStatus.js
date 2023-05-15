@@ -25,19 +25,9 @@ const style = {
 
 
 export default function AttendanceStatus(props) {
-    let [myEmployee,setMyEmployee]=useState([])
+let [myEmployee,setMyEmployee]=useState([]) //나와같은부서 직원들넣기
 
 
-    let ws=useRef(null);
-
-    useEffect( ()=>{
-        if(!ws.current){
-            ws.current=new WebSocket("ws://localhost:8080/commute");
-            ws.current.onopen=()=>{
-                console.log("서버접속")
-            }
-        }
-     })
 
     useEffect( ()=>{
         axios

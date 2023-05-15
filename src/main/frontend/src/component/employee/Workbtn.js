@@ -1,6 +1,9 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useRef} from 'react';
 import axios from 'axios';
 export default function Workbtn(props) {
+
+
+let ws=useRef(null);    //장민정 서버소켓
 
 
 const [ gokDisabled, setGokDisabled] = useState(false);
@@ -15,6 +18,16 @@ console.log(gokDisabled)
                 alert("출근등록 되었습니다.")
                 //document.querySelector('.goworkbtn').disabled=true;
                 setGokDisabled(true);
+
+                useEffect( ()=>{ // 장민정 출근하면 서버에 접속시킴
+                    if(!ws.current){
+                        ws.current=new WebSocket("ws://localhost:8080/commute");
+                        ws.current.onopen=()=>{
+                            console.log("서버접속")
+                        }
+                    }
+                 })
+
             }
          })
        }
