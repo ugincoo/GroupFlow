@@ -86,6 +86,7 @@ export default function ViewDetailEmployee(props) {
                 setDepartmentSelect({...departmentSelect})
             })
     },[props.oneEmployee])
+  // 사원정보 갖고오기
 
 
   const handleSubmit = (e) => {
