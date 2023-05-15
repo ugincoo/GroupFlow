@@ -23,11 +23,13 @@ useEffect ( () => {
 },[] )
 
 
+}, [] );
 
-
-
-const onApplication = (e) => {
+const onApplication = () => {
     let info = {
+        ename :document.querySelector('.ename').value,
+        dno :document.querySelector('.dno').value,
+        pno :document.querySelector('.pno').value,
         lstart :document.querySelector('.lstart').value,
         lend :document.querySelector('.lend').value,
         requestreason :document.querySelector('.requestReason').value
@@ -91,9 +93,9 @@ const onApplication = (e) => {
               <p id="child-modal-description">
                 <Container>
                     <div>
-                        <div> 이름 : <span className="ename"> {login.ename}  </span> </div>
-                        <div> 부서 : <span className="dname"> {login.dname}  </span>  </div>
-                        <div> 직급 : <span className="pname"> {login.pname} </span>   </div>
+                        <div> 이름 : <span className="ename">  </span> </div>
+                        <div> 부서 : <span className="dno"> </span> </div>
+                        <div> 직급 : <span className="pno"> </span> </div>
                         <div> 연차 사용일 </div>
                         <input type="date" className="lstart" /> <span> ~ </span> <input type="date" className="lend"/>
                         <div>  연차 사유 : </div>
