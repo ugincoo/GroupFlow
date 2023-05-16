@@ -47,19 +47,31 @@ public class EmployeeService {
     @Autowired
     private FileService fileService;
 
-    /*
-    01: 경영지원팀
-    02: 인사팀
-    03: 영업팀
-    04: 마케팅팀
-    05: 기술개발팀
-    06: 디자인팀
-    07: 생산팀
-    08: 자재팀
-    09: IT팀
-    10: 회계팀
-    */
+    // 부서에 이미 부장이 존재하는지 확인
+    public byte managerExist( int dno , int pno ){
+        // 입력한 pno가 부장인지 확인하는 쿼리
+        List<PositionEntity> positionEntityList = positionEntityRepository.findManagerDno();
+        log.info("positionEntityList : " + positionEntityList);
+        log.info("positionEntityList.size() : " + positionEntityList.size());
+        if ( positionEntityList.size() < 0 ){ return 1; } // 부장 직급이 존재하지않음 -> 부장을 position테이블에 추가해야함.
 
+        // 입력값 pno가 부장이 아니면 return 3 => 직원등록 진행
+        if ( positionEntityList.get(0).getPno() != pno ){ return 3; }
+
+        // 입력값 pno가 부장일경우 입력한 dno,pno로 존재하는지 확인하는 쿼리문
+        else if( positionEntityList.get(0).getPno() == pno ){
+             Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findByDnoAndPno( dno , pno );
+             if ( optionalEmployeeEntity.isPresent() ){
+                 if ( optionalEmployeeEntity.get().getEno() > 0 ){ return 2;} // 해당팀에 이미 부장이 존재
+             }else{
+                 // 해당팀에 부장이 존재하지않음 => 부장으로 직원등록 가능 => 직원등록 진행
+                 return 3;
+             }
+        }
+        return 4; //  예상치못한 상황
+    }
+
+     
     // 랜덤 사번 생성
     // 사번만들때 필요한 정보 : 입사일() ,  DB에서 올해 입사한 마지막 사번 가져오기
     public String generateEmployeeID(String hiredate) {
@@ -81,8 +93,6 @@ public class EmployeeService {
         log.info("year : " + year);
 
         //******************************** DB에서 올해 입사한 마지막 사번 가져오기 "2301001" --> "001"
-
-
 
         // 입력한 year 시작일
         LocalDate startOfYear = LocalDate.of(year, Month.JANUARY, 1);
@@ -111,8 +121,6 @@ public class EmployeeService {
             int num = Integer.parseInt(lastThreeDigits) + 1;
             log.info("num : " + num);
             nextEmpNum = String.format("%03d", num);
-
-
         }
 
         //******************************** 사번만들기
@@ -124,7 +132,7 @@ public class EmployeeService {
 
     // 신규 직원 등록 [ 필요 : employeeDto ( eemail , ename , ephone ,esocialno , hiredate , dno , pno ) ]
 
-    /*
+    /* 테스터
     http://localhost:8080/employee
     {
         "ename" : "홍길동" ,
@@ -140,13 +148,25 @@ public class EmployeeService {
     public byte registerNewEmployee(MultipartFile multipartFile , EmployeeDto employeeDto) {
         log.info("s registerNewEmployee 실행 employeeDto : " + employeeDto);
 
+        // 직원등록시 부장을 선택했는지, 선택한 부서에 부장이 존재하는지
+        /*
+            1=부장 직급이 존재하지않음 -> 부장을 position테이블에 추가해야함.
+            2=해당팀에 이미 부장이 존재
+            3=부장을 선택하지않았거나, 해당부서는 부장이 없음 => 직원등록가능
+            4=그외의 예상치못한 상황
+        */
+        byte managerExistResult = managerExist( employeeDto.getDno() , employeeDto.getPno() );
+        log.info("s managerExistResult : " + managerExistResult);
+        if ( managerExistResult == 2 ){ return 1;} // 해당부서는 부장이 이미존재
+        else if ( managerExistResult != 3 ){ return 2; } // 직원등록이 어려운상황 => 관리자문의
+
         // 사번만들기 함수
         int eno = Integer.parseInt(generateEmployeeID(employeeDto.getHiredate()));
         log.info("생성한 사번 : " + eno);
         Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findById(eno);
         if (optionalEmployeeEntity.isPresent()) {
-            return 1;
-        } // 사번이 이미 존재함
+            return 3; // 사번이 이미 존재함
+        }
         log.info("optionalEmployeeEntity.isPresent() : " + optionalEmployeeEntity.isPresent());
         log.info("사번중복확인");
 
@@ -171,8 +191,8 @@ public class EmployeeService {
         Optional<EmployeeEntity> optionalEmployeeEntity2 = employeeRepository.findById(employeeEntity.getEno());
         log.info("optionalEmployeeEntity2.isPresent() :" + optionalEmployeeEntity2.isPresent());
         if (!optionalEmployeeEntity2.isPresent()) {
-            return 2;
-        } // 사원 생성이 안되었음
+            return 4; // 사원 생성이 안되었음
+        }
         employeeEntity = optionalEmployeeEntity2.get();
         log.info("employeeEntity :" + optionalEmployeeEntity2.get());
 
@@ -192,8 +212,8 @@ public class EmployeeService {
                     .build();
             departmentChangeRepository.save(departmentChangeEntity);
             if (!(departmentChangeEntity.getDcno() > 0)) {
-                return 3;
-            } // departmentChangeEntity 저장안됨
+                return 5; // departmentChangeEntity 저장안됨
+            }
             log.info("departmentChangeEntity.getDcno() :" + departmentChangeEntity.getDcno());
             log.info("부서이동 테이블 생성 완료 ");
             log.info("departmentChangeEntity :" + departmentChangeEntity);
@@ -243,8 +263,8 @@ public class EmployeeService {
                 .build();
         positionChangeRepository.save(positionChangeEntity);
         if (!(positionChangeEntity.getPcno() > 0)) {
-            return 4;
-        } // positionChangeEntity 저장안됨
+            return 6; // positionChangeEntity 저장안됨
+        }
         log.info("직급변경 테이블 생성 완료 ");
         log.info("positionChangeEntity : " + positionChangeEntity);
 
@@ -279,7 +299,7 @@ public class EmployeeService {
 
 
 
-        return 5; // 저장완료
+        return 7; // 저장완료
 
 
     }
