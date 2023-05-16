@@ -1,11 +1,17 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useRef} from 'react';
 import axios from 'axios';
+
 export default function Workbtn(props) {
+
+
 
 
 const [ gokDisabled, setGokDisabled] = useState(false);
 console.log("gokDisabled")
 console.log(gokDisabled)
+
+
+
 
     const gowork=()=>{
 
@@ -15,6 +21,12 @@ console.log(gokDisabled)
                 alert("출근등록 되었습니다.")
                 //document.querySelector('.goworkbtn').disabled=true;
                 setGokDisabled(true);
+
+                 props.ws.current=new WebSocket("ws://localhost:8080/commute");
+                 props.ws.current.onopen=()=>{ console.log("서버접속") }
+                 props.ws.current.onclose=(e)=>{ console.log("나감") }
+
+
             }
          })
        }
@@ -23,7 +35,7 @@ const outwork=()=>{
             console.log(r.data);
             if(r.data==true){alert("퇴근등록 되었습니다.");
             setGokDisabled(false);
-            //document.querySelector('.outworkbtn').disabled=true;
+                props.ws.current.close()
 
             }
 
