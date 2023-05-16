@@ -12,6 +12,7 @@ import LeaveRequestList from './employee/LeaveRequestList';
 import AdminLeaveList from './employee/AdminLeaveList';
 import AttendanceStatus from './employee/AttendanceStatus';
 import PLeaveList from './employee/PLeaveList';
+import Evaluation from './employee/Evaluation';
 
 
 export default function Index(props) {
@@ -29,7 +30,7 @@ export default function Index(props) {
                 <Route path="/allemployee" element={ <AllEmployee/> }/>
                 <Route path="/mypage" element={ <Mypage/> }/>
                 <Route path="/attendancestatus" element={ <AttendanceStatus/> }/>
-
+                <Route path="/evaluation" element={ <Evaluation/> }/>
             </Routes>
             <Footer/>
         </BrowserRouter>
