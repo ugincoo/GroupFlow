@@ -85,7 +85,7 @@ public class LoginService implements UserDetailsService {
         Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("loginInfo : " + o);
         if (o.equals("anonymousUser")) {
-            return EmployeeDto.builder().ename("못찾음").build();
+            return null;
         }
         EmployeeDto employeeDto = (EmployeeDto) o;
 
@@ -107,12 +107,9 @@ public class LoginService implements UserDetailsService {
                     .pname(positionEntity.getPname())
                     .dno(departmentEntity.getDno())
                     .dname(departmentEntity.getDname())
-                    .build();
+                    .esocialno(0).id(0).build();
 
         }
-        return EmployeeDto.builder()
-                .eno(0)
-                .ename("로그인안함")
-                .build();
+        return null;
     }
 }

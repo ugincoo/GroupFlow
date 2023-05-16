@@ -3,26 +3,13 @@ import axios from 'axios';
 
 export default function Workbtn(props) {
 
-
-
-
-const [ gokDisabled, setGokDisabled] = useState(false);
-console.log("gokDisabled")
-console.log(gokDisabled)
-
-
-
-
-
-
-
     const gowork=()=>{
 
     axios.post("/employee/gowork").then((r)=>{
             console.log(r.data)
             if(r.data==true){
                 alert("출근등록 되었습니다.")
-                setGokDisabled(true);
+                props.gokDisabledHandler()
                  props.ws.current=new WebSocket("ws://localhost:8080/commute");
                  props.ws.current.onopen=()=>{ console.log("서버접속") }
                  props.ws.current.onclose=(e)=>{ console.log("나감") }
@@ -35,7 +22,7 @@ const outwork=()=>{
         axios.put("/employee/outwork").then((r)=>{
             console.log(r.data);
             if(r.data==true){alert("퇴근등록 되었습니다.");
-            setGokDisabled(false);
+            props.gokDisabledHandler()
                 props.ws.current.close()
 
             }
@@ -47,14 +34,14 @@ const outwork=()=>{
             <button
                 type="button"
                 className="goworkbtn"
-               disabled={gokDisabled ? true : false}
+               disabled={props.gokDisabled ? true : false}
                 onClick={gowork}
 
                  > 출근 </button>
 
             <button
                 type="button"  className="outworkbtn"
-                disabled={gokDisabled ? true : false}
+                disabled={props.gokDisabled ? false : true}
                 onClick={outwork}  > 퇴근 </button>
     </>)
  }
