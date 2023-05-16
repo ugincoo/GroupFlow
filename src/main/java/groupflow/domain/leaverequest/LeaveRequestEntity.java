@@ -55,6 +55,7 @@ public class LeaveRequestEntity { // 연차테이블
                 .lstart(this.lstart.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
                 .lend(this.lend.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
                 .dno(this.departmentEntity.getDno())
+                .dname(this.departmentEntity.getDname())
                 .build();
     }
 

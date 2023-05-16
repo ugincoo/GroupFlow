@@ -21,7 +21,8 @@ public class LeaveRequestDto {
     private String requestreason; // 신청사
     // 추가
     private int dno; // 부서 넘버
-    private String ename;
+    private String dname; // 부서이름
+    private String ename; // 직원 이름
 
     // 저장용
     public LeaveRequestEntity toEntity(){

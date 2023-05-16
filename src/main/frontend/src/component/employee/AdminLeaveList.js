@@ -16,7 +16,7 @@ import Button from '@mui/material/Button';
 import Pagination from '@mui/material/Pagination';
 
 
-export default function LeaveRequestList(props){
+export default function AdminLeaveList(props){
     // 0. 로그인 정보 변수
     const [ login , setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) )
     // 1. 요청한 게시물 정보를 가지고 있는 리스트 변수[ 상태 관리변수 ]
@@ -28,7 +28,7 @@ export default function LeaveRequestList(props){
          console.log(login.dno);
          // 2. 서버에게 요청하기 [ 컴포넌트가 처음 생성 되었을때 ] // useEffect( ()=>{} , [] )
          useEffect( ()=>{
-             axios.get('/dayoff',{params:{dno:login.dno}})
+             axios.get('/dayoff/admin')
                  .then( r => {
                         console.log(r);
                         console.log(r.data);
@@ -65,23 +65,9 @@ export default function LeaveRequestList(props){
             console.log(e.target.outerText); // 해당 button에서 밖으로 출력되는 text 호출
         }
 //test
- const test =  rows.map(row => {
-    if(login.dno == row.dno ){
-    console.log(row)
-        return(
-            <TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
-                <TableCell align="center">{row.lrequestdate}</TableCell>
-                <TableCell align="center">{row.ename}</TableCell>
-                <TableCell align="center">{row.dname}</TableCell>
-                <TableCell align="center">{row.lstart} ~ {row.lend}</TableCell>
-            </TableRow>
-        )
-    }else {
-         return(<TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
-        </TableRow> )
-    }
 
- });
+
+
      return (
 
      <Container>
@@ -96,7 +82,15 @@ export default function LeaveRequestList(props){
                </TableRow>
              </TableHead>
              <TableBody>
-                { test }
+
+              {rows.map((row) => (
+                 <TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
+                   <TableCell align="center">{row.lrequestdate}</TableCell>
+                   <TableCell align="center">{row.ename}</TableCell>
+                   <TableCell align="center">{row.dname}</TableCell>
+                   <TableCell align="center">{row.lstart} ~ {row.lend}</TableCell>
+                 </TableRow>
+               ))}
              </TableBody>
            </Table>
          </TableContainer>

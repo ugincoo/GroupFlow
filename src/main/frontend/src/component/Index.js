@@ -9,6 +9,7 @@ import Registration from './employee/Registration';
 import AllEmployee from './employee/AllEmplyee';
 import LeaveRequest from './employee/LeaveRequest';
 import LeaveRequestList from './employee/LeaveRequestList';
+import AdminLeaveList from './employee/AdminLeaveList';
 import AttendanceStatus from './employee/AttendanceStatus';
 import PLeaveList from './employee/PLeaveList';
 
@@ -24,6 +25,7 @@ export default function Index(props) {
                 <Route path="/off" element={ <LeaveRequest/> }/>
                 <Route path="/offlist" element={ <LeaveRequestList/> }/>
                 <Route path="/pofflist" element={ <PLeaveList/> }/>
+                <Route path="/adminofflist" element={ <AdminLeaveList/> }/>
                 <Route path="/allemployee" element={ <AllEmployee/> }/>
                 <Route path="/mypage" element={ <Mypage/> }/>
                 <Route path="/attendancestatus" element={ <AttendanceStatus/> }/>

@@ -33,4 +33,11 @@ public class LeaveRequestController {
     public List<LeaveRequestDto> pget(@RequestParam int dno){
         return leaveRequestService.pget(dno);
     }
+    // 4. 전체 출력 [ 경영지원팀 ]
+    @GetMapping("/admin")
+    public List<LeaveRequestDto> adminget(){
+        return leaveRequestService.adminget();
+    }
+    
+    
 }

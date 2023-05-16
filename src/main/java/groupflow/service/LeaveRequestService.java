@@ -88,27 +88,36 @@ public class LeaveRequestService {
         return dtoList;
     }
 
-    // 3. 부서 연차 출력 [ 부장 직급 ]
-    @Transactional
-    public List<LeaveRequestDto> pget(int dno){
+    // 3. 부서 연차 출력
+    public List<LeaveRequestDto> pget(int dno) {
         log.info("get Service");
         // 1. 로그인 인증세션 -->dto 형변환
         EmployeeDto employeeDto = (EmployeeDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // 2. 로그인 한 직원 정보 가져오기
         EmployeeEntity entity = employeeRepository.findByEno(employeeDto.getEno());
+        // 3. 부서 별 직원 내역 가져오기
+        List<LeaveRequestEntity> entityList = leaveRequestRepository.findAll();
+        log.info("entityList : " + entityList);
 
-        // 1. 부서 별 직원 내역 가져오기
-        List<LeaveRequestEntity>  entityList= leaveRequestRepository.findAll();
-        //2. 엔티티로 형변환
-        List<LeaveRequestDto> list = new ArrayList<>();
-        if(list.get(dno).equals(entity.getDepartmentChangeEntityList().get(dno))){
-            entityList.forEach(e -> {
-                list.add(e.toDto());
-            });
-            return list;
-        }
-        return null;
+        // 4. 개인 연차 정보를 담을 리스트 생성
+        List<LeaveRequestDto> dtoList = entityList.stream().map( o -> o.toDto()).collect(Collectors.toList());
+        return dtoList;
 
+    }
+    // 4. 전체 출력 [ 경영지원팀 ]
+    public List<LeaveRequestDto> adminget(){
+        log.info("get Service");
+        // 1. 로그인 인증세션 -->dto 형변환
+        EmployeeDto employeeDto = (EmployeeDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // 2. 로그인 한 직원 정보 가져오기
+        EmployeeEntity entity = employeeRepository.findByEno(employeeDto.getEno());
+        // 3. 부서 별 직원 내역 가져오기
+        List<LeaveRequestEntity> entityList = leaveRequestRepository.findAll();
+        log.info("entityList : " + entityList);
+
+        // 4. 개인 연차 정보를 담을 리스트 생성
+        List<LeaveRequestDto> dtoList = entityList.stream().map( o -> o.toDto()).collect(Collectors.toList());
+        return dtoList;
     }
 }
 /*
