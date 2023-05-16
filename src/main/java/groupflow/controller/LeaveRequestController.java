@@ -29,7 +29,7 @@ public class LeaveRequestController {
     }
     
     // 3. 부서 연차 출력 [ 부장 직급 ]
-    @GetMapping("")
+    @GetMapping("/position")
     public List<LeaveRequestDto> pget(@RequestParam int dno){
         return leaveRequestService.pget(dno);
     }

@@ -28,7 +28,7 @@ export default function LeaveRequestList(props){
          console.log(login.dno);
          // 2. 서버에게 요청하기 [ 컴포넌트가 처음 생성 되었을때 ] // useEffect( ()=>{} , [] )
          useEffect( ()=>{
-             axios.get('/dayoff',{params:{dno:login.dno}})
+             axios.get('/dayoff/position',{params:{dno:login.dno}})
                  .then( r => {
                         console.log(r);
                         console.log(r.data);
