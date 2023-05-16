@@ -27,7 +27,7 @@ public class PositionService {
         List<PositionEntity> positionEntityList = positionEntityRepository.findAll();
         if ( positionEntityList.size() > 0 ) {
             positionEntityList.forEach( positionEntity->{
-                positionDtoList.add( positionEntity.toDto() );
+                positionDtoList.add( positionEntity.toDto() );//positionEntityList에 positionEntity를하나씩 꺼내가지고 toDto변환해서 넣어준다.
             });
         }
         return positionDtoList;

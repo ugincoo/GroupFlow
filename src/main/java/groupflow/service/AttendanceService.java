@@ -92,7 +92,9 @@ public class AttendanceService {
       attendanceEntityList.forEach((e)->{
           list.add(e.toDto());
       });
+      log.info("list???:"+list);
       return list;
+
   }
      return  null;
     }

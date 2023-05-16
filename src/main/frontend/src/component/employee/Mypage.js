@@ -11,39 +11,44 @@ import Container from '@mui/material/Container';
 
 
 const columns = [
-  { field: 'eno', headerName: '사원번호', width: 300},
+  { field: 'id', headerName: '번호', width: 300},
   { field: 'cdate', headerName: '출근', width: 300 },
   { field: 'udate', headerName: '퇴근', width: 300 },
+  { field: 'eno', headerName: '사원번호', width: 300 }
 ];
 
 
 
 export default function Mypage(props) {
 //const [ login,setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) );
- let [gotime,setGotime] = useState([]);
+ const [ rows , setRows ] = useState([]);
 
  useEffect(() =>{
     axios.get('/employee/gooutwork').then(r=>{
         console.log(r.data);
-        setGotime(r.data);
+        setRows(r.data);
     })
  },[])
-console.log(gotime);
+console.log(rows);
 return (
     <Container>
-        <div style={{ height: 400, width: '100%' }}>
-          <DataGrid
-            rows={gotime}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
+        <Box
+        sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', mb : 4 }}
+        >
+            <div style={{ height: 400, width: '100%' }}>
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                initialState={{
+                  pagination: {
+                    paginationModel: { page: 0, pageSize: 5 },
+                  },
+                }}
+                pageSizeOptions={[5, 10]}
 
-          />
-        </div>
+              />
+            </div>
+        </Box>
     </Container>
   );
 
