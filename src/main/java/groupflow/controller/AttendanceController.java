@@ -2,7 +2,7 @@ package groupflow.controller;
 
 
 
-import groupflow.domain.attendance.AttebdanceDto;
+import groupflow.domain.attendance.AttendanceDto;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.service.AttendanceService;
 
@@ -35,10 +35,10 @@ public class AttendanceController {
         boolean result = attendanceService.outwork(employeeDto);
         return result;
     }
- /*   @GetMapping("/gooutwork")
-    public List<AttebdanceDto> gooutwork(){
+    @GetMapping("/gooutwork")
+    public List<AttendanceDto> gooutwork(){
        return attendanceService.gooutwork();
     }
-    */
+
 }
 

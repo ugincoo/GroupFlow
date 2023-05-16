@@ -10,14 +10,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AttebdanceDto {
+public class AttendanceDto {
 
     private  int ano;
 
 
-    public AttendanceEntity attendanceEntity(){
+  public AttendanceEntity attendanceEntity(){
         return AttendanceEntity.builder()
                 .ano(this.ano)
+
                 .build();
 
 
