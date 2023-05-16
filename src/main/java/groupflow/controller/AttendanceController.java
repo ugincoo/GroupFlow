@@ -33,7 +33,7 @@ public class AttendanceController {
     public boolean outwork(@RequestBody EmployeeDto employeeDto) {
         log.info("outwork putmapping:" );
         boolean result = attendanceService.outwork(employeeDto);
-        return result; 
+        return result;
     }
     @GetMapping("/gooutwork")
     public List<AttendanceDto> gooutwork(){
