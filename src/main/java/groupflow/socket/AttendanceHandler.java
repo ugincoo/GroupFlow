@@ -17,10 +17,6 @@ import java.util.List;
 public class AttendanceHandler extends TextWebSocketHandler {
     private  static List<WebSocketSession> myEmployees=new ArrayList<>();
 
-   /* @Autowired
-    private LoginService loginService;
-
-    EmployeeDto loginInfo=null;*/
 
 
 
@@ -28,7 +24,6 @@ public class AttendanceHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception{ //출근도장 찍었을때
        // loginInfo=loginService.loginInfo();
         log.info("afterConnectionEstablished:"+session);
-
         myEmployees.add(session);
         log.info("myEmployees:"+myEmployees);
     }
