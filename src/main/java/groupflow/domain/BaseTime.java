@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners( AuditingEntityListener.class ) // @EnableJpaAuditing 같이 사용
 @Data
-public class BaseTime {
+public class BaseTime { 
     @CreatedDate
     public LocalDateTime cdate;
     @LastModifiedDate
