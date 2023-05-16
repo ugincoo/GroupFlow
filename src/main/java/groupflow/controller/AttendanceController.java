@@ -23,16 +23,16 @@ public class AttendanceController {
 
     //출근----------------------------------------------------
    @PostMapping("/gowork")
-    public  boolean gowork(@RequestBody EmployeeDto employeeDto){
+    public  boolean gowork(){
         log.info("테스트");
-        boolean result=attendanceService.gowork(employeeDto);
+        boolean result=attendanceService.gowork();
         return result;
     }
     //퇴근----------------------------------------------------
     @PutMapping("/outwork")
-    public boolean outwork(@RequestBody EmployeeDto employeeDto) {
+    public boolean outwork() {
         log.info("outwork putmapping:" );
-        boolean result = attendanceService.outwork(employeeDto);
+        boolean result = attendanceService.outwork();
         return result;
     }
     @GetMapping("/gooutwork")
