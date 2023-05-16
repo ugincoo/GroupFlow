@@ -1,6 +1,6 @@
 package groupflow.service;
 
-import groupflow.domain.attendance.AttebdanceDto;
+import groupflow.domain.attendance.AttendanceDto;
 import groupflow.domain.attendance.AttendanceEntity;
 import groupflow.domain.attendance.AttendanceRepository;
 
@@ -9,6 +9,7 @@ import groupflow.domain.employee.EmployeeEntity;
 import groupflow.domain.employee.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,20 +26,23 @@ public class AttendanceService {
     @Autowired
     private EmployeeRepository employeeRepository;
     //출근퇴근---------------------------------------------------------------------------------------------
-    int eno=2023001;
+
     @Transactional
-    public  boolean gowork( ){
+    public  boolean gowork(EmployeeDto employeeDto ){
         log.info("gowork실행");
-         Optional<EmployeeEntity> optionalEmployeeEntity =employeeRepository.findById(eno);
+         Optional<EmployeeEntity> optionalEmployeeEntity =employeeRepository.findById(employeeDto.getEno());
         log.info("optionalEmployeeEntity??"+optionalEmployeeEntity);
          if(optionalEmployeeEntity.isPresent()){
              EmployeeEntity entity=optionalEmployeeEntity.get(); log.info("entity:"+entity);
-             AttendanceEntity attendanceEntity=AttendanceEntity.builder()//근태 엔티티를 구하면서 동시에 DB에서 구한 직원엔티티도 집어넣는거
-                     .employeeEntity(entity).build();
+             //근태 엔티티를 생성
+             AttendanceEntity attendanceEntity= new AttendanceEntity();
+                     //AttendanceEntity.builder().employeeEntity(entity).build(); 동시에 DB에서 구한 직원엔티티도 집어넣는거
+
              AttendanceEntity attendanceEntity1=attendanceRepository.save(attendanceEntity);
              if(attendanceEntity1.getAno()>0){
-             entity.getAttendanceEntityList().add(attendanceEntity1);//eno로 찾은 직원엔티티에 근태리스트갖고와서 근태엔티티추가
-             attendanceEntity1.setEmployeeEntity(entity);//생성된 근태엔티티에 직원엔티티 저장
+                 attendanceEntity1.setEmployeeEntity(entity); // 근태엔티티에 직원엔티티 추가
+                 entity.getAttendanceEntityList().add(attendanceEntity1);//eno로 찾은 직원엔티티에 근태리스트갖고와서 근태엔티티추가
+                 attendanceEntity1.setEmployeeEntity(entity);//생성된 근태엔티티에 직원엔티티 저장
                  return true;
              }
 
@@ -49,8 +53,8 @@ public class AttendanceService {
     }
     //퇴근
     @Transactional
-    public  boolean outwork(){
-        Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(eno);//eno 를 이용해서 직원엔티티 찾는다
+    public  boolean outwork(EmployeeDto employeeDto){
+        Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(employeeDto.getEno());//eno 를 이용해서 직원엔티티 찾는다
         if(optionalEmployeeEntity.isPresent()){
             List<AttendanceEntity> attendanceEntityList =optionalEmployeeEntity.get().getAttendanceEntityList();//찾은 직원엔티티에는 근태리스트가 있음 .꺼내라 왜?출근한 직원의 정보를 갖고와야해서
             log.info("attendanceEntityList??:"+attendanceEntityList);
@@ -69,6 +73,25 @@ public class AttendanceService {
         }
         return false;
 
+    }
+    @Autowired
+    private LoginService loginService;
+    //출퇴근출력
+ public List<AttendanceDto> gooutwork(){
+     //Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); <- eno, ename암호화 , dno~pno~ 없음
+     EmployeeDto employeeDto = loginService.loginInfo(); // employeeDto : eno, ename , dno, dname , pno , pname
+  Optional<EmployeeEntity> optionalEmployeeEntity =employeeRepository.findById( employeeDto.getEno());
+     log.info("optionalEmployeeEntity??????????bba:"+optionalEmployeeEntity);
+  if(optionalEmployeeEntity.isPresent()){
+      List<AttendanceEntity>attendanceEntityList =optionalEmployeeEntity.get().getAttendanceEntityList();//eno로 찾은 근태리스트
+      log.info("attendanceEntityList??????????Aa:"+attendanceEntityList);
+      List<AttendanceDto> list=new ArrayList<>();
+      attendanceEntityList.forEach((e)->{
+          list.add(e.toDto());
+      });
+      return list;
+  }
+     return  null;
     }
 
 

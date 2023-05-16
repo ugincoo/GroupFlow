@@ -21,4 +21,10 @@ public class AttendanceEntity extends BaseTime { // 근태테이블 사원fk  �
     @JoinColumn(name="eno")
     @ToString.Exclude
     private EmployeeEntity employeeEntity;
+
+    public AttendanceDto toDto() {
+        return AttendanceDto.builder()
+                .ano(this.ano)
+                .build();
+    }
 }
