@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/employee/print")
 public class EmployeePrintController {
-//장민정 page 
+//장민정 page
 
     @Autowired
     private EmployeePrintService employeePrintService;
