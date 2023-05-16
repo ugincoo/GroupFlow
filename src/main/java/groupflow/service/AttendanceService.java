@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 @Slf4j
@@ -93,6 +94,7 @@ public class AttendanceService {
           list.add(e.toDto());
       });
       log.info("list???:"+list);
+      Collections.reverse(list);
       return list;
 
   }

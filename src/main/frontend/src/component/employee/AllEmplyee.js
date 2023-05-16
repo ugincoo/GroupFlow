@@ -90,7 +90,7 @@ export default function AllEmplyee(props) {
      return (
 
 
-             <Box sx={{display: 'flex',flexDirection: 'column', justifyContent: 'center',alignItems: 'center',height: '100vh' }} >
+             <Box sx={{display: 'flex',flexDirection: 'column', mt:'50px',alignItems: 'center',height: '100vh' }} >
 
 
                 <Box
