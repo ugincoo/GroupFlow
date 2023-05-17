@@ -17,9 +17,12 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
+    // 로그인정보 반환
     @GetMapping("")
     public EmployeeDto loginInfo(){
         return loginService.loginInfo();
     }
+
+
 
 }

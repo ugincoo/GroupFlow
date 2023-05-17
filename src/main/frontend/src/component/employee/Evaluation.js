@@ -27,16 +27,28 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Evaluation(props) {
     // props.eno대신에 임시 eno
     const eno = 2023002; // 김병찬 영업지원부
+    // 로그인한 평가자 정보 상태변수
+    const [ evaluator , setEvaluator ] = useState({})
+    // 평가대상자 정보 상태변수
+    const [ targetEmployee , setTargetEmployee ] = useState({})
     // 문항리스트 상태변수배열
     const [ equestionList , setEquestionList ] = useState([])
-    // 첫실행시 문항리스특 가져오기
+    // 첫실행시 문항리스트 가져오기 , 로그인 정보(평가자) , 평가대상자(props로 받은 eno)정보 가져오기
     useEffect(()=>{
-        axios.get("/evaluation/equestion").then(r=>{
-            console.log(r.data)
-            setEquestionList(r.data)
-        })
+        //문항리스트 가져오기
+        axios.get("/evaluation/equestion").then(r=>{console.log(r.data); setEquestionList(r.data); })
+        //로그인 정보 가져오기
+        axios.get("/login/confirm").then(r=>{console.log(r.data); setEvaluator(r.data);})
+        //평가대상자(props로 받은 eno)정보 가져오기
+        axios.get("/employee/select/info" , {params:{eno:eno}}).then(r=>{console.log(r.data); setTargetEmployee(r.data);})
     },[])
 
+    // 오늘날짜
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
 
 
     // 각 문항의 점수를 저장할 상태 설정
@@ -92,10 +104,10 @@ export default function Evaluation(props) {
             <Typography textAlign='center'>평가대상</Typography>
           </Box>
           <Box width='100%' maxWidth='410px' marginRight='40px'>
-            <Typography textAlign='center'>2023001</Typography>
+            <Typography textAlign='center'>사번: {targetEmployee.eno}</Typography>
           </Box>
           <Box width='100%' maxWidth='400px' marginRight='40px'>
-            <Typography textAlign='center'>김하나</Typography>
+            <Typography textAlign='center'>평가대상자명: {targetEmployee.ename}</Typography>
           </Box>
           <Box width='120px'>
             <Typography textAlign='center'></Typography>
@@ -173,8 +185,8 @@ export default function Evaluation(props) {
         </Item>
         <Item>
             <Grid container marginTop='20px' justifyContent="center">
-                <Grid item sx={4} sm={3} ><Typography fontWeight='bold'>평가날짜 : 2023-05-17</Typography></Grid>
-                <Grid item sx={4} sm={3} ><Typography fontWeight='bold'>담당자 : 김수진 부장</Typography></Grid>
+                <Grid item sx={4} sm={3} ><Typography fontWeight='bold'>평가날짜 : {formattedDate}</Typography></Grid>
+                <Grid item sx={4} sm={3} ><Typography fontWeight='bold'>담당자 : {evaluator.ename} {evaluator.pname}</Typography></Grid>
                 <Grid item sx={4} sm={6} >
                     <Button
                         variant="contained"

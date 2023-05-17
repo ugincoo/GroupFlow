@@ -34,7 +34,7 @@ public class EmployeeController {
 
     // eno로 직원정보 (직원번호,직원명,부서번호,부서명,직급번호,직급명) 가져오기
     @GetMapping("/select/info")
-    public EmployeeDto employeeInfo( int eno ){
+    public EmployeeDto employeeInfo( @RequestParam int eno ){
         return employeeService.employeeInfo(eno);
     }
 
