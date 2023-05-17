@@ -20,4 +20,12 @@ public class EquestionEntity {
     @Column( nullable = false )
     private String equestion; // 문항
 
+    public EquestionDto toDto(){
+        return EquestionDto.builder()
+                .eqno(this.eqno)
+                .eqtitle(this.eqtitle)
+                .equestion(this.equestion)
+                .build();
+    }
+
 }

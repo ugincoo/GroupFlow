@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -28,19 +30,21 @@ public class EvaluationService {
 
 
     // 1. 평가하기 [ 매개변수 : 평가대상자eno, 10문항평가점수객체 ]
-    public boolean evaluate( EvaluationDto evaluationDto ){
+    public byte evaluate( EvaluationDto evaluationDto ){
         // 1. 로그인세션 호출해서 부장님인지 확인하기
-            // 1. 부장님 pno가져오기
-        int managerdno = employeeService.findManagerDno();
-            // 2. 로그인한 세션 가져오기
+            // 1. 로그인한 세션 가져오기
         EmployeeDto loginEmployeeDto = loginService.loginInfo();
-        if( managerdno != loginEmployeeDto.getPno() ){ return false; } // 부장이 아님 권한없음
+        if (loginEmployeeDto == null){ return 1;} // 로그인 안함.
+            // 2. 직급테이블의 '부장'직급의 pno가져오기
+        int managerdno = employeeService.findManagerDno();
+            // 3. 부장이 아니면 false
+        if( managerdno != loginEmployeeDto.getPno() ){ return 2; } // 부장이 아님 권한없음
 
         // 2. 평가대상이 부장과 동일한 부서인지 검사 ( 입력값으로 받은 평가대상자의eno로 부서dno가져오기 )
             // departmentRepository에 eno로 직원의 소속 부서(departmentEntity) 찾기 쿼리
         Optional<DepartmentEntity> optionalDepartmentEntity = departmentRepository.findByEno(evaluationDto.getTargetEno());
         if(optionalDepartmentEntity.isPresent()){
-            if ( optionalDepartmentEntity.get().getDno() != loginEmployeeDto.getDno() ){ return false; }
+            if ( optionalDepartmentEntity.get().getDno() != loginEmployeeDto.getDno() ){ return 3; } // 평가권한이 없는 직원입니다.
         }
 
         // 3. 평가entity DB저장
@@ -56,7 +60,7 @@ public class EvaluationService {
         evaluationEntity.setEvopnion(evaluationDto.getEvopnion());
             // 4. DB에 저장
         EvaluationEntity saveEvaluationEntity = evaluationRepository.save(evaluationEntity);
-        if ( saveEvaluationEntity.getEvno() < 1 ){ return false; }
+        if ( saveEvaluationEntity.getEvno() < 1 ){ return 4; } // 평가테이블 저장실패
         
         // 3. 점수entity DB저장
         /*
@@ -93,9 +97,15 @@ public class EvaluationService {
 
             // 5. evescoreEntity DB에 저장
             EvscoreEntity saveEvscoreEntity = evscoreRepository.save(evscoreEntity);
-            if ( saveEvscoreEntity.getEsno() < 1 ){ return false;}
+            if ( saveEvscoreEntity.getEsno() < 1 ){ return 5;} // 점수테이블 저장실패
         }
         // for문 다 끝나고
-        return true;
+        return 6; // 업무평가 성공
+    }
+
+    // 문항 레코드 반환하기
+    public List<EquestionDto> getEquestion(){
+        List<EquestionEntity> equestionEntityList = equestionRepository.findAll();
+        return equestionEntityList.stream().map(e-> e.toDto() ).collect(Collectors.toList());
     }
 }

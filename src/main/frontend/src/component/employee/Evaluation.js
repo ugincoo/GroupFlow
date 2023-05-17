@@ -25,18 +25,19 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export default function Evaluation(props) {
-  let evaluationList = [
-    { eqno : 1 , title: '기여도·업무추진실력', question: ["회사 발전을 위해 노력한다.", "업무추진력과 실력이 뛰어나다."] } ,
-    { eqno : 2 , title: '기획력·판단력', question: ["정확한 판단으로 실현 가능한 대안을 제시한다.", "모든 상황을 충분히 고려하여 결정한다."] } ,
-    { eqno : 3 , title: '업무개선·창의력', question: ["기존 관행에 얽매이지 않고 창의력을 바탕으로 문제를 해결한다."] } ,
-    { eqno : 4 , title: '추진력·결단력', question: ["상황에 따라 문제점을 찾아내고 해결할 능력이 있다.", "논리적으로 설명하거나 설득하는 능력이 있다."] } ,
-    { eqno : 5 , title: '문제해결·논리·협상력', question: ["상황에 따라 문제점을 찾아내고 해결할 능력이 있다.", "논리적으로 설명하거나 설득하는 능력이 있다."] } ,
-    { eqno : 6 , title: '적시성·정확성', question: ["주어진 업무를 적시에 처리하여 정확성이 높다."] } ,
-    { eqno : 7 , title: '조직관리 및 조직기여도', question: ["조직의 목표에 대해 관리능력이 있으며, 조직발전에 많은 기여를 하고 있다."] } ,
-    { eqno : 8 , title: '성실성·책임감', question: ["항상 근무태도가 양호하며, 담당업무는 물론 부서의 업무까지도 내일처럼 책임진다."] } ,
-    { eqno : 9 , title: '공감·협조능력', question: ["업무관련 정보를 공유하고 상하, 동료 간에 원만한 인간관계를 유지한다."] } ,
-    { eqno : 10 , title: '애사심·봉사심', question: ["회사를 아끼는 마음이 있다.", "어려운 업무에 자신이 먼저 나서서 처리한다."] }
-  ];
+    // props.eno대신에 임시 eno
+    const eno = 2023002; // 김병찬 영업지원부
+    // 문항리스트 상태변수배열
+    const [ equestionList , setEquestionList ] = useState([])
+    // 첫실행시 문항리스특 가져오기
+    useEffect(()=>{
+        axios.get("/evaluation/equestion").then(r=>{
+            console.log(r.data)
+            setEquestionList(r.data)
+        })
+    },[])
+
+
 
     // 각 문항의 점수를 저장할 상태 설정
     const [scores, setScores] = useState({});
@@ -71,6 +72,16 @@ export default function Evaluation(props) {
 
   const evaluationSubmit = (e)=>{
     console.log(scores)
+    let info = { targetEno : eno , evopnion : eopinion , evscoreMap : scores }
+    axios.post("/evaluation",info).then(r=> {
+        console.log(r.data)
+        if( r.data == 1 ){ alert('로그인 하세요')}
+        else if( r.data == 2 ){ alert('부서담당자 외에는 평가 불가합니다.')}
+        else if( r.data == 3 ){ alert('평가대상자가 부서내 직원이 아닙니다.')}
+        else if( r.data == 4 ){ alert('평가등록실패 - 관리자문의 오류번호: '+r.data)}
+        else if( r.data == 5 ){ alert('평가등록실패 - 관리자문의 오류번호: '+r.data)}
+        else if( r.data == 6 ){ alert('평가등록성공')}
+    })
   }
 
   return (
@@ -105,16 +116,14 @@ export default function Evaluation(props) {
           </Box>
         </Item>
         {
-            evaluationList.map(e=>{
+            equestionList.map(e=>{
                 return (
                     <Item>
                       <Box width='100%' maxWidth='180px' marginRight='40px'>
-                        <Typography textAlign='left' fontWeight='bold'>{e.title}</Typography>
+                        <Typography textAlign='left' fontWeight='bold'>{e.eqtitle}</Typography>
                       </Box>
                       <Box display="flex" flexDirection="column" alignItems="flex-start"  width='100%' maxWidth='410px' marginRight='40px'>
-                        {e.question.map((q) => (
-                          <Typography  variant="body2" textAlign='left'>- {q}</Typography>
-                        ))}
+                          <Typography  variant="body2" textAlign='left'>{e.equestion}</Typography>
                       </Box>
                       <Box width='100%' maxWidth='400px' marginRight='40px'>
                         <FormControl>
