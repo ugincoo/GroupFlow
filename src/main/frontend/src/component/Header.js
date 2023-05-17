@@ -1,4 +1,4 @@
-import React,{useRef} from 'react';
+import React,{useState,useRef} from 'react';
 import axios from 'axios';
 
 import Box from '@mui/material/Box';
@@ -18,11 +18,10 @@ import styles from '../css/header.css'; //css
 
 
 export default function Header(props) {
-
+        const [ eno, setEno] = useState();
         let ws=useRef(null);    //장민정 서버소켓
-        console.log(ws);
-
-        axios.get('/login/confirm').then( r => { console.log( r ) } )
+        axios.get('/login/confirm').then( r => { setEno(r.data.eno) } )
+        console.log(eno);
            let page=[
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/registration">사원등록</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/allemployee">직원출력</a>},
@@ -32,7 +31,7 @@ export default function Header(props) {
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/offlist">연차내역</a>}, //유진 추가
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/mypage">마이페이지</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a>}, //유진 추가
-                    {page : <Workbtn ws={ws}/>}
+                    {page : <Workbtn ws={ws} eno={eno}/>}
                 ]
            let 출근현황 = <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/attendancestatus">출근현황</a>
 

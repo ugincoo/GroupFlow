@@ -5,6 +5,7 @@ import groupflow.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -26,11 +27,16 @@ public class AttendanceHandler extends TextWebSocketHandler {
         log.info("afterConnectionEstablished:"+session);
         myEmployees.add(session);
         log.info("myEmployees:"+myEmployees);
+        log.info("uri:"+session.getUri().getPath());
+
+
+
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception{    //퇴근도장 찍었을때
         myEmployees.remove(session);
+        log.info("myEmployees:"+myEmployees);
     }
 
 }
