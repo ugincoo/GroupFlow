@@ -35,6 +35,7 @@ public class EvaluationService {
         if( managerdno != loginEmployeeDto.getPno() ){ return false; } // 부장이 아님 권한없음
 
         // 2. 평가대상이 부장과 동일한 부서인지 검사 ( 입력값으로 받은 평가대상자의eno로 부서dno가져오기 )
+            // departmentRepository에 eno로 직원의 소속 부서(departmentEntity) 찾기 쿼리
         Optional<DepartmentEntity> optionalDepartmentEntity = departmentRepository.findByEno(evaluationDto.getTargetEno());
         if(optionalDepartmentEntity.isPresent()){
             if ( optionalDepartmentEntity.get().getDno() != loginEmployeeDto.getDno() ){ return false; }
@@ -49,6 +50,8 @@ public class EvaluationService {
             // 3. 평가대상자 employeeEntity 구해서 EvaluationEntity에 넣기
         Optional<EmployeeEntity> optionalTargetEmployeeEntity = employeeRepository.findById(evaluationDto.getTargetEno());
         optionalTargetEmployeeEntity.ifPresent( employeeEntity -> { evaluationEntity.setTargetEmployeeEntity(employeeEntity);});
+            // 4. 평가의견 EvaluationEntity에 넣기
+        evaluationEntity.setEvopnion(evaluationDto.getEvopnion());
             // 4. DB에 저장
         EvaluationEntity saveEvaluationEntity = evaluationRepository.save(evaluationEntity);
         

@@ -23,6 +23,9 @@ public class EvaluationEntity extends BaseTime {
     @JoinColumn(name="targeteno" , nullable = false )
     @ToString.Exclude
     private EmployeeEntity targetEmployeeEntity; // 평가대상자fk
+    
+    @Column( nullable = false )
+    private String evopnion; // 평가의견
 
     // BaseTime
     // cdate 평가날짜 
