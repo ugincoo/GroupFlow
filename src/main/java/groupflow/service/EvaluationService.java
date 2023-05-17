@@ -1,11 +1,17 @@
 package groupflow.service;
 
+import groupflow.domain.department.DepartmentEntity;
+import groupflow.domain.department.DepartmentRepository;
 import groupflow.domain.employee.EmployeeDto;
-import groupflow.domain.evaluation.EvaluationDto;
+import groupflow.domain.employee.EmployeeEntity;
+import groupflow.domain.employee.EmployeeRepository;
+import groupflow.domain.evaluation.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -13,6 +19,10 @@ public class EvaluationService {
 
     @Autowired private EmployeeService employeeService;
     @Autowired private LoginService loginService;
+    @Autowired private EmployeeRepository employeeRepository;
+    @Autowired private EvaluationRepository evaluationRepository;
+    @Autowired private EquestionRepository equestionRepository;
+    @Autowired private DepartmentRepository departmentRepository;
 
 
     // 1. 평가하기 [ 매개변수 : 평가대상자eno, 10문항평가점수객체 ]
@@ -21,10 +31,42 @@ public class EvaluationService {
             // 1. 부장님 pno가져오기
         int managerdno = employeeService.findManagerDno();
             // 2. 로그인한 세션 가져오기
-        EmployeeDto employeeDto = loginService.loginInfo();
-        if( managerdno != employeeDto.getPno() ){ return false; } // 부장이 아님 권한없음
+        EmployeeDto loginEmployeeDto = loginService.loginInfo();
+        if( managerdno != loginEmployeeDto.getPno() ){ return false; } // 부장이 아님 권한없음
 
+        // 2. 평가대상이 부장과 동일한 부서인지 검사 ( 입력값으로 받은 평가대상자의eno로 부서dno가져오기 )
+        Optional<DepartmentEntity> optionalDepartmentEntity = departmentRepository.findByEno(evaluationDto.getTargetEno());
+        if(optionalDepartmentEntity.isPresent()){
+            if ( optionalDepartmentEntity.get().getDno() != loginEmployeeDto.getDno() ){ return false; }
+        }
 
+        // 3. 평가entity DB저장
+            // 1. DB에 추가할 EvaluationEntity 객체 생성
+        EvaluationEntity evaluationEntity = new EvaluationEntity();
+            // 2. 평가자 employeeEntity 구해서 EvaluationEntity에 넣기
+        Optional<EmployeeEntity> optionalEvaluatorEmployeeEntity = employeeRepository.findById(loginEmployeeDto.getEno());
+        optionalEvaluatorEmployeeEntity.ifPresent( employeeEntity -> { evaluationEntity.setEvaluatorEmployeeEntity(employeeEntity); });
+            // 3. 평가대상자 employeeEntity 구해서 EvaluationEntity에 넣기
+        Optional<EmployeeEntity> optionalTargetEmployeeEntity = employeeRepository.findById(evaluationDto.getTargetEno());
+        optionalTargetEmployeeEntity.ifPresent( employeeEntity -> { evaluationEntity.setTargetEmployeeEntity(employeeEntity);});
+            // 4. DB에 저장
+        EvaluationEntity saveEvaluationEntity = evaluationRepository.save(evaluationEntity);
+        
+        // 3. 점수entity DB저장
+            // 1. evaluationDto.getEvscoreDtoList() for문 돌려서 점수테이블 여러개 생성
+        evaluationDto.getEvscoreDtoList().forEach((evscoreDto -> {
+                // 1. 저장할 EquestionEntity 객체생성
+            EvscoreEntity evscoreEntity = new EvscoreEntity();
+                // 2. evscoreEntity에 평가entity넣기
+            evscoreEntity.setEvaluationEntity(saveEvaluationEntity);
+                // 3. evscoreEntity에 문항equestionEntity 넣기
+                    // 하나의 evscoreDto에는 문항테이블 fk와 점수가 있음
+            Optional<EquestionEntity> optionalEquestionEntity  = equestionRepository.findById(evscoreDto.getEqno());
+            optionalEquestionEntity.ifPresent( equestionEntity -> { evscoreEntity.setEquestionEntity(equestionEntity);});
+                // 4. evscoreEntity에 점수넣기
+            evscoreEntity.setEqscore(evscoreDto.getEqscore());
+        }));
+        // for문 다 끝나고
         return true;
     }
 }

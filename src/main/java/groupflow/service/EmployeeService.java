@@ -46,6 +46,7 @@ public class EmployeeService {
 
     @Autowired
     private FileService fileService;
+    
 
     // 부장 dno 구하기
     public int findManagerDno(){

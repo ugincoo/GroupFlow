@@ -15,6 +15,7 @@ public class EvaluationDto {
     //private int evaluatorEno;   // 평가자eno
     private int targetEno;  // 평가대상자eno
 
+
     // 점수DTO 리스트 ( 문항 , 점수 )
     private List<EvscoreDto> evscoreDtoList = new ArrayList<>();
 
