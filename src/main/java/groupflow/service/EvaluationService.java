@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,6 +24,7 @@ public class EvaluationService {
     @Autowired private EvaluationRepository evaluationRepository;
     @Autowired private EquestionRepository equestionRepository;
     @Autowired private DepartmentRepository departmentRepository;
+    @Autowired private EvscoreRepository evscoreRepository;
 
 
     // 1. 평가하기 [ 매개변수 : 평가대상자eno, 10문항평가점수객체 ]
@@ -54,8 +56,10 @@ public class EvaluationService {
         evaluationEntity.setEvopnion(evaluationDto.getEvopnion());
             // 4. DB에 저장
         EvaluationEntity saveEvaluationEntity = evaluationRepository.save(evaluationEntity);
+        if ( saveEvaluationEntity.getEvno() < 1 ){ return false; }
         
         // 3. 점수entity DB저장
+        /*
             // 1. evaluationDto.getEvscoreDtoList() for문 돌려서 점수테이블 여러개 생성
         evaluationDto.getEvscoreDtoList().forEach((evscoreDto -> {
                 // 1. 저장할 EquestionEntity 객체생성
@@ -69,6 +73,28 @@ public class EvaluationService {
                 // 4. evscoreEntity에 점수넣기
             evscoreEntity.setEqscore(evscoreDto.getEqscore());
         }));
+         */
+        // 3. 점수entity DB저장 - Map에서 키(문항fk), 값(점수) 꺼내서 entity에 저장하기
+        for (Map.Entry<Integer, Integer> score : evaluationDto.getEvscoreMap().entrySet()) {
+            // 1. 저장할 EquestionEntity 객체생성
+            EvscoreEntity evscoreEntity = new EvscoreEntity();
+            // 2. evscoreEntity에 평가entity넣기
+            evscoreEntity.setEvaluationEntity(saveEvaluationEntity);
+            // 3. evscoreEntity에 문항equestionEntity 넣기
+                // 하나의 score에는 문항테이블 fk와 점수가 있음
+                // key와 value를 사용하여 DB 테이블에 레코드를 저장하는 로직 수행
+            Integer eqno = score.getKey();
+            Optional<EquestionEntity> optionalEquestionEntity  = equestionRepository.findById(eqno);
+            optionalEquestionEntity.ifPresent( equestionEntity -> { evscoreEntity.setEquestionEntity(equestionEntity);});
+
+            // 4. evscoreEntity에 점수넣기
+            Integer eqscore = score.getValue();
+            evscoreEntity.setEqscore(eqscore);
+
+            // 5. evescoreEntity DB에 저장
+            EvscoreEntity saveEvscoreEntity = evscoreRepository.save(evscoreEntity);
+            if ( saveEvscoreEntity.getEsno() < 1 ){ return false;}
+        }
         // for문 다 끝나고
         return true;
     }

@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data@AllArgsConstructor@NoArgsConstructor@Builder
 public class EvaluationDto {
@@ -16,8 +18,9 @@ public class EvaluationDto {
     private int targetEno;  // 평가대상자eno
     private String evopnion; // 평가의견
 
-    // 점수DTO 리스트 ( 문항 , 점수 )
-    private List<EvscoreDto> evscoreDtoList = new ArrayList<>();
+    // 점수리스트 ( 문항 , 점수 )
+    //private List<EvscoreDto> evscoreDtoList = new ArrayList<>();
+    private Map<Integer, Integer> evscoreMap = new HashMap<>();
 
 
 }

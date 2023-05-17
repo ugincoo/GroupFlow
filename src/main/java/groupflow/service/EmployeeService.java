@@ -24,29 +24,37 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class EmployeeService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    @Autowired    private EmployeeRepository employeeRepository;
 
-    @Autowired
-    private DepartmentChangeEntityRepository departmentChangeRepository;
+    @Autowired    private DepartmentChangeEntityRepository departmentChangeRepository;
 
-    @Autowired
-    private DepartmentRepository departmentRepository;
+    @Autowired    private DepartmentRepository departmentRepository;
 
-    @Autowired
-    private PositionChangeEntityRepository positionChangeRepository;
+    @Autowired    private PositionChangeEntityRepository positionChangeRepository;
 
-    @Autowired
-    private PositionEntityRepository positionEntityRepository;
+    @Autowired    private PositionEntityRepository positionEntityRepository;
 
-    @Autowired
-    private FileService fileService;
-    
+    @Autowired    private FileService fileService;
+    @Autowired private LoginService loginService;
+
+    // 로그인한 사람이 부장일 경우 부서내 직원리스트 반환
+    public List<EmployeeDto> getEmployeesByDepartmentWithoutManager(){
+        // 1. 로그인세션
+        EmployeeDto employeeDto = loginService.loginInfo();
+        // 2. DB에 저장된 부장 dno로 로그인세션이 부장인지 확인
+        if ( employeeDto.getDno() != findManagerDno() ){ return null; }
+
+        // 3. 부서내 직원리스트 DB에서 꺼내기(리스트에서 부장제외)
+        List<EmployeeEntity> employeeEntityList = employeeRepository.getEmployeesByDepartmentWithoutManager( employeeDto.getDno() );
+        // 4. 직원리스트 map 돌려서 toDto 후 dto리스트에 담아서 반환
+        return employeeEntityList.stream().map( e -> e.toDto() ).collect(Collectors.toList());
+    }
 
     // 부장 dno 구하기
     public int findManagerDno(){
@@ -318,11 +326,6 @@ public class EmployeeService {
     }
 
 
-    // 로그인
-    public EmployeeDto eLogin( EmployeeDto employeeDto ){
-        log.info("s eLogin eno : "+employeeDto.getEno() +" ename : "+employeeDto.getEname());
-        return null;
-    }
 
     // 사원정보 출력위해서 부서번호,부서명,직급번호,직급명
     public EmployeeDto employeeInfo( int eno ){
