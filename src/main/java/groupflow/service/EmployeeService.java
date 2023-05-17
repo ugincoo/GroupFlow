@@ -45,19 +45,22 @@ public class EmployeeService {
 
     // 로그인한 사람이 부장일 경우 부서내 직원리스트 반환
     public List<EmployeeDto> getEmployeesByDepartmentWithoutManager(){
+        log.info("getEmployeesByDepartmentWithoutManager실행");
         // 1. 로그인세션
         EmployeeDto employeeDto = loginService.loginInfo();
-        // 2. DB에 저장된 부장 dno로 로그인세션이 부장인지 확인
-        if ( employeeDto.getDno() != findManagerDno() ){ return null; }
+        if( employeeDto == null ){ return null;}
+        // 2. DB에 저장된 부장 dno로 로그인세션이 부장인지 확인 / findManagerDno() : 부장직급 dno
+        if ( employeeDto.getPno() != findManagerPno() ){ return null; }
 
         // 3. 부서내 직원리스트 DB에서 꺼내기(리스트에서 부장제외)
         List<EmployeeEntity> employeeEntityList = employeeRepository.getEmployeesByDepartmentWithoutManager( employeeDto.getDno() );
-        // 4. 직원리스트 map 돌려서 toDto 후 dto리스트에 담아서 반환
-        return employeeEntityList.stream().map( e -> e.toDto() ).collect(Collectors.toList());
+        log.info("부서내 직원리트스 employeeEntityList: " + employeeEntityList);
+        // 4. 직원리스트 map 돌려서 eno로 employeeInfo(eno)실행해서 employeedto(dno,dname,pno,pname포함)반환 후 dto리스트에 담아서 반환
+        return employeeEntityList.stream().map( e -> employeeInfo(e.getEno()) ).collect(Collectors.toList());
     }
 
     // 부장 dno 구하기
-    public int findManagerDno(){
+    public int findManagerPno(){
         List<PositionEntity> positionEntityList = positionEntityRepository.findManagerDno();
         log.info("positionEntityList : " + positionEntityList);
         log.info("positionEntityList.size() : " + positionEntityList.size());
@@ -75,13 +78,13 @@ public class EmployeeService {
             if ( positionEntityList.size() < 0 ){ return 1; } // 부장 직급이 존재하지않음 -> 부장을 position테이블에 추가해야함.
             */
         // 부장의 pno구하는 함수
-        int managerDno = findManagerDno();
-        if ( managerDno == 0 ){ return 1; } // 부장 직급이 존재하지않음 -> 부장을 position테이블에 추가해야함.
+        int managerPno = findManagerPno();
+        if ( managerPno == 0 ){ return 1; } // 부장 직급이 존재하지않음 -> 부장을 position테이블에 추가해야함.
         // 입력값 pno가 부장이 아니면 return 3 => 직원등록 진행
-        else if ( managerDno != pno ){ return 3; }
+        else if ( managerPno != pno ){ return 3; }
 
         // 입력값 pno가 부장일경우 입력한 dno,pno로 존재하는지 확인하는 쿼리문
-        else if( managerDno == pno ){
+        else if( managerPno == pno ){
              Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findByDnoAndPno( dno , pno );
              if ( optionalEmployeeEntity.isPresent() ){
                  if ( optionalEmployeeEntity.get().getEno() > 0 ){ return 2;} // 해당팀에 이미 부장이 존재

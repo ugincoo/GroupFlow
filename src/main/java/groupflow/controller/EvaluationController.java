@@ -28,4 +28,10 @@ public class EvaluationController {
     public List<EquestionDto> getEquestion(){
         return evaluationService.getEquestion();
     }
+
+    // 3.  입력받은 eno에 해당하는 인사평가 리스트 반환
+    @GetMapping("/list")
+    public List<EvaluationDto> getEvaluationList( int eno ){
+        return evaluationService.getEvaluationList(eno);
+    }
 }

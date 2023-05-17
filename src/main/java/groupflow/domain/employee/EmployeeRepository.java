@@ -43,7 +43,7 @@ public interface EmployeeRepository extends JpaRepository< EmployeeEntity , Inte
 
     // 입력한 dno에 해당하는 부서 내 직원찾기 (부장제외) => 반환값 List<EmployeeEntity>라서 EmployeeRepository에 넣음 
     // 유슬비
-    @Query( value = "select e.eno , e.ename from employee e , departmentchange dc , eposition p , positionchange pc where e.eno = dc.eno and e.eno = pc.eno and p.pno = pc.pno and pc.enddate is null and pname !='부장' and dcenddate is null and dc.dno = :dno" , nativeQuery = true)
+    @Query( value = "select e.* from employee e , departmentchange dc , eposition p , positionchange pc where e.eno = dc.eno and e.eno = pc.eno and p.pno = pc.pno and pc.enddate is null and pname !='부장' and dcenddate is null and dc.dno = :dno" , nativeQuery = true)
     List<EmployeeEntity> getEmployeesByDepartmentWithoutManager(@Param(value = "dno") int dno);
 }
 

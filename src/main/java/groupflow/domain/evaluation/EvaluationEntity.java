@@ -5,6 +5,7 @@ import groupflow.domain.employee.EmployeeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.format.DateTimeFormatter;
 
 @Entity@Table(name = "evaluation")
 @Data@AllArgsConstructor@NoArgsConstructor@Builder
@@ -30,5 +31,16 @@ public class EvaluationEntity extends BaseTime {
     // BaseTime
     // cdate 평가날짜 
     // udate 평가수정날짜
+
+    public EvaluationDto toDto(){
+        return EvaluationDto.builder()
+                .evno(this.evno)
+                .evopnion(this.evopnion)
+                .evaluatorEno(this.evaluatorEmployeeEntity.getEno())
+                .targetEno(this.targetEmployeeEntity.getEno())
+                .cdate(this.cdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd a HH:mm:ss")))
+                .udate(this.udate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd a HH:mm:ss")))
+                .build();
+    }
 
 }

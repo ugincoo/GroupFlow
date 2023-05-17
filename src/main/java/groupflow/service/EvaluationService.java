@@ -36,9 +36,9 @@ public class EvaluationService {
         EmployeeDto loginEmployeeDto = loginService.loginInfo();
         if (loginEmployeeDto == null){ return 1;} // 로그인 안함.
             // 2. 직급테이블의 '부장'직급의 pno가져오기
-        int managerdno = employeeService.findManagerDno();
+        int managerpno = employeeService.findManagerPno();
             // 3. 부장이 아니면 false
-        if( managerdno != loginEmployeeDto.getPno() ){ return 2; } // 부장이 아님 권한없음
+        if( managerpno != loginEmployeeDto.getPno() ){ return 2; } // 부장이 아님 권한없음
 
         // 2. 평가대상이 부장과 동일한 부서인지 검사 ( 입력값으로 받은 평가대상자의eno로 부서dno가져오기 )
             // departmentRepository에 eno로 직원의 소속 부서(departmentEntity) 찾기 쿼리
@@ -107,5 +107,11 @@ public class EvaluationService {
     public List<EquestionDto> getEquestion(){
         List<EquestionEntity> equestionEntityList = equestionRepository.findAll();
         return equestionEntityList.stream().map(e-> e.toDto() ).collect(Collectors.toList());
+    }
+
+    // 입력받은 eno에 해당하는 인사평가 리스트 반환
+    public List<EvaluationDto> getEvaluationList( int eno ){
+        List<EvaluationEntity> evaluationEntityList = evaluationRepository.findByTargeteno(eno);
+        return evaluationEntityList.stream().map( evaluationEntity ->  evaluationEntity.toDto() ).collect(Collectors.toList());
     }
 }

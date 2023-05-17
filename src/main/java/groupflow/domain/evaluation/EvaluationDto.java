@@ -14,9 +14,11 @@ import java.util.Map;
 public class EvaluationDto {
 
     private int evno; // 식별번호
-    //private int evaluatorEno;   // 평가자eno -> 로그인세션으로 확인
+    private int evaluatorEno;   // 평가자eno -> 로그인세션으로 확인
     private int targetEno;  // 평가대상자eno
     private String evopnion; // 평가의견
+    private String cdate; // 생성날짜
+    private String udate; // 수정날짜
 
     // 점수리스트 ( 문항 , 점수 )
     //private List<EvscoreDto> evscoreDtoList = new ArrayList<>();
