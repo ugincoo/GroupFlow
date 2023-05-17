@@ -47,25 +47,37 @@ public class EmployeeService {
     @Autowired
     private FileService fileService;
 
-    // 부서에 이미 부장이 존재하는지 확인
-    public byte managerExist( int dno , int pno ){
-        // 입력한 pno가 부장인지 확인하는 쿼리
+    // 부장 dno 구하기
+    public int findManagerDno(){
         List<PositionEntity> positionEntityList = positionEntityRepository.findManagerDno();
         log.info("positionEntityList : " + positionEntityList);
         log.info("positionEntityList.size() : " + positionEntityList.size());
-        if ( positionEntityList.size() < 0 ){ return 1; } // 부장 직급이 존재하지않음 -> 부장을 position테이블에 추가해야함.
+        if ( positionEntityList.size() < 0 ){ return 0; } // 부장 직급이 존재하지않음 -> 부장을 p
+        return positionEntityList.get(0).getPno();
+    }
 
+    // 부서에 이미 부장이 존재하는지 확인
+    public byte managerExist( int dno , int pno ){
+        // 입력한 pno가 부장인지 확인
+            /* 위에 함수로 뺌
+            List<PositionEntity> positionEntityList = positionEntityRepository.findManagerDno();
+            log.info("positionEntityList : " + positionEntityList);
+            log.info("positionEntityList.size() : " + positionEntityList.size());
+            if ( positionEntityList.size() < 0 ){ return 1; } // 부장 직급이 존재하지않음 -> 부장을 position테이블에 추가해야함.
+            */
+        // 부장의 pno구하는 함수
+        int managerDno = findManagerDno();
+        if ( managerDno == 0 ){ return 1; } // 부장 직급이 존재하지않음 -> 부장을 position테이블에 추가해야함.
         // 입력값 pno가 부장이 아니면 return 3 => 직원등록 진행
-        if ( positionEntityList.get(0).getPno() != pno ){ return 3; }
+        else if ( managerDno != pno ){ return 3; }
 
         // 입력값 pno가 부장일경우 입력한 dno,pno로 존재하는지 확인하는 쿼리문
-        else if( positionEntityList.get(0).getPno() == pno ){
+        else if( managerDno == pno ){
              Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findByDnoAndPno( dno , pno );
              if ( optionalEmployeeEntity.isPresent() ){
                  if ( optionalEmployeeEntity.get().getEno() > 0 ){ return 2;} // 해당팀에 이미 부장이 존재
              }else{
-                 // 해당팀에 부장이 존재하지않음 => 부장으로 직원등록 가능 => 직원등록 진행
-                 return 3;
+                 return 3; // 해당팀에 부장이 존재하지않음 => 부장으로 직원등록 가능 => 직원등록 진행
              }
         }
         return 4; //  예상치못한 상황
