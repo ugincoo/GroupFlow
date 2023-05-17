@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
-import { Paper , Stack , Box , Typography } from '@mui/material';
+import { Paper , Stack , Box , Typography , Chip , TextareaAutosize , Grid , Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -38,24 +38,93 @@ export default function Evaluation(props) {
     { no : 10 , title: '애사심·봉사심', question: ["회사를 아끼는 마음이 있다.", "어려운 업무에 자신이 먼저 나서서 처리한다."] }
   ];
 
+    // 각 문항의 점수를 저장할 상태 설정
+    const [scores, setScores] = useState({});
+    console.log(scores);
+
+    // 평가의견 상태변수
+    const [eopinion,setEopinion] = useState('');
+
+    // 평가의견 onChange
+    const opinionOnChange = (e)=>{
+        e.preventDefault();
+        console.log(e.target.value);
+        setEopinion(e.target.value)
+    }
+
+    // 점수가 선택될 때 호출되는 함수
+    const handleScoreChange = (questionNo, score) => {
+        setScores((prevScores) => ({
+          ...prevScores,
+          [questionNo]: score,
+        }));
+    };
+
+    // 점수합계 계산
+    const calculateTotalScore = ()=>{
+        // score안의 점수를 하나씩 꺼내서 합산
+        const totalScore = Object.values(scores).reduce((accmulator, currentValue)=> accmulator + parseInt(currentValue), 0);
+        return totalScore
+    }
+
+
+
+  const evaluationSubmit = (e)=>{
+    console.log(scores)
+  }
+
   return (
     <>
       <Stack direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
+        <Item >
+          <Box width='100%' maxWidth='180px' marginRight='40px'>
+            <Typography textAlign='center'>평가대상</Typography>
+          </Box>
+          <Box width='100%' maxWidth='410px' marginRight='40px'>
+            <Typography textAlign='center'>2023001</Typography>
+          </Box>
+          <Box width='100%' maxWidth='400px' marginRight='40px'>
+            <Typography textAlign='center'>김하나</Typography>
+          </Box>
+          <Box width='120px'>
+            <Typography textAlign='center'></Typography>
+          </Box>
+        </Item>
+        <Item sx={{backgroundColor:'aliceblue'}}>
+          <Box width='100%' maxWidth='180px' marginRight='40px'>
+            <Typography textAlign='center'>항목</Typography>
+          </Box>
+          <Box width='100%' maxWidth='410px' marginRight='40px'>
+            <Typography textAlign='center'>문항</Typography>
+          </Box>
+          <Box width='100%' maxWidth='400px' marginRight='40px'>
+            <Typography textAlign='center'>점수선택</Typography>
+          </Box>
+          <Box width='120px'>
+            <Typography textAlign='center'>선택한 점수</Typography>
+          </Box>
+        </Item>
         {
             evaluationList.map(e=>{
                 return (
                     <Item>
-                      <Box width='100%' maxWidth='200px'>
-                        <Typography textAlign='left'>{e.title}</Typography>
+                      <Box width='100%' maxWidth='180px' marginRight='40px'>
+                        <Typography textAlign='left' fontWeight='bold'>{e.title}</Typography>
                       </Box>
-                      <Box display="flex" flexDirection="column" alignItems="flex-start"  width='100%' maxWidth='600px'>
+                      <Box display="flex" flexDirection="column" alignItems="flex-start"  width='100%' maxWidth='410px' marginRight='40px'>
                         {e.question.map((q) => (
-                          <Typography>{q}</Typography>
+                          <Typography  variant="body2" textAlign='left'>- {q}</Typography>
                         ))}
                       </Box>
-                      <Box>
+                      <Box width='100%' maxWidth='400px' marginRight='40px'>
                         <FormControl>
-                          <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
+                          <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={scores[e.no] || ''}
+                            onChange={(event) => handleScoreChange(e.no, event.target.value)}
+                          >
                             <FormControlLabel value="10" control={<Radio />} label="탁월" />
                             <FormControlLabel value="8" control={<Radio />} label="우수" />
                             <FormControlLabel value="6" control={<Radio />} label="보통" />
@@ -64,10 +133,51 @@ export default function Evaluation(props) {
                           </RadioGroup>
                         </FormControl>
                       </Box>
+                      <Box width='120px'>
+                        <Chip
+                          label={scores[e.no] || 0}
+                          color="primary"
+                          size="large"
+                        />
+                      </Box>
                     </Item>
                 )
             })
         }
+        <Item>
+          <Box width='100%' maxWidth='180px' marginRight='40px'>
+            <Typography textAlign='center'>평가의견</Typography>
+          </Box>
+          <Box width='100%' maxWidth='850px' marginRight='40px'>
+            <textarea
+                rows={4}
+                placeholder="평가의견을 남겨주세요"
+                onChange={opinionOnChange}
+                value={eopinion}
+                style={{ width: '810px', height: '100px', resize: 'none' }}
+            />
+          </Box>
+          <Box width='120px'>
+            <Typography textAlign='center'>합계</Typography>
+            <Typography textAlign='center'>{calculateTotalScore()} / 100점</Typography>
+          </Box>
+        </Item>
+        <Item>
+            <Grid container marginTop='20px' justifyContent="center">
+                <Grid item sx={4} sm={3} ><Typography fontWeight='bold'>평가날짜 : 2023-05-17</Typography></Grid>
+                <Grid item sx={4} sm={3} ><Typography fontWeight='bold'>담당자 : 김수진 부장</Typography></Grid>
+                <Grid item sx={4} sm={6} >
+                    <Button
+                        variant="contained"
+                        sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
+                        type="button"
+                        onClick={evaluationSubmit}
+                      >
+                        평가완료
+                    </Button>
+                </Grid>
+            </Grid>
+        </Item>
       </Stack>
     </>
   );
