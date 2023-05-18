@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController 
 @Slf4j
 @RequestMapping("/employee")
@@ -39,6 +41,15 @@ public class EmployeeUpdateController {
 
 
     }
+
+    //부서변경 출력
+    @GetMapping("/departmentprint")
+    public List<DepartmentChangeDto> departmentprint(){
+        return employeeUpdateService.departmentprint();
+    }
+
+
+
 
     //직급변경 수정
     @PutMapping("/updateposition")

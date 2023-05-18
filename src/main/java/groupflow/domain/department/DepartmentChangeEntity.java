@@ -36,4 +36,16 @@ public class DepartmentChangeEntity { // 부서이동테이블
     @JoinColumn(name="eno")
     @ToString.Exclude
     private EmployeeEntity employeeEntity; // 사원테이블FK
+
+
+    public DepartmentChangeDto todto(){
+        return DepartmentChangeDto.builder()
+                .dcno(this.dcno)
+                .dno(this.departmentEntity.getDno())
+                .eno(this.employeeEntity.getEno())
+                .dcstartreason(this.dcstartreason.toString())
+                .dcenddate(this.dcenddate.toString())
+                .dcstartreason(this.dcstartreason)
+                .build();
+    }
 }

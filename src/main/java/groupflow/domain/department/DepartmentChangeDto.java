@@ -20,6 +20,9 @@ public class DepartmentChangeDto {
     private int dno ; // 부서테이블FK
     private int eno ; // 사원테이블FK
 
+    //추가
+
+
     public DepartmentChangeEntity toEntity() {
         /*
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

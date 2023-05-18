@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,9 @@ public class EmployeeUpdateService {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private LoginService loginService;
     //기본프로필수정
     @Transactional
     public boolean updateEmployee(EmployeeDto employeeDto , MultipartFile ephotodata) {
@@ -184,4 +188,21 @@ public class EmployeeUpdateService {
         return true;
     }
 
+
+    //부서변경 출력
+    public List<DepartmentChangeDto> departmentprint(){
+        EmployeeDto employeeDto=loginService.loginInfo();
+        Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(employeeDto.getEno());//로그인포에 eno을 가지고 직원엔티티찾음
+        if(optionalEmployeeEntity.isPresent()){
+            List<DepartmentChangeEntity> departmentChangeEntityList=optionalEmployeeEntity.get().getDepartmentChangeEntityList();//찾은 엔티티에 부서변경리스트 꺼내옴.
+            List<DepartmentChangeDto> list=new ArrayList<>();
+            departmentChangeEntityList.forEach((e)->{
+                list.add(e.todto());
+            });
+            log.info("departlist:"+list);
+            return  list;
+        }
+        return null;
+
+    }
 }

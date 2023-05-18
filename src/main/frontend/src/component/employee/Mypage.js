@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
+import DepartmentChange from './employee/DepartmentChange';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { blue } from '@mui/material/colors';
@@ -41,6 +42,7 @@ return (
             <div style={{ height: 400, width: '100%' }}>
               <DataGrid
                 rows={rows}
+                <DepartmentChange/>
                 columns={columns}
                 initialState={{
                   pagination: {
