@@ -107,6 +107,7 @@ public class EvaluationService {
     // 문항 레코드 반환하기
     public List<EquestionDto> getEquestion(){
         List<EquestionEntity> equestionEntityList = equestionRepository.findAll();
+
         return equestionEntityList.stream().map(e-> e.toDto() ).collect(Collectors.toList());
     }
 
@@ -115,6 +116,7 @@ public class EvaluationService {
         List<EvaluationEntity> evaluationEntityList = evaluationRepository.findByTargeteno(eno);
         return evaluationEntityList.stream().map( evaluationEntity ->  evaluationEntity.toDto() ).collect(Collectors.toList());
     }
+
 
     // 입력받은 평가대상자의 eno로 현재 분기 업무평가가 이미 등록되었는지 유효성검사
     public boolean checkEvaluation( int eno ){

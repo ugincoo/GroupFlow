@@ -32,7 +32,8 @@ export default function ManagerEmployeeListView(props) {
     // 부서내 직원리스트
     const [ employeesByDepartment , setEmployeesByDepartment ] = useState([]);
     console.log(employeesByDepartment)
-    // 직원 한명의 인사평가 리스트
+
+    // 선택한 직원 한명의 인사평가 리스트
     const [ evaluationList , setEvaluationList ] = useState([]);
     console.log(evaluationList)
 
@@ -41,19 +42,26 @@ export default function ManagerEmployeeListView(props) {
         axios.get("/employee/department").then(r=>{setEmployeesByDepartment(r.data);})
     }, [])
 
+
+
     // 선택한 직원의 업무평가리스트 갖고올 때마다 업무평가리스트 항목에 반기 기준 항목추가
-    useEffect(() => {
+    /*
+    useEffect( ()=>{
         evaluationList.forEach(e=>{
             //e.cdate // "2023-05-17 오후 19:35:45"
+
             let cdate = e.cdate.split(" ")[0];
-            let year = parseInt(cdate.split("-")[0]);
-            let month = parseInt(cdate.split("-")[1]);
             console.log(cdate);
+            let year = parseInt(cdate.split("-")[0]);
+            console.log(year);
+            let month = parseInt(cdate.split("-")[1]);
+            console.log(month);
             if ( month < 7 ){
-
+                e.halfPeriodTitle=year+"년 상반기"
             }else{
-
+                e.halfPeriodTitle=year+"년 하반기"
             }
+            console.log(e.halfPeriodTitle)
             /*
             let today = new Date();
             console.log(today);
@@ -61,18 +69,18 @@ export default function ManagerEmployeeListView(props) {
             console.log(today.getMonth()+1);
             todayMonth = today.getMonth()+1;
             if ( todayMonth)
-            */
 
-
-            //e.halfPeriodList
         })
-    },[evaluationList])
+        // for문 끝나고 렌더링
+        setEvaluationList([...evaluationList])
+    },[])
+    */
 
-    // 직원리스트중에서 선택했을때
-    const listItemClick = (eno) => {
-        console.log(eno);
-        // 선택한 직원의 인사평가 리스트 가져오기
-        axios.get("/evaluation/list" , {params: {eno:eno}}).then(r=>{ setEvaluationList(r.data)})
+    const listItemClick = (e)=>{
+        console.log(e)
+        axios.get("/evaluation/list",{params:{eno:e.eno}}).then(r=>{
+            console.log(r.data)
+        })
     }
 
     return (
@@ -85,7 +93,7 @@ export default function ManagerEmployeeListView(props) {
                                 return (
                                     <List>
                                         <ListItem disablePadding>
-                                            <ListItemButton onClick={ ()=> listItemClick(employee.eno)}>
+                                            <ListItemButton onClick={ ()=> listItemClick(employee)}>
                                                 <ListItemText primary={employee.ename+" "+employee.pname} />
                                             </ListItemButton>
                                         </ListItem>
@@ -98,19 +106,6 @@ export default function ManagerEmployeeListView(props) {
                 </Box>
                 <Box width='100%' maxWidth='400px' marginRight='40px' sx={{boxShadow: 1, bgcolor: 'white'}}>
                     <nav aria-label="secondary mailbox folders">
-                        {
-                            evaluationList.map(evaluation =>{
-                                return (
-                                    <List>
-                                        <ListItem disablePadding>
-                                            <ListItemButton>
-                                                <ListItemText primary={evaluation.cdate} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    </List>
-                                );
-                            })
-                        }
                     </nav>
                 </Box>
             </Item>

@@ -42,6 +42,7 @@ public class EmployeeService {
 
     @Autowired    private FileService fileService;
     @Autowired private LoginService loginService;
+    @Autowired private DepartmentService departmentService;
 
     // 로그인한 사람이 부장일 경우 부서내 직원리스트 반환
     public List<EmployeeDto> getEmployeesByDepartmentWithoutManager(){
@@ -55,8 +56,13 @@ public class EmployeeService {
         // 3. 부서내 직원리스트 DB에서 꺼내기(리스트에서 부장제외)
         List<EmployeeEntity> employeeEntityList = employeeRepository.getEmployeesByDepartmentWithoutManager( employeeDto.getDno() );
         log.info("부서내 직원리트스 employeeEntityList: " + employeeEntityList);
-        // 4. 직원리스트 map 돌려서 eno로 employeeInfo(eno)실행해서 employeedto(dno,dname,pno,pname포함)반환 후 dto리스트에 담아서 반환
-        return employeeEntityList.stream().map( e -> employeeInfo(e.getEno()) ).collect(Collectors.toList());
+        // 4. 직원리스트를 돌리면서 직원마다 eno,ename,dno,dname,pno,pname있는 employeeDto반환하는 employeeInfo실행해서 list에 담아서 반환
+        //return employeeEntityList.stream().map(employeeEntity -> employeeEntity.toDto() ).collect(Collectors.toList());
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        for (EmployeeEntity employeeEntity : employeeEntityList){
+            employeeDtoList.add( employeeInfo(employeeEntity.getEno()) );
+        }
+        return employeeDtoList;
     }
 
     // 부장 dno 구하기
