@@ -49,6 +49,7 @@ let [myEmployee,setMyEmployee]=useState([]) //나와같은부서 직원들넣기
 
         const modalbtn=()=>{
           props.setAhtml(modalHtml)
+          props.setTest("테스트")
 
         }
 

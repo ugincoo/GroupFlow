@@ -31,7 +31,8 @@ export default function Header(props) {
         let ws=useRef(null);    //장민정 서버소켓
         const [aHtml ,setAhtml] = useState(<></>) //장민정
         console.log(aHtml);
-        const [ test , setTest] = useState("");
+        const [ test , setTest] = useState("기본값");
+        console.log(test);
         axios.get('/login/confirm').then( r => { setEno(r.data.eno) } )
         console.log(eno);
            let page=[

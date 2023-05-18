@@ -72,6 +72,7 @@ export default function ViewDetailEmployee(props) {
         // 부서,직급
         let eno = props.oneEmployee.eno;
         console.log("eno : "+eno)
+
         axios.get("/employee/select/info",{params:{eno:eno}})
             .then(r=>{
                 console.log(r.data)
@@ -84,6 +85,8 @@ export default function ViewDetailEmployee(props) {
                 departmentSelect.dno = r.data.dno
                 setDepartmentSelect({...departmentSelect})
             })
+
+
     },[props.oneEmployee])
   // 사원정보 갖고오기
 
