@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 // 페이징처리
 import Pagination from '@mui/material/Pagination';
 
-
+// 개인 연차 내역
 export default function LeaveRequestList(props){
     // 0. 로그인 정보 변수
     const [ login , setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) )
@@ -73,24 +73,33 @@ export default function LeaveRequestList(props){
                <TableRow>
                  <TableCell align="center" style={{ width:'20%' }}>연차신청일</TableCell>
                  <TableCell align="center" style={{ width:'10%' }}>신청자</TableCell>
-                 <TableCell align="center" style={{ width:'60%' }}>연차사용일</TableCell>
+                 <TableCell align="center" style={{ width:'50%' }}>연차사용일</TableCell>
+                 <TableCell align="center" style={{ width:'20%' }}>결재상태</TableCell>
                </TableRow>
              </TableHead>
              <TableBody>
               {rows.map((row) => (
-                 <TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
-                   <TableCell align="center">{row.lrequestdate}</TableCell>
-                   <TableCell align="center">{login.ename}</TableCell>
-                   <TableCell align="center">{row.lstart} ~ {row.lend}</TableCell>
-                 </TableRow>
+                 <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                     <TableCell align="center">{row.lrequestdate}</TableCell>
+                     <TableCell align="center">{login.ename}</TableCell>
+                     <TableCell align="center">
+                       {row.lstart} ~ {row.lend}
+                     </TableCell>
+                     <TableCell align="center">
+                       {row.approvaldate != null ? row.approvaldate : '결재대기중'}
+                     </TableCell>
+                   </TableRow>
                ))}
              </TableBody>
            </Table>
          </TableContainer>
         <div style={{margin : "30px 0px", display : "flex", justifyContent:"center"}}>
-            <Pagination count={ totalPage }  variant="outlined" color="secondary" onChange={selectPage} />
+            <Pagination count={ totalPage }  variant="outlined" color="primary" onChange={selectPage} />
         </div>
      </Container>
      );
 
 }
+
+
+

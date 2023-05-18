@@ -4,7 +4,13 @@ import axios from 'axios';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Container from '@mui/material/Container';
+/*------------------------------------------------------------------------------------------------css-----*/
+import styles from '../../css/Leave.css'; //css
 
+
+
+
+// 연차 신청 모달
 export default function LeaveRequest(props){
 // 0. 로그인 정보 변수
 const [ login,setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) );
@@ -25,9 +31,6 @@ useEffect ( () => {
 
 const onApplication = () => {
     let info = {
-        ename :document.querySelector('.ename').value,
-        dno :document.querySelector('.dno').value,
-        pno :document.querySelector('.pno').value,
         lstart :document.querySelector('.lstart').value,
         lend :document.querySelector('.lend').value,
         requestreason :document.querySelector('.requestReason').value
@@ -44,7 +47,7 @@ const onApplication = () => {
             }else if (r.data == 3){
                 console.log(r.data+"번");
                 alert('연차 신청 되었습니다.');
-                window.location.href="../component/employee/LeaveRequestList"
+                window.location.href="/offlist"
             }
 
         })
@@ -60,7 +63,7 @@ const onApplication = () => {
       left: '50%',
       transform: 'translate(-50%, -50%)',
       width: 400,
-      bgcolor: '#ffffff',
+      bgcolor: '#F0F8FF',
       border : '3px solid #2979ff',
       boxShadow : 24,
       borderRadius:'10px',
@@ -81,6 +84,7 @@ const onApplication = () => {
     return(<>
          <button onClick={handleOpen}>연차신청</button>
         <Modal
+            className="aria-describedby"
             open={open}
             onClose={handleClose}
             aria-labelledby="child-modal-title"
@@ -91,9 +95,9 @@ const onApplication = () => {
               <p id="child-modal-description">
                 <Container>
                     <div>
-                        <div> 이름 : <span className="ename">  </span> </div>
-                        <div> 부서 : <span className="dno"> </span> </div>
-                        <div> 직급 : <span className="pno"> </span> </div>
+                        <div> 이름 : <span className="ename">  {login.ename}   </span> </div>
+                        <div> 부서 : <span className="dno"> {login.dname}  </span> </div>
+                        <div> 직급 : <span className="pno"> {login.pname}  </span> </div>
                         <div> 연차 사용일 </div>
                         <input type="date" className="lstart" /> <span> ~ </span> <input type="date" className="lend"/>
                         <div>  연차 사유 : </div>
@@ -103,7 +107,7 @@ const onApplication = () => {
                     </div>
                 </Container>
               </p>
-              <button onClick={handleClose}>취소</button>
+              <button  onClick={handleClose}>취소</button>
               <button onClick={onApplication}>신청</button>
             </Box>
           </Modal>

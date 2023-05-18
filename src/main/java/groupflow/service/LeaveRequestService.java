@@ -1,4 +1,5 @@
 package groupflow.service;
+import groupflow.domain.attendance.AttendanceEntity;
 import groupflow.domain.department.DepartmentChangeEntity;
 import groupflow.domain.department.DepartmentChangeEntityRepository;
 import groupflow.domain.department.DepartmentEntity;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +36,8 @@ public class LeaveRequestService {
     DepartmentChangeEntityRepository departmentChangeEntityRepository;
     @Autowired
     EmployeeRepository employeeRepository;
+    @Autowired
+    private LoginService loginService;
 
     //1. 연차신청
     @Transactional
@@ -88,7 +93,7 @@ public class LeaveRequestService {
         return dtoList;
     }
 
-    // 3. 부서 연차 출력
+    // 3-1. 부서 연차 출력
     public List<LeaveRequestDto> pget(int dno) {
         log.info("get Service");
         // 1. 로그인 인증세션 -->dto 형변환
@@ -100,11 +105,13 @@ public class LeaveRequestService {
         log.info("entityList : " + entityList);
 
         // 4. 개인 연차 정보를 담을 리스트 생성
-        List<LeaveRequestDto> dtoList = entityList.stream().map( o -> o.toDto()).collect(Collectors.toList());
+        List<LeaveRequestDto> dtoList = new ArrayList<>();
+        entityList.forEach( (e) -> {
+            dtoList.add(e.toDto());
+        } );
         return dtoList;
-
     }
-    // 4. 전체 출력 [ 경영지원팀 ]
+    // 3-2. 전체 출력 [ 경영지원팀 ]
     public List<LeaveRequestDto> adminget(){
         log.info("get Service");
         // 1. 로그인 인증세션 -->dto 형변환
@@ -119,6 +126,25 @@ public class LeaveRequestService {
         List<LeaveRequestDto> dtoList = entityList.stream().map( o -> o.toDto()).collect(Collectors.toList());
         return dtoList;
     }
+
+
+
+    // 4. 결재 승인
+    @Transactional
+    public boolean pok( LeaveRequestDto dto ){
+        log.info("pok :" + dto );
+        //포장지에서 찾기
+        Optional<LeaveRequestEntity> optionalLREntity = leaveRequestRepository.findById(dto.getLno());
+        log.info("lno : "+ dto.getLno());
+        if( optionalLREntity.isPresent() ){
+            LeaveRequestEntity requestEntity = optionalLREntity.get();
+            requestEntity.setApprovaldate(dto.getApprovaldate());
+            return true;
+        }
+
+        return false;
+    }
+
 }
 /*
     Repository findBy 만드는 방법

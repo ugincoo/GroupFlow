@@ -2,6 +2,7 @@ package groupflow.service;
 
 import groupflow.domain.department.DepartmentChangeEntity;
 import groupflow.domain.department.DepartmentEntity;
+import groupflow.domain.department.DepartmentRepository;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
 import groupflow.domain.employee.EmployeeRepository;
@@ -30,6 +31,8 @@ public class LoginService implements UserDetailsService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    DepartmentRepository departmentRepository;
 
     @Transactional
     @Override
@@ -93,22 +96,25 @@ public class LoginService implements UserDetailsService {
         log.info("optionalEmployeeEntity : " + optionalEmployeeEntity);
         if (optionalEmployeeEntity.isPresent()) {
             EmployeeEntity employeeEntity = optionalEmployeeEntity.get();
-            List<DepartmentChangeEntity> departmentChangeEntityList = employeeEntity.getDepartmentChangeEntityList();
+            
+            // 직급 구하기
             List<PositionChangeEntity> positionChangeEntityList = employeeEntity.getPositionChangeEntityList();
-
             PositionEntity positionEntity = positionChangeEntityList.get(positionChangeEntityList.size() - 1).getPositionEntity();
-            DepartmentEntity departmentEntity = departmentChangeEntityList.get(departmentChangeEntityList.size() - 1).getDepartmentEntity();
 
+            // 부서 구하기
+            Optional<DepartmentEntity> optionalDepartmentEntity = departmentRepository.findByEno(employeeEntity.getEno());
+            if(optionalDepartmentEntity.isPresent()) {
+                DepartmentEntity departmentEntity = optionalDepartmentEntity.get();
 
-            return EmployeeDto.builder()
-                    .eno(employeeEntity.getEno())
-                    .ename(employeeEntity.getEname())
-                    .pno(positionEntity.getPno())
-                    .pname(positionEntity.getPname())
-                    .dno(departmentEntity.getDno())
-                    .dname(departmentEntity.getDname())
-                    .esocialno(0).id(0).build();
-
+                return EmployeeDto.builder()
+                        .eno(employeeEntity.getEno())
+                        .ename(employeeEntity.getEname())
+                        .pno(positionEntity.getPno())
+                        .pname(positionEntity.getPname())
+                        .dno(departmentEntity.getDno())
+                        .dname(departmentEntity.getDname())
+                        .esocialno(0).id(0).build();
+            }
         }
         return null;
     }

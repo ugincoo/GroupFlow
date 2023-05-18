@@ -24,48 +24,72 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class EmployeeService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    @Autowired    private EmployeeRepository employeeRepository;
 
-    @Autowired
-    private DepartmentChangeEntityRepository departmentChangeRepository;
+    @Autowired    private DepartmentChangeEntityRepository departmentChangeRepository;
 
-    @Autowired
-    private DepartmentRepository departmentRepository;
+    @Autowired    private DepartmentRepository departmentRepository;
 
-    @Autowired
-    private PositionChangeEntityRepository positionChangeRepository;
+    @Autowired    private PositionChangeEntityRepository positionChangeRepository;
 
-    @Autowired
-    private PositionEntityRepository positionEntityRepository;
+    @Autowired    private PositionEntityRepository positionEntityRepository;
 
-    @Autowired
-    private FileService fileService;
+    @Autowired    private FileService fileService;
+    @Autowired private LoginService loginService;
 
-    // 부서에 이미 부장이 존재하는지 확인
-    public byte managerExist( int dno , int pno ){
-        // 입력한 pno가 부장인지 확인하는 쿼리
+    // 로그인한 사람이 부장일 경우 부서내 직원리스트 반환
+    public List<EmployeeDto> getEmployeesByDepartmentWithoutManager(){
+        log.info("getEmployeesByDepartmentWithoutManager실행");
+        // 1. 로그인세션
+        EmployeeDto employeeDto = loginService.loginInfo();
+        if( employeeDto == null ){ return null;}
+        // 2. DB에 저장된 부장 dno로 로그인세션이 부장인지 확인 / findManagerDno() : 부장직급 dno
+        if ( employeeDto.getPno() != findManagerPno() ){ return null; }
+
+        // 3. 부서내 직원리스트 DB에서 꺼내기(리스트에서 부장제외)
+        List<EmployeeEntity> employeeEntityList = employeeRepository.getEmployeesByDepartmentWithoutManager( employeeDto.getDno() );
+        log.info("부서내 직원리트스 employeeEntityList: " + employeeEntityList);
+        // 4. 직원리스트 map 돌려서 eno로 employeeInfo(eno)실행해서 employeedto(dno,dname,pno,pname포함)반환 후 dto리스트에 담아서 반환
+        return employeeEntityList.stream().map( e -> employeeInfo(e.getEno()) ).collect(Collectors.toList());
+    }
+
+    // 부장 dno 구하기
+    public int findManagerPno(){
         List<PositionEntity> positionEntityList = positionEntityRepository.findManagerDno();
         log.info("positionEntityList : " + positionEntityList);
         log.info("positionEntityList.size() : " + positionEntityList.size());
-        if ( positionEntityList.size() < 0 ){ return 1; } // 부장 직급이 존재하지않음 -> 부장을 position테이블에 추가해야함.
+        if ( positionEntityList.size() < 0 ){ return 0; } // 부장 직급이 존재하지않음 -> 부장을 p
+        return positionEntityList.get(0).getPno();
+    }
 
+    // 부서에 이미 부장이 존재하는지 확인
+    public byte managerExist( int dno , int pno ){
+        // 입력한 pno가 부장인지 확인
+            /* 위에 함수로 뺌
+            List<PositionEntity> positionEntityList = positionEntityRepository.findManagerDno();
+            log.info("positionEntityList : " + positionEntityList);
+            log.info("positionEntityList.size() : " + positionEntityList.size());
+            if ( positionEntityList.size() < 0 ){ return 1; } // 부장 직급이 존재하지않음 -> 부장을 position테이블에 추가해야함.
+            */
+        // 부장의 pno구하는 함수
+        int managerPno = findManagerPno();
+        if ( managerPno == 0 ){ return 1; } // 부장 직급이 존재하지않음 -> 부장을 position테이블에 추가해야함.
         // 입력값 pno가 부장이 아니면 return 3 => 직원등록 진행
-        if ( positionEntityList.get(0).getPno() != pno ){ return 3; }
+        else if ( managerPno != pno ){ return 3; }
 
         // 입력값 pno가 부장일경우 입력한 dno,pno로 존재하는지 확인하는 쿼리문
-        else if( positionEntityList.get(0).getPno() == pno ){
+        else if( managerPno == pno ){
              Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findByDnoAndPno( dno , pno );
              if ( optionalEmployeeEntity.isPresent() ){
                  if ( optionalEmployeeEntity.get().getEno() > 0 ){ return 2;} // 해당팀에 이미 부장이 존재
              }else{
-                 // 해당팀에 부장이 존재하지않음 => 부장으로 직원등록 가능 => 직원등록 진행
-                 return 3;
+                 return 3; // 해당팀에 부장이 존재하지않음 => 부장으로 직원등록 가능 => 직원등록 진행
              }
         }
         return 4; //  예상치못한 상황
@@ -305,11 +329,6 @@ public class EmployeeService {
     }
 
 
-    // 로그인
-    public EmployeeDto eLogin( EmployeeDto employeeDto ){
-        log.info("s eLogin eno : "+employeeDto.getEno() +" ename : "+employeeDto.getEname());
-        return null;
-    }
 
     // 사원정보 출력위해서 부서번호,부서명,직급번호,직급명
     public EmployeeDto employeeInfo( int eno ){

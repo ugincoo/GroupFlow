@@ -21,23 +21,29 @@ public class LeaveRequestController {
     public  byte post(@RequestBody LeaveRequestDto dto){
         return leaveRequestService.post(dto);
     }
-    
+
     // 2. 개인 연차 출력
     @GetMapping("/myget")
     public List<LeaveRequestDto> myget(){
         return leaveRequestService.myget();
     }
-    
-    // 3. 부서 연차 출력 [ 부장 직급 ]
+
+    /*-------------------------------------시큐리티 권한 때문에 똑같은거 두개 만듬 -----------------------------------------*/
+    // 3-1. 부서 연차 출력 [ 부장 직급 ]
     @GetMapping("/position")
     public List<LeaveRequestDto> pget(@RequestParam int dno){
         return leaveRequestService.pget(dno);
     }
-    // 4. 전체 출력 [ 경영지원팀 ]
+    // 3-2. 전체 출력 [ 경영지원팀 ]
     @GetMapping("/admin")
     public List<LeaveRequestDto> adminget(){
         return leaveRequestService.adminget();
     }
-    
-    
+
+    // 4. 결재 승인
+    @PutMapping("/pok")
+    public boolean pok( @RequestBody LeaveRequestDto dto ){
+        return leaveRequestService.pok(dto);
+    }
+
 }

@@ -19,6 +19,7 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+    // 사원등록
     @PostMapping("")
     public byte registerNewEmployee(
             @RequestPart(value = "info") EmployeeDto employeeDto,
@@ -30,13 +31,18 @@ public class EmployeeController {
         return employeeService.registerNewEmployee(ephotodata , employeeDto);
     }
 
-    @PostMapping("/login")
-    public EmployeeDto eLogin( @RequestBody EmployeeDto employeeDto ){
-        return employeeService.eLogin( employeeDto );
-    }
 
+    // eno로 직원정보 (직원번호,직원명,부서번호,부서명,직급번호,직급명) 가져오기
     @GetMapping("/select/info")
-    public EmployeeDto employeeInfo( int eno ){
+    public EmployeeDto employeeInfo( @RequestParam int eno ){
         return employeeService.employeeInfo(eno);
     }
+
+
+    // 로그인한 사람이 부장일 경우 부서내 직원리스트 가져오기 ( 리스트에서 부장제외 )
+    @GetMapping("/department")
+    public List<EmployeeDto> getEmployeesByDepartmentWithoutManager(){
+        return employeeService.getEmployeesByDepartmentWithoutManager();
+    }
+
 }
