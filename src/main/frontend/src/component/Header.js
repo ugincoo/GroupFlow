@@ -23,8 +23,9 @@ export default function Header(props) {
     const gokDisabledHandler = () =>{
         if( gokDisabled == true  ){ setGokDisabled(false)  }
         else{  setGokDisabled(true )  }
-    }
 
+    }
+ console.log("gokDisabled:"+gokDisabled)
 
         let ws=useRef(null);    //장민정 서버소켓
         console.log(ws);

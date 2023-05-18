@@ -3,6 +3,9 @@ import axios from 'axios';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { blue } from '@mui/material/colors';
+//--------------------------텝------------------------------------------
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 //---------------------------테이블-------------------------------------
 import { DataGrid } from '@mui/x-data-grid';
 //---------------------------컨테이너-------------------------------------
