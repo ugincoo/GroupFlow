@@ -127,7 +127,7 @@ const approval = (e) => {
            </Table>
          </TableContainer>
         <div style={{margin : "30px 0px", display : "flex", justifyContent:"center"}}>
-            <Pagination count={ totalPage }  variant="outlined" color="secondary"  />
+            <Pagination count={ totalPage }  variant="outlined" color="primary"  />
         </div>
      </Container>
      );

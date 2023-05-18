@@ -95,7 +95,7 @@ export default function AdminLeaveList(props){
            </Table>
          </TableContainer>
         <div style={{margin : "30px 0px", display : "flex", justifyContent:"center"}}>
-            <Pagination count={ totalPage }  variant="outlined" color="secondary" onChange={selectPage} />
+            <Pagination count={ totalPage }  variant="outlined" color="primary" onChange={selectPage} />
         </div>
      </Container>
      );

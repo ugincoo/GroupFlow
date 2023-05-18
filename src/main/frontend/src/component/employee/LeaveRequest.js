@@ -4,6 +4,11 @@ import axios from 'axios';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Container from '@mui/material/Container';
+/*------------------------------------------------------------------------------------------------css-----*/
+import styles from '../../css/Leave.css'; //css
+
+
+
 
 // 연차 신청 모달
 export default function LeaveRequest(props){
@@ -58,7 +63,7 @@ const onApplication = () => {
       left: '50%',
       transform: 'translate(-50%, -50%)',
       width: 400,
-      bgcolor: '#ffffff',
+      bgcolor: '#F0F8FF',
       border : '3px solid #2979ff',
       boxShadow : 24,
       borderRadius:'10px',
@@ -79,6 +84,7 @@ const onApplication = () => {
     return(<>
          <button onClick={handleOpen}>연차신청</button>
         <Modal
+            className="aria-describedby"
             open={open}
             onClose={handleClose}
             aria-labelledby="child-modal-title"
@@ -101,7 +107,7 @@ const onApplication = () => {
                     </div>
                 </Container>
               </p>
-              <button onClick={handleClose}>취소</button>
+              <button  onClick={handleClose}>취소</button>
               <button onClick={onApplication}>신청</button>
             </Box>
           </Modal>
