@@ -31,11 +31,11 @@ export default function ManagerEmployeeListView(props) {
 
     // 부서내 직원리스트
     const [ employeesByDepartment , setEmployeesByDepartment ] = useState([]);
-    console.log(employeesByDepartment)
+    //console.log(employeesByDepartment)
 
     // 선택한 직원 한명의 인사평가 리스트
     const [ evaluationList , setEvaluationList ] = useState([]);
-    console.log(evaluationList)
+    //console.log(evaluationList)
 
     // 실행시 로그인한 사람의 부서직원리스트 가져오기
     useEffect(() => {
@@ -77,9 +77,48 @@ export default function ManagerEmployeeListView(props) {
     */
 
     const listItemClick = (e)=>{
-        console.log(e)
+        //console.log(e)
         axios.get("/evaluation/list",{params:{eno:e.eno}}).then(r=>{
+
+            r.data.forEach(e=>{
+                //halfPeriodTitle
+                let cdate = e.cdate.split(" ")[0];
+                console.log(cdate);
+                let year = parseInt(cdate.split("-")[0]);
+                console.log(year);
+                let month = parseInt(cdate.split("-")[1]);
+                console.log(month);
+                if ( month < 7 ){
+                    e.halfPeriodTitle=year+"년 상반기"
+                }else{
+                    e.halfPeriodTitle=year+"년 하반기"
+                }
+                // disabled 평가기간이 지난 평가는 disabled
+                    // 1.현재날짜
+                    let today = new Date();
+                    // 2. 평가날짜
+                    let evaluationDate = new Date(cdate);
+                    // 3. 현재날짜의 연도
+                    let todayYear = today.getFullYear();
+                    // 4. 현재연도의 7월1일
+                    let july = new Date(todayYear+"-07-01")
+                    // 5. 평가날짜와 비교할 날짜
+                    let targetDate;
+                    if ( today < july ){
+                        targetDate = new Date(todayYear+"-01-01")
+                    }else{
+                        targetDate = july
+                    }
+                    // 6. 평가날짜와 targetDate와 비교
+                    if ( evaluationDate < targetDate ){
+                        e.disabled = true;
+                    }else{
+                        e.disabled = false;
+                    }
+
+            })
             console.log(r.data)
+            setEvaluationList(r.data)
         })
     }
 
@@ -107,6 +146,23 @@ export default function ManagerEmployeeListView(props) {
                 <Box width='100%' maxWidth='400px' marginRight='40px' sx={{boxShadow: 1, bgcolor: 'white'}}>
                     <nav aria-label="secondary mailbox folders">
                     </nav>
+                        {
+                            evaluationList.map(e =>{
+                                return (
+                                    <List>
+                                        <ListItem disablePadding>
+                                            <ListItemButton>
+                                                <ListItemText primary={e.halfPeriodTitle} />
+                                               { e.disabled ? <Button variant="outlined" disabled={e.disabled}>완료</Button>
+                                                    : <Button variant="outlined" disabled={e.disabled}>수정</Button>
+                                               }
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </List>
+                                );
+                            })
+
+                        }
                 </Box>
             </Item>
       </Stack>
