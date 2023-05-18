@@ -80,4 +80,19 @@ public class EmployeeEntity { // 직원테이블
 
     }
 
+    public EmployeeDto toDtoWithOutSocialno(){
+        EmployeeDto employeeDto = EmployeeDto.builder()
+                .eno(this.eno)
+                .ename(this.ename)
+                .eemail(this.eemail)
+                .ephone(this.ephone)
+                .ephoto(this.ephoto)
+                .hiredate( this.hiredate.toString() )
+                .build();
+        if ( this.eenddate != null){
+            employeeDto.setEenddate( this.eenddate.toString() );
+        }
+        return employeeDto;
+    }
+
 }
