@@ -56,8 +56,8 @@ export default function ViewDetailEmployee(props) {
     },[])
 
     // 선택한 사원이 바뀔때마다 실행
-    useEffect(()=>{
-        console.log(props.oneEmployee) 
+    useEffect(()=>{ 
+        console.log(props.oneEmployee)
         info.eno = props.oneEmployee.eno
         info.ename = props.oneEmployee.ename
         info.eemail = props.oneEmployee.eemail
