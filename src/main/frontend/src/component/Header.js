@@ -13,6 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Workbtn from './employee/Workbtn';
+import AttendanceStatus from './employee/AttendanceStatus';
 import styles from '../css/header.css'; //css
 
 
@@ -20,6 +21,9 @@ import styles from '../css/header.css'; //css
 export default function Header(props) {
         const [ eno, setEno] = useState();
         let ws=useRef(null);    //장민정 서버소켓
+        const [aHtml ,setAhtml] = useState(<></>) //장민정
+        console.log(aHtml);
+        const [ test , setTest] = useState("");
         axios.get('/login/confirm').then( r => { setEno(r.data.eno) } )
         console.log(eno);
            let page=[
@@ -33,7 +37,7 @@ export default function Header(props) {
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a>}, //유진 추가
                     {page : <Workbtn ws={ws} eno={eno}/>}
                 ]
-           let 출근현황 = <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/attendancestatus">출근현황</a>
+           let 출근현황 = <AttendanceStatus ws={ws} eno={eno} aHtml={aHtml} setAhtml={setAhtml} test={test} setTest={setTest}  />
 
 
       const [state, setState] = React.useState({
