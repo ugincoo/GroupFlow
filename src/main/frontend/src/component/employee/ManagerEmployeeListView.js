@@ -25,25 +25,54 @@ export default function ManagerEmployeeListView(props) {
         width : '1200px',
         display: 'flex',
         justifyContent: 'flex-start',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         padding : '20px',
     }));
 
     // 부서내 직원리스트
     const [ employeesByDepartment , setEmployeesByDepartment ] = useState([]);
+    console.log(employeesByDepartment)
     // 직원 한명의 인사평가 리스트
     const [ evaluationList , setEvaluationList ] = useState([]);
+    console.log(evaluationList)
 
     // 실행시 로그인한 사람의 부서직원리스트 가져오기
     useEffect(() => {
-        axios.get("/employee/department").then(r=>{console.log(r.data); setEmployeesByDepartment(r.data);})
+        axios.get("/employee/department").then(r=>{setEmployeesByDepartment(r.data);})
     }, [])
+
+    // 선택한 직원의 업무평가리스트 갖고올 때마다 업무평가리스트 항목에 반기 기준 항목추가
+    useEffect(() => {
+        evaluationList.forEach(e=>{
+            //e.cdate // "2023-05-17 오후 19:35:45"
+            let cdate = e.cdate.split(" ")[0];
+            let year = parseInt(cdate.split("-")[0]);
+            let month = parseInt(cdate.split("-")[1]);
+            console.log(cdate);
+            if ( month < 7 ){
+
+            }else{
+
+            }
+            /*
+            let today = new Date();
+            console.log(today);
+            console.log(today.getFullYear());
+            console.log(today.getMonth()+1);
+            todayMonth = today.getMonth()+1;
+            if ( todayMonth)
+            */
+
+
+            //e.halfPeriodList
+        })
+    },[evaluationList])
 
     // 직원리스트중에서 선택했을때
     const listItemClick = (eno) => {
         console.log(eno);
         // 선택한 직원의 인사평가 리스트 가져오기
-        axios.get("/evaluation/list" , {params: {eno:eno}}).then(r=>{console.log(r.data)})
+        axios.get("/evaluation/list" , {params: {eno:eno}}).then(r=>{ setEvaluationList(r.data)})
     }
 
     return (
@@ -52,18 +81,35 @@ export default function ManagerEmployeeListView(props) {
                 <Box width='100%' maxWidth='180px' marginRight='40px' sx={{boxShadow: 1, bgcolor: 'white'}}>
                     <nav aria-label="secondary mailbox folders">
                         {
-                        employeesByDepartment.map(employee =>{
-                            return (
-                                <List>
-                                    <ListItem disablePadding>
-                                        <ListItemButton onClick={ ()=> listItemClick(employee.eno)}>
-                                            <ListItemText primary={employee.ename+" "+employee.pname} />
-                                        </ListItemButton>
-                                    </ListItem>
-                                </List>
-                            );
-                        })
+                            employeesByDepartment.map(employee =>{
+                                return (
+                                    <List>
+                                        <ListItem disablePadding>
+                                            <ListItemButton onClick={ ()=> listItemClick(employee.eno)}>
+                                                <ListItemText primary={employee.ename+" "+employee.pname} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </List>
+                                );
+                            })
 
+                        }
+                    </nav>
+                </Box>
+                <Box width='100%' maxWidth='400px' marginRight='40px' sx={{boxShadow: 1, bgcolor: 'white'}}>
+                    <nav aria-label="secondary mailbox folders">
+                        {
+                            evaluationList.map(evaluation =>{
+                                return (
+                                    <List>
+                                        <ListItem disablePadding>
+                                            <ListItemButton>
+                                                <ListItemText primary={evaluation.cdate} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </List>
+                                );
+                            })
                         }
                     </nav>
                 </Box>

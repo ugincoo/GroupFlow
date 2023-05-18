@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -113,5 +114,34 @@ public class EvaluationService {
     public List<EvaluationDto> getEvaluationList( int eno ){
         List<EvaluationEntity> evaluationEntityList = evaluationRepository.findByTargeteno(eno);
         return evaluationEntityList.stream().map( evaluationEntity ->  evaluationEntity.toDto() ).collect(Collectors.toList());
+    }
+
+    // 입력받은 평가대상자의 eno로 현재 분기 업무평가가 이미 등록되었는지 유효성검사
+    public boolean checkEvaluation( int eno ){
+        // 1. 현재 날짜 기준 반기 기간 구하기
+            // 1. 현재 날짜
+            LocalDate currentDate = LocalDate.now();
+            int year = currentDate.getYear();
+            int month = currentDate.getMonthValue();
+            log.info("현재 연도 : "+ year);
+            log.info("현재 월 : "+ month);
+            // 2. 시작날짜, 끝날짜
+            String startdate = "";
+            String enddate = "";
+            if ( month < 7 ){
+                startdate = year+"-01-01";
+                enddate = year+"-07-01";
+            }else{
+                startdate = year+"-07-01";
+                enddate = (year+1)+"-01-01";
+            }
+            log.info("업무평가 조회용 시작날짜 : "+startdate);
+            log.info("업무평가 조회용 끝날짜 : "+enddate);
+
+        // 현재 기간에 해당 eno 업무평가 조회
+        List<EvaluationEntity> evaluationEntityList =  evaluationRepository.existsByEnoAndDate(eno,startdate,enddate);
+        // 업무평가가 이미 있으면 false 없으면 true => true는 평가등록가능
+        if ( evaluationEntityList.size()>0){ return false;}
+        else{ return true; }
     }
 }

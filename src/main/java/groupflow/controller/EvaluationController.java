@@ -5,6 +5,7 @@ import groupflow.domain.evaluation.EvaluationDto;
 import groupflow.service.EvaluationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +34,11 @@ public class EvaluationController {
     @GetMapping("/list")
     public List<EvaluationDto> getEvaluationList( int eno ){
         return evaluationService.getEvaluationList(eno);
+    }
+
+    // 4. 입력받은 평가대상자의 eno로 현재 분기 업무평가가 이미 등록되었는지 유효성검사
+    @GetMapping("/check")
+    public boolean checkEvaluation( @RequestParam int eno ){
+        return evaluationService.checkEvaluation(eno);
     }
 }
