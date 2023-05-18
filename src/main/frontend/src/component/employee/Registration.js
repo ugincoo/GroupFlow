@@ -11,7 +11,7 @@ const colorPalette = {
   dark: blue[700],
 };
 
-export default function Registration() {
+export default function Registration(props) {
     let [imagePreview, setImagePreview] = useState(null);
     let [ephoto, setEphoto] = useState(null);
     let [ info , setInfo ] = useState({
