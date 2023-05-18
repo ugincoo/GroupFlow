@@ -48,10 +48,11 @@ public class AttendanceHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         // 접속 명단 만들기
+        log.info("msgenter");
         List<String> enolist = new ArrayList<>();
         for(WebSocketSession key : myEmployees.keySet()){
-            System.out.println("키 : " + key);
-            System.out.println("값 : " + myEmployees.get(key));
+            System.out.println("key : " + key);
+            System.out.println("value : " + myEmployees.get(key));
             enolist.add(myEmployees.get(key));
         }
         //메세지보내기

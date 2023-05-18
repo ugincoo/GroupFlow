@@ -26,7 +26,10 @@ const style = {
 
 export default function AttendanceStatus(props) {
 let [myEmployee,setMyEmployee]=useState([]) //나와같은부서 직원들넣기
+let [connectEmployee,setConnectEmployee]=useState();
 let [open, setOpen] = React.useState(false);
+
+
 
     useEffect( ()=>{
         axios
@@ -34,21 +37,20 @@ let [open, setOpen] = React.useState(false);
             .then(r=>{
                 console.log(r.data)
                 setMyEmployee(r.data)
-
-
             })
+            setConnectEmployee(props.connectEmployee)
     },[])
 
-
+    console.log(myEmployee)
 
       const handleClose = () => {
         setOpen(false);
       };
      const handleOpen = () => {
-           props.ws.current=new WebSocket("ws://localhost:8080/commute/"+props.eno);
-           props.ws.current.send()
-       setOpen(true);
+           setOpen(true);
+
      };
+
 
 
 

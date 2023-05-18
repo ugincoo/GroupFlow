@@ -24,7 +24,7 @@ export default function Header(props) {
         if( gokDisabled == true  ){ setGokDisabled(false)  }
         else{  setGokDisabled(true )  }
     }
-        let ws=useRef(null);    //장민정 서버소켓
+
 
         axios.get('/login/confirm').then( r => { setEno(r.data.eno) } )
         console.log(eno);
@@ -38,21 +38,19 @@ export default function Header(props) {
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/mypage">마이페이지</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a>}, // 유진 추가 05/16
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/adminofflist">전직원연차내역</a>},//유진 추가
-                    {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler} ws={ws} eno={eno}/>}
+                    {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler} eno={eno}/>}
 
                 ]
 
-        let 출근내역=<AttendanceStatus ws={ws} eno={eno} />
+        //let 출근내역=<AttendanceStatus ws={ws} eno={eno} />
 
-      const [state, setState] = React.useState({
-        left: false,
-      });
+
 
         const toggleDrawer = (anchor, open) => (event) => {
           if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
           }
-          setState({ ...state, [anchor]: open });
+
         };
         const list = (anchor) => (
             <Box
@@ -109,18 +107,7 @@ const drawerWidth = 240;
                        ))}
                      </List>
                      <Divider />
-                     <List>
-                       {[출근내역].map((text, index) => (
-                         <ListItem key={text} disablePadding>
-                           <ListItemButton>
-                             <ListItemIcon>
-                               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                             </ListItemIcon>
-                             <ListItemText primary={text} />
-                           </ListItemButton>
-                         </ListItem>
-                       ))}
-                     </List>
+
                    </Drawer>
 
     </>)
