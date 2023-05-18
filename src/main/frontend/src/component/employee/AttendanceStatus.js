@@ -26,6 +26,7 @@ const style = {
 
 export default function AttendanceStatus(props) {
 let [myEmployee,setMyEmployee]=useState([]) //나와같은부서 직원들넣기
+let [open, setOpen] = React.useState(false);
 
     useEffect( ()=>{
         axios
@@ -34,58 +35,47 @@ let [myEmployee,setMyEmployee]=useState([]) //나와같은부서 직원들넣기
                 console.log(r.data)
                 setMyEmployee(r.data)
 
-               // props.ws.current=new WebSocket("ws://localhost:8080/commute/"+props.eno);
-                //props.ws.sendMessage()
 
             })
     },[])
 
-     const [open, setOpen] = React.useState(true);
+
 
       const handleClose = () => {
         setOpen(false);
-        window.location.href ="/"
       };
+     const handleOpen = () => {
+           props.ws.current=new WebSocket("ws://localhost:8080/commute/"+props.eno);
+           props.ws.current.send()
+       setOpen(true);
+     };
 
-        const modalbtn=()=>{
-          props.setAhtml(modalHtml)
 
-        }
-
-      const modalHtml = ( <Modal
-                       open={open}
-                       onClose={handleClose}
-                       aria-labelledby="parent-modal-title"
-                       aria-describedby="parent-modal-description"
-                     >
-                       <Box sx={{ ...style, width: 400 }}>
-                         <div className="top">
-                             <h2 id="parent-modal-title">출근현황</h2>
-                             <Button onClick={handleClose}>x</Button>
-                         </div>
-                         <p id="parent-modal-description">
-                           {
-                               myEmployee.map( (e)=>{
-                                   return(
-                                       <div>
-                                       {e.ename}
-                                       </div>
-                                   )
-
-                               })
-                           }
-                         </p>
-
-                       </Box>
-                     </Modal>
-                     )
 
 
 
       return (
         <div>
-          <Button onClick={modalbtn}>출근현황</Button>
-          {props.aHtml}
+          <Button onClick={handleOpen}>출근현황</Button>
+          <Modal
+             open={open}
+             onClose={handleClose}
+             aria-labelledby="parent-modal-title"
+             aria-describedby="parent-modal-description"
+           >
+             <Box sx={{ ...style, width: 400 }}>
+               <div className="top">
+                   <h2 id="parent-modal-title">출근현황</h2>
+                   <Button onClick={handleClose}>x</Button>
+               </div>
+               <p id="parent-modal-description">
+                 {
+                    myEmployee==''? '' : myEmployee.map( (e)=>{ return( <div> {e.ename} </div>  ) })
+                 }
+               </p>
+
+             </Box>
+           </Modal>
         </div>
       );
 }

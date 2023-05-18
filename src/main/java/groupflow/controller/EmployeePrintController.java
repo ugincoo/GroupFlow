@@ -44,7 +44,6 @@ public class EmployeePrintController {
 
     @GetMapping("/findmyemployees") //우리부서 직원들 구하기
     public List<AttendanceListDto> getEmployees(){
-        log.info("컨트롤");
         List<AttendanceListDto> result=employeePrintService.getMyEmployees();
         log.info("우리직원"+result);
         return result;

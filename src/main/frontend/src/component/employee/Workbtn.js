@@ -9,10 +9,8 @@ export default function Workbtn(props) {
             console.log(r.data)
             if(r.data==true){
                 alert("출근등록 되었습니다.")
-                setGokDisabled(true);
                  props.ws.current=new WebSocket("ws://localhost:8080/commute/"+props.eno);
-                props.gokDisabledHandler()
-                 props.ws.current=new WebSocket("ws://localhost:8080/commute");
+                 props.gokDisabledHandler()
                  props.ws.current.onopen=()=>{ console.log("서버접속") }
                  props.ws.current.onclose=(e)=>{ console.log("나감") }
             }
