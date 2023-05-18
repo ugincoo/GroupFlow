@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LeaveRequestRepository extends JpaRepository <LeaveRequestEntity,Integer>{
+
 }

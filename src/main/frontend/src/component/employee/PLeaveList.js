@@ -21,7 +21,8 @@ export default function LeaveRequestList(props){
     const [ login , setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) )
     // 1. 요청한 게시물 정보를 가지고 있는 리스트 변수[ 상태 관리변수 ]
 
-         let [ rows , setRows ] = useState( [] )
+         let [ rows , setRows ] = useState( [] );
+
          let [pageInfo , setPageInfo] = useState({ 'page':1 });
          let [ totalPage , setTotalPage] = useState( 1 )
          let [ totalCount , setTotalCount] = useState( 1 )
@@ -33,6 +34,7 @@ export default function LeaveRequestList(props){
                         console.log(r);
                         console.log(r.data);
                         setRows(r.data)
+
                     } )
                  .catch( err => { console.log("error : " + err); })
 
@@ -53,35 +55,57 @@ export default function LeaveRequestList(props){
         }, [] )
 
 
-        //3. 페이징 변경
-        const selectPage = (e,value) =>{
-            console.log(value);
-            pageInfo.page = value; // 버튼이 바뀌었을때 페이지번호 가져와서 상태변수에 대입
-            setPageInfo( {...pageInfo} ); // 클릭 된 페이지 번호를 상태변수에 새로고침
-            console.log(e);
-            console.log(e.target);           // button
-            console.log(e.target.value);     // button이여서 value 값 없음
-            console.log(e.target.innerHTML); // 해당 button에서 안에 출력되는 html 호출
-            console.log(e.target.outerText); // 해당 button에서 밖으로 출력되는 text 호출
-        }
-//test
- const test =  rows.map(row => {
-    if(login.dno == row.dno ){
-    console.log(row)
-        return(
-            <TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
-                <TableCell align="center">{row.lrequestdate}</TableCell>
-                <TableCell align="center">{row.ename}</TableCell>
-                <TableCell align="center">{row.dname}</TableCell>
-                <TableCell align="center">{row.lstart} ~ {row.lend}</TableCell>
-            </TableRow>
-        )
-    }else {
-         return(<TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
-        </TableRow> )
+ // 결재 상태 함수
+const approval = (e) => {
+    const approvaldate = window.prompt('결재일을 입력 해주세요 (예: 2023-01-01)');
+    console.log(e.target.value);
+    let info ={
+        lno : e.target.value,
+        approvaldate : approvaldate
     }
 
+    axios.put("/dayoff/pok",info)
+         .then(r => {
+            if( r.data == true ){
+                alert('승인되었습니다.');
+                setPageInfo({...pageInfo});
+            }
+    })
+
+
+};
+
+// 삼항연산자 map
+ const pLeaveList = rows.map((row) => {
+   return (
+     <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+       <TableCell align="center">{row.lrequestdate}</TableCell>
+       <TableCell align="center">{row.ename}</TableCell>
+       <TableCell align="center">{row.dname}</TableCell>
+       <TableCell align="center">{row.lstart} ~ {row.lend}</TableCell>
+       <TableCell align="center">{row.requestreason}</TableCell>
+       {login.dno === row.dno && row.approvaldate === null ?
+       (
+         <TableCell>
+           <button onClick={approval} type="button" value={row.lno} className="pstate"> 승인 </button>
+         </TableCell>
+       )
+       : (
+         <>
+           {login.dno === row.dno && row.approvaldate !== null ? (
+             <TableCell align="center">{row.approvaldate}</TableCell>
+           )
+       : (
+             <TableCell></TableCell>
+           )}
+         </>
+       )}
+     </TableRow>
+   );
  });
+
+
+
      return (
 
      <Container>
@@ -89,19 +113,21 @@ export default function LeaveRequestList(props){
            <Table sx={{ minWidth: 650 }} aria-label="simple table">
              <TableHead>
                <TableRow>
-                 <TableCell align="center" style={{ width:'20%' }}>연차신청일</TableCell>
+                 <TableCell align="center" style={{ width:'15%' }}>연차신청일</TableCell>
                  <TableCell align="center" style={{ width:'10%' }}>신청자</TableCell>
                  <TableCell align="center" style={{ width:'10%' }}>부서</TableCell>
-                 <TableCell align="center" style={{ width:'60%' }}>연차사용일</TableCell>
+                 <TableCell align="center" style={{ width:'30%' }}>연차사용일</TableCell>
+                 <TableCell align="center" style={{ width:'20%' }}>연차사유</TableCell>
+                 <TableCell align="center" style={{ width:'15%' }}>결재일 / 승인</TableCell>
                </TableRow>
              </TableHead>
              <TableBody>
-                { test }
+                { pLeaveList }
              </TableBody>
            </Table>
          </TableContainer>
         <div style={{margin : "30px 0px", display : "flex", justifyContent:"center"}}>
-            <Pagination count={ totalPage }  variant="outlined" color="secondary" onChange={selectPage} />
+            <Pagination count={ totalPage }  variant="outlined" color="secondary"  />
         </div>
      </Container>
      );

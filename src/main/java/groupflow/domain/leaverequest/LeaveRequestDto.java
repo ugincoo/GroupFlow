@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class LeaveRequestDto {
@@ -23,11 +24,11 @@ public class LeaveRequestDto {
     private int dno; // 부서 넘버
     private String dname; // 부서이름
     private String ename; // 직원 이름
-
     // 저장용
     public LeaveRequestEntity toEntity(){
         return LeaveRequestEntity.builder()
                 .lno(this.lno)
+                .approvaldate(this.approvaldate)
                 .approvalstate(this.approvalstate)
                 .requestreason(this.requestreason)
                 .lrequestdate( LocalDate.now() )

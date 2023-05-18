@@ -74,15 +74,21 @@ export default function LeaveRequestList(props){
                  <TableCell align="center" style={{ width:'20%' }}>연차신청일</TableCell>
                  <TableCell align="center" style={{ width:'10%' }}>신청자</TableCell>
                  <TableCell align="center" style={{ width:'60%' }}>연차사용일</TableCell>
+                 <TableCell align="center" style={{ width:'60%' }}>결재승인일</TableCell>
                </TableRow>
              </TableHead>
              <TableBody>
               {rows.map((row) => (
-                 <TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
-                   <TableCell align="center">{row.lrequestdate}</TableCell>
-                   <TableCell align="center">{login.ename}</TableCell>
-                   <TableCell align="center">{row.lstart} ~ {row.lend}</TableCell>
-                 </TableRow>
+                 <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                     <TableCell align="center">{row.lrequestdate}</TableCell>
+                     <TableCell align="center">{login.ename}</TableCell>
+                     <TableCell align="center">
+                       {row.lstart} ~ {row.lend}
+                     </TableCell>
+                     <TableCell align="center">
+                       {row.approvaldate != null ? row.approvaldate : '결재대기중'}
+                     </TableCell>
+                   </TableRow>
                ))}
              </TableBody>
            </Table>
