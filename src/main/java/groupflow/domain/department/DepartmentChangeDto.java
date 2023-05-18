@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 
 public class DepartmentChangeDto {
 
-    private int dcno; // 식별번호
+    private int id; // 식별번호
     private String dcstartdate; // 적용날짜
     private String dcenddate; // 끝날짜
     private String dcstartreason; // 부서변경사유
@@ -35,7 +35,7 @@ public class DepartmentChangeDto {
          */
 
         return  DepartmentChangeEntity.builder()
-                .dcno(this.dcno)
+                .dcno(this.id)
                 .dcstartdate(LocalDate.parse(this.dcstartdate))
                 //.dcenddate(enddatetime)
                 .dcstartreason(this.dcstartreason)

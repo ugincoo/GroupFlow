@@ -40,7 +40,7 @@ public class DepartmentChangeEntity { // 부서이동테이블
 
     public DepartmentChangeDto todto(){
         return DepartmentChangeDto.builder()
-                .dcno(this.dcno)
+                .id(this.dcno)
                 .dno(this.departmentEntity.getDno())
                 .eno(this.employeeEntity.getEno())
                 .dcstartreason(this.dcstartreason.toString())

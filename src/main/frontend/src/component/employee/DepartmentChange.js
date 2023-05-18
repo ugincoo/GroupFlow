@@ -14,10 +14,11 @@ import Container from '@mui/material/Container';
 
 
 const columns = [
-  { field: 'id', headerName: '번호', width: 300},
-  { field: 'dcstartdate', headerName: '적용날짜', width: 300 },
-  { field: 'dcenddate', headerName: '끝날짜', width: 300 },
-  { field: 'dno', headerName: '부서명번호', width: 300 }
+  { field: 'id', headerName: '번호', width: 200},
+  { field: 'dcstartdate', headerName: '적용날짜', width: 200 },
+  { field: 'dcenddate', headerName: '끝날짜', width: 200 },
+  { field: 'dcstartreason', headerName: '부서변경이유', width: 200 },
+  { field: 'dno', headerName: '부서명번호', width: 200 }
 ];
 
 
