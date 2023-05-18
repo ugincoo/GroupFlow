@@ -21,7 +21,7 @@ public class DepartmentChangeDto {
     private int eno ; // 사원테이블FK
 
     //추가
-
+    private  String dname;//부서명
 
     public DepartmentChangeEntity toEntity() {
         /*

@@ -58,6 +58,13 @@ public class EmployeeUpdateController {
         boolean result = employeeUpdateService.updateposition(positionChangeDto);
         return result;
     }
+
+    //직급변경 출력
+    @GetMapping("/positionprint")
+    public List<PositionChangeDto> positionprint(){
+        return employeeUpdateService.positionprint();
+    }
+
     //재직-->퇴사변경
     @PutMapping("/updateenddate")
     public  boolean updateenddate(@RequestBody EmployeeDto employeeDto){

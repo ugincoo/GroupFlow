@@ -18,7 +18,7 @@ const columns = [
   { field: 'dcstartdate', headerName: '적용날짜', width: 200 },
   { field: 'dcenddate', headerName: '끝날짜', width: 200 },
   { field: 'dcstartreason', headerName: '부서변경이유', width: 200 },
-  { field: 'dno', headerName: '부서명번호', width: 200 }
+  { field: 'dname', headerName: '부서명', width: 200 }
 ];
 
 
@@ -26,14 +26,14 @@ const columns = [
 export default function DepartmentChange(props) {
 //const [ login,setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) );
  const [ rows , setRows ] = useState([]);
-
+console.log(rows);
  useEffect(() =>{
     axios.get('/employee/departmentprint').then(r=>{
         console.log(r.data);
         setRows(r.data);
     })
  },[])
-console.log(rows);
+
 return (
     <Container>
         <Box

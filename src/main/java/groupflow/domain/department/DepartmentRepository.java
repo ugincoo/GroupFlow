@@ -15,5 +15,8 @@ public interface DepartmentRepository extends JpaRepository< DepartmentEntity , 
 
     @Query(value = "select d.* from department d , departmentchange dc where d.dno= dc.dno and dc.eno=:eno and dc.dcenddate is null",nativeQuery = true)
     public Optional<DepartmentEntity> findByEno(@Param(value = "eno") int eno);
+
+    @Query(value = "select dname from departmentchange where dno= :dno",nativeQuery = true)
+    DepartmentEntity finddname(@Param("dno")int dno);
 }
 

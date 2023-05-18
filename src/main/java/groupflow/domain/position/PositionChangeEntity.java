@@ -32,4 +32,16 @@ public class PositionChangeEntity { // 직급변경테이블
     @JoinColumn(name="eno")
     @ToString.Exclude
     private EmployeeEntity employeeEntity; // 사원테이블 [ pk , ]
+
+    public PositionChangeDto todto(){
+        return PositionChangeDto.builder()
+                .id(this.pcno)
+                .pcdate(this.pcdate.toString())
+                .enddate(
+                        this.enddate==null? "직급 담당중": this.enddate.toString()
+                )
+                .pcstartreason(this.pcstartreason)
+                .pname(this.positionEntity.getPname())
+                .build();
+    }
 }

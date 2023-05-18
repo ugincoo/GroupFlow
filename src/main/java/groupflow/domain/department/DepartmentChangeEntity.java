@@ -42,9 +42,12 @@ public class DepartmentChangeEntity { // 부서이동테이블
         return DepartmentChangeDto.builder()
                 .id(this.dcno)
                 .dno(this.departmentEntity.getDno())
+                .dname(this.departmentEntity.getDname())
                 .eno(this.employeeEntity.getEno())
-                .dcstartreason(this.dcstartreason.toString())
-                .dcenddate(this.dcenddate.toString())
+                .dcstartdate(this.dcstartdate.toString())
+                .dcenddate(
+                        this.dcenddate != null ? this.dcenddate.toString(): "근무중"
+                )
                 .dcstartreason(this.dcstartreason)
                 .build();
     }

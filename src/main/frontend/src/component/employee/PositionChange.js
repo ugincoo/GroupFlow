@@ -1,7 +1,5 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
-import DepartmentChange from './DepartmentChange';
-import PositionChange from './PositionChange';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { blue } from '@mui/material/colors';
@@ -16,25 +14,26 @@ import Container from '@mui/material/Container';
 
 
 const columns = [
-  { field: 'id', headerName: '번호', width: 300},
-  { field: 'cdate', headerName: '출근', width: 300 },
-  { field: 'udate', headerName: '퇴근', width: 300 },
-  { field: 'eno', headerName: '사원번호', width: 300 }
+  { field: 'id', headerName: '번호', width: 200},
+  { field: 'pcdate', headerName: '적용날짜', width: 200 },
+  { field: 'enddate', headerName: '끝날짜', width: 200 },
+  { field: 'pcstartreason', headerName: '직급변경이유', width: 200 },
+  { field: 'pname', headerName: '직급', width: 200 }
 ];
 
 
 
-export default function Mypage(props) {
+export default function PositionChange(props) {
 //const [ login,setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) );
  const [ rows , setRows ] = useState([]);
-
+console.log(rows);
  useEffect(() =>{
-    axios.get('/employee/gooutwork').then(r=>{
+    axios.get('/employee/positionprint').then(r=>{
         console.log(r.data);
         setRows(r.data);
     })
  },[])
-console.log(rows);
+
 return (
     <Container>
         <Box
@@ -43,7 +42,6 @@ return (
             <div style={{ height: 400, width: '100%' }}>
               <DataGrid
                 rows={rows}
-
                 columns={columns}
                 initialState={{
                   pagination: {
@@ -53,8 +51,6 @@ return (
                 pageSizeOptions={[5, 10]}
 
               />
-              <DepartmentChange/>
-              <PositionChange/>
             </div>
         </Box>
     </Container>

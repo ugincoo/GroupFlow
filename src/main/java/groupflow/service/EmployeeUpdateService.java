@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -191,18 +192,47 @@ public class EmployeeUpdateService {
 
     //부서변경 출력
     public List<DepartmentChangeDto> departmentprint(){
+        log.info("departlist start");
         EmployeeDto employeeDto=loginService.loginInfo();
         Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(employeeDto.getEno());//로그인포에 eno을 가지고 직원엔티티찾음
+        log.info("optionalEmployeeEntity:"+optionalEmployeeEntity);
         if(optionalEmployeeEntity.isPresent()){
             List<DepartmentChangeEntity> departmentChangeEntityList=optionalEmployeeEntity.get().getDepartmentChangeEntityList();//찾은 엔티티에 부서변경리스트 꺼내옴.
+
+            log.info("departmentChangeEntityList?AAA?A?A:"+departmentChangeEntityList);
             List<DepartmentChangeDto> list=new ArrayList<>();
             departmentChangeEntityList.forEach((e)->{
+                log.info("e??:"+e);
+                /*
+                String dname=e.getDepartmentEntity().getDname();
+                DepartmentChangeDto departmentChangeDto = e.todto();
+                departmentChangeDto.setDname(dname);
+                */
                 list.add(e.todto());
+                log.info("departlistforrrrr:"+list);
             });
             log.info("departlist:"+list);
+            Collections.reverse(list);//최근이 위로
             return  list;
         }
         return null;
 
     }
+
+    //직급변경 출력
+    public List<PositionChangeDto> positionprint(){
+        EmployeeDto employeeDto=loginService.loginInfo();
+        Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(employeeDto.getEno());
+        if(optionalEmployeeEntity.isPresent()){
+            List<PositionChangeEntity> positionChangeEntityList=optionalEmployeeEntity.get().getPositionChangeEntityList();
+            List<PositionChangeDto> list=new ArrayList<>();
+            positionChangeEntityList.forEach((positionChangeEntity)->{
+                list.add( positionChangeEntity.todto());
+            });
+            Collections.reverse(list);//최근이 위로
+            return  list;
+        }
+          return  null;
+    }
+
 }
