@@ -1,0 +1,34 @@
+.LeaveButton{
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #F0F8FF;
+}
+
+.modalBox{
+     position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      background-color: #F0F8FF;
+      border : none;
+      border-radius:10px;
+}
+
+.modalBoxTitle{
+    margin : 5px 5px;
+}
+.modalBoxCon{
+    margin : 5px 5px;
+}
+.modalButton{
+    border: none;
+    border-radius: 10px;
+    padding: 10px 100px;
+    color: #fff;
+    font-size: 15px;
+    margin-bottom: 15px;
+    background-color: #0C5272;
+}

@@ -82,7 +82,9 @@ const onApplication = () => {
 
 
     return(<>
-         <button onClick={handleOpen}>연차신청</button>
+         <button
+            className="LeaveButton"
+            onClick={handleOpen}>연차신청</button>
         <Modal
             className="aria-describedby"
             open={open}
@@ -94,7 +96,7 @@ const onApplication = () => {
               <h2 id="child-modal-title"> 연차 신청 </h2>
               <p id="child-modal-description">
                 <Container>
-                    <div>
+                    <div className="modalBoxCon">
                         <div> 이름 : <span className="ename">  {login.ename}   </span> </div>
                         <div> 부서 : <span className="dno"> {login.dname}  </span> </div>
                         <div> 직급 : <span className="pno"> {login.pname}  </span> </div>
@@ -107,9 +109,9 @@ const onApplication = () => {
                     </div>
                 </Container>
               </p>
-              <button  onClick={handleClose}>취소</button>
-              <button onClick={onApplication}>신청</button>
-            </Box>
+              <button className="modalButton" onClick={handleClose}>취소</button>
+              <button className="modalButton" onClick={onApplication}>신청</button>
+            </div>
           </Modal>
     </>);
 }

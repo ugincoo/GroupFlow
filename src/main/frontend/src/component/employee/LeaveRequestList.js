@@ -14,17 +14,18 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 // 페이징처리
 import Pagination from '@mui/material/Pagination';
+//모달
+import LeaveRequest from "./LeaveRequest.js"
 
 // 개인 연차 내역
 export default function LeaveRequestList(props){
     // 0. 로그인 정보 변수
     const [ login , setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) )
-    // 1. 요청한 게시물 정보를 가지고 있는 리스트 변수[ 상태 관리변수 ]
 
+    // 1. 요청한 게시물 정보를 가지고 있는 리스트 변수[ 상태 관리변수 ]
          let [ rows , setRows ] = useState( [] )
          let [pageInfo , setPageInfo] = useState({ 'page':1 });
          let [ totalPage , setTotalPage] = useState( 1 )
-         let [ totalCount , setTotalCount] = useState( 1 )
          // 2. 서버에게 요청하기 [ 컴포넌트가 처음 생성 되었을때 ] // useEffect( ()=>{} , [] )
          useEffect( ()=>{
              axios.get('/dayoff/myget',{param:pageInfo})
@@ -42,7 +43,7 @@ export default function LeaveRequestList(props){
             axios.get("/login/confirm")
                 .then(r => {
                     console.log(r);
-                    if(r.data != ''){// 로그인이 되어 있으면 // 서비스에서 null 이면 js에서 ''이다
+                    if(r.data != ''){// 로그인이 되어 있으면 //
                         sessionStorage.setItem( "login_token",JSON.stringify(r.data) );
                         //상태변수에 저장
                         setLogin(JSON.parse( sessionStorage.getItem("login_token") ) );
@@ -67,13 +68,14 @@ export default function LeaveRequestList(props){
      return (
 
      <Container>
+        <LeaveRequest />
          <TableContainer component={Paper}>
            <Table sx={{ minWidth: 650 }} aria-label="simple table">
              <TableHead>
                <TableRow>
                  <TableCell align="center" style={{ width:'20%' }}>연차신청일</TableCell>
-                 <TableCell align="center" style={{ width:'10%' }}>신청자</TableCell>
-                 <TableCell align="center" style={{ width:'50%' }}>연차사용일</TableCell>
+                 <TableCell align="center" style={{ width:'40%' }}>연차사용일</TableCell>
+                 <TableCell align="center" style={{ width:'20%' }}>연차사유</TableCell>
                  <TableCell align="center" style={{ width:'20%' }}>결재상태</TableCell>
                </TableRow>
              </TableHead>
@@ -81,10 +83,10 @@ export default function LeaveRequestList(props){
               {rows.map((row) => (
                  <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                      <TableCell align="center">{row.lrequestdate}</TableCell>
-                     <TableCell align="center">{login.ename}</TableCell>
                      <TableCell align="center">
                        {row.lstart} ~ {row.lend}
                      </TableCell>
+                     <TableCell align="center">{row.requestreason}</TableCell>
                      <TableCell align="center">
                        {row.approvaldate != null ? row.approvaldate : '결재대기중'}
                      </TableCell>
