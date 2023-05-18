@@ -48,9 +48,9 @@ export default function ViewDetailEmployee(props) {
     let [ positionList , setPositionlist ] = useState([]);
     let [ departmentList , setDepartmentList ] = useState([]);
 
-    // 처음실행 
+    // 처음실행
     useEffect(()=>{
-        //직급,부서 DB에서 가져오기
+        //직급,부서 DB에서 가져오기 
         axios.get("/position/all").then((r)=>{ setPositionlist(r.data) })
         axios.get("/department/all").then((r)=>{ setDepartmentList(r.data) })
     },[])
