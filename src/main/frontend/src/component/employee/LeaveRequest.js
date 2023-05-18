@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Container from '@mui/material/Container';
 
+// 연차 신청 모달
 export default function LeaveRequest(props){
 // 0. 로그인 정보 변수
 const [ login,setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) );
@@ -41,7 +42,7 @@ const onApplication = () => {
             }else if (r.data == 3){
                 console.log(r.data+"번");
                 alert('연차 신청 되었습니다.');
-                window.location.href="../component/employee/LeaveRequestList"
+                window.location.href="/offlist"
             }
 
         })
@@ -88,7 +89,7 @@ const onApplication = () => {
               <p id="child-modal-description">
                 <Container>
                     <div>
-                        <div> 이름 : <span className="ename"> {login.ename}   </span> </div>
+                        <div> 이름 : <span className="ename">  {login.ename}   </span> </div>
                         <div> 부서 : <span className="dno"> {login.dname}  </span> </div>
                         <div> 직급 : <span className="pno"> {login.pname}  </span> </div>
                         <div> 연차 사용일 </div>

@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 // 페이징처리
 import Pagination from '@mui/material/Pagination';
 
-
+// 개인 연차 내역
 export default function LeaveRequestList(props){
     // 0. 로그인 정보 변수
     const [ login , setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) )
@@ -73,8 +73,8 @@ export default function LeaveRequestList(props){
                <TableRow>
                  <TableCell align="center" style={{ width:'20%' }}>연차신청일</TableCell>
                  <TableCell align="center" style={{ width:'10%' }}>신청자</TableCell>
-                 <TableCell align="center" style={{ width:'60%' }}>연차사용일</TableCell>
-                 <TableCell align="center" style={{ width:'60%' }}>결재승인일</TableCell>
+                 <TableCell align="center" style={{ width:'50%' }}>연차사용일</TableCell>
+                 <TableCell align="center" style={{ width:'20%' }}>결재상태</TableCell>
                </TableRow>
              </TableHead>
              <TableBody>

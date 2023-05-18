@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 // 페이징처리
 import Pagination from '@mui/material/Pagination';
 
-
+// 전직원 연차 내역 [ 경영지원팀 ]
 export default function AdminLeaveList(props){
     // 0. 로그인 정보 변수
     const [ login , setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) )

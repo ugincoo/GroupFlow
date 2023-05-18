@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 // 페이징처리
 import Pagination from '@mui/material/Pagination';
 
-
+// 부서 연차 신청 내역 [ 부장직급조회 ]
 export default function LeaveRequestList(props){
     // 0. 로그인 정보 변수
     const [ login , setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) )
@@ -69,10 +69,10 @@ const approval = (e) => {
             if( r.data == true ){
                 alert('승인되었습니다.');
                 setPageInfo({...pageInfo});
+            }else{
+                alert('날짜 형식으로 입력 해주세요.');
             }
     })
-
-
 };
 
 // 삼항연산자 map
