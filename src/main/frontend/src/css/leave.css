@@ -55,3 +55,12 @@
     margin: 10px;
     padding: 13px 100px;
 }
+
+.pstate{
+    border: none;
+    border-radius: 10px;
+    margin-left: 37px;
+    padding: 3px 33px;
+    background-color: #F0F8FF;
+    box-shadow: 2px 2px 2px #c8d0d6;
+}

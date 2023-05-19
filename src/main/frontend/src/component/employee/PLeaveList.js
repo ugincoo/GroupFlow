@@ -85,7 +85,6 @@ const approval = (e) => {
              <TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
                  <TableCell align="center">{row.lrequestdate}</TableCell>
                  <TableCell align="center">{row.ename}</TableCell>
-                 <TableCell align="center">{row.dname}</TableCell>
                  <TableCell align="center">{row.lstart} ~ {row.lend}</TableCell>
                  <TableCell align="center">{row.requestreason}</TableCell>
                  <TableCell>
@@ -98,7 +97,6 @@ const approval = (e) => {
                  <TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
                      <TableCell align="center">{row.lrequestdate}</TableCell>
                      <TableCell align="center">{row.ename}</TableCell>
-                     <TableCell align="center">{row.dname}</TableCell>
                      <TableCell align="center">{row.lstart} ~ {row.lend}</TableCell>
                      <TableCell align="center">{row.requestreason}</TableCell>
                      <TableCell align="center">{row.approvaldate}</TableCell>
@@ -121,7 +119,6 @@ const approval = (e) => {
                <TableRow className="tableTitle">
                  <TableCell align="center" style={{ width:'15%' }}>연차신청일</TableCell>
                  <TableCell align="center" style={{ width:'10%' }}>신청자</TableCell>
-                 <TableCell align="center" style={{ width:'10%' }}>부서</TableCell>
                  <TableCell align="center" style={{ width:'30%' }}>연차사용일</TableCell>
                  <TableCell align="center" style={{ width:'20%' }}>연차사유</TableCell>
                  <TableCell align="center" style={{ width:'15%' }}>결재일 / 승인</TableCell>
