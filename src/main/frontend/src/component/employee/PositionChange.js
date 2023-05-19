@@ -4,7 +4,9 @@ import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { blue } from '@mui/material/colors';
 //--------------------------텝------------------------------------------
-import Tabs from '@mui/material/Tabs';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
 import Tab from '@mui/material/Tab';
 //---------------------------테이블-------------------------------------
 import { DataGrid } from '@mui/x-data-grid';

@@ -16,26 +16,25 @@ import Container from '@mui/material/Container';
 
 
 const columns = [
-  { field: 'id', headerName: '번호', width: 200},
-  { field: 'dcstartdate', headerName: '적용날짜', width: 200 },
-  { field: 'dcenddate', headerName: '끝날짜', width: 200 },
-  { field: 'dcstartreason', headerName: '부서변경이유', width: 200 },
-  { field: 'dname', headerName: '부서명', width: 200 }
+  { field: 'id', headerName: '번호', width: 300},
+  { field: 'cdate', headerName: '출근', width: 300 },
+  { field: 'udate', headerName: '퇴근', width: 300 },
+  { field: 'eno', headerName: '사원번호', width: 300 }
 ];
 
 
 
-export default function DepartmentChange(props) {
+export default function GoworkPrint(props) {
 //const [ login,setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) );
  const [ rows , setRows ] = useState([]);
-console.log(rows);
+
  useEffect(() =>{
-    axios.get('/employee/departmentprint').then(r=>{
+    axios.get('/employee/gooutwork').then(r=>{
         console.log(r.data);
         setRows(r.data);
     })
  },[])
-
+console.log(rows);
 return (
     <Container>
         <Box
@@ -44,6 +43,7 @@ return (
             <div style={{ height: 400, width: '100%' }}>
               <DataGrid
                 rows={rows}
+
                 columns={columns}
                 initialState={{
                   pagination: {
@@ -53,13 +53,10 @@ return (
                 pageSizeOptions={[5, 10]}
 
               />
+
             </div>
         </Box>
     </Container>
   );
-
-
-
-
 
 }
