@@ -18,6 +18,7 @@ import styles from '../css/header.css'; //css
 
 
 export default function Header(props) {
+let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
     const [ eno, setEno] = useState();
     const [ gokDisabled, setGokDisabled] = useState(false);
     const gokDisabledHandler = () =>{
@@ -42,7 +43,7 @@ export default function Header(props) {
 
                 ]
 
-        //let 출근내역=<AttendanceStatus ws={ws} eno={eno} />
+        let 출근내역=<AttendanceStatus  />
 
 
 
@@ -52,31 +53,6 @@ export default function Header(props) {
           }
 
         };
-        const list = (anchor) => (
-            <Box
-              role="presentation"
-              onClick={toggleDrawer(anchor, false)}
-              onKeyDown={toggleDrawer(anchor, false)}
-            >
-              <List>
-                {page.map((e, index) => (
-                  <ListItem key={e.page} disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                      </ListItemIcon>
-                      <ListItemText primary={e.page} />
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
-              <Divider />
-            </Box>
-          );
-
-
-
-
 
 
 const drawerWidth = 240;
@@ -94,19 +70,36 @@ const drawerWidth = 240;
                      variant="permanent"
                      anchor="left"
                    >
-                     <List>
-                       {page.map((e, index) => (
-                         <ListItem key={e.page} disablePadding>
-                           <ListItemButton>
-                             <ListItemIcon>
-                               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                             </ListItemIcon>
-                             <ListItemText primary={e.page} />
-                           </ListItemButton>
-                         </ListItem>
-                       ))}
-                     </List>
-                     <Divider />
+
+                    <List>
+                      {page.map((e, index) => (
+                        <ListItem key={e.page} disablePadding>
+                          <ListItemButton>
+                            <ListItemIcon>
+                              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={e.page} />
+                          </ListItemButton>
+                        </ListItem>
+                      ))}
+                    </List>
+                    <Divider />
+
+                   { !login?'':
+                       ( login.pno >=6?
+                        <List>
+                          {[출근내역].map((text, index) => (
+                            <ListItem key={text} disablePadding>
+                              <ListItemButton>
+                                <ListItemIcon>
+                                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                              </ListItemButton>
+                            </ListItem>
+                          ))}
+                        </List> :'')
+                   }
 
                    </Drawer>
 

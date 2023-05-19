@@ -24,7 +24,7 @@ const columns = [
 
 ];
 export default function AllEmplyee(props) {
-    let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
+
     let [allEmplyee,setAllEmplyee] = useState([]);
     let [info,setInfo]=useState({'dno':0 , 'leavework':1, 'key':0 , 'keyword':'' })    //1 : 입사 2:퇴사
     let [mydno,setMydno] = useState();
@@ -48,7 +48,7 @@ export default function AllEmplyee(props) {
                 .then(r=>{setMydno(r.data) })
                 },[mydno])
 
-        console.log(login)
+
 
         const departmentchange=(dno)=>{ //[부서별출력]
 

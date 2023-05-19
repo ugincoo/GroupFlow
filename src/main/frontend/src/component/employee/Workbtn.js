@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useRef} from 'react';
 import axios from 'axios';
-import AttendanceStatus from './AttendanceStatus';
+
 
 export default function Workbtn(props) {
 
@@ -41,6 +41,6 @@ const outwork=()=>{
                 disabled={props.gokDisabled ? false : true}
                 onClick={outwork}  > 퇴근 </button>
 
-            <AttendanceStatus  />
+
     </>)
  }
