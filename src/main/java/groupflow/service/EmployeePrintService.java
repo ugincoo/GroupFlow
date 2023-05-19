@@ -1,6 +1,8 @@
 package groupflow.service;
 
+import groupflow.domain.attendance.AttendanceEntity;
 import groupflow.domain.attendance.AttendanceListDto;
+import groupflow.domain.attendance.AttendanceRepository;
 import groupflow.domain.department.*;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
@@ -22,6 +24,9 @@ public class EmployeePrintService {
 
     @Autowired
     EmployeeRepository employeeRepository;
+
+    @Autowired
+    AttendanceRepository attendanceRepository;
 
     @Autowired
     DepartmentChangeEntityRepository departmentChangeRepository;
@@ -154,6 +159,17 @@ public class EmployeePrintService {
             DepartmentEntity departmentEntity=e.getDepartmentChangeEntityList().get(index2).getDepartmentEntity();
             PositionEntity positionEntity=e.getPositionChangeEntityList().get(index2).getPositionEntity();
 
+            String color=null;
+
+            Optional<AttendanceEntity> attendanceEntity= attendanceRepository.findByeno(e.getEno()); //출근한사람
+
+            if(attendanceEntity.isPresent() ) {
+                color = "green";
+            }else {
+                color = "red";
+            }
+
+
 
 
             AttendanceListDto attendanceListDto=AttendanceListDto.builder()
@@ -163,6 +179,7 @@ public class EmployeePrintService {
                             .ename(e.getEname())
                             .dname(departmentEntity.getDname())
                             .pname(positionEntity.getPname())
+                            .color(color)
                             .build();
 
             attendanceListDtoList.add(attendanceListDto);

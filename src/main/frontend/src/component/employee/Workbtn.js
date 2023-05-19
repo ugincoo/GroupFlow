@@ -21,12 +21,12 @@ export default function Workbtn(props) {
 const outwork=()=>{
         axios.put("/employee/outwork").then((r)=>{
             console.log(r.data);
-            if(r.data==true){alert("퇴근등록 되었습니다.");
-                props.gokDisabledHandler()
-                ws.current.close() }
+            if(r.data==true){
+                alert("퇴근등록 되었습니다.");
+                props.gokDisabledHandler() }
                 })
              }
-console.log(connectEmployee)
+
     return(<>
             <button
                 type="button"

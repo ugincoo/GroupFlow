@@ -1,5 +1,6 @@
 package groupflow.socket;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,10 @@ public class AttendanceHandler extends TextWebSocketHandler {
         myEmployees.add(session);
         log.info("myEmployees:"+myEmployees);
 
-        TextMessage message = new TextMessage("enter");
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString("enter");
+
+        TextMessage message= new TextMessage(json);
         handleTextMessage(session, message);
 
     }
@@ -47,7 +51,9 @@ public class AttendanceHandler extends TextWebSocketHandler {
         myEmployees.remove(session);
         log.info("myEmployees:"+myEmployees);
 
-        TextMessage message = new TextMessage("enter");
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString("enter");
+        TextMessage message = new TextMessage(json);
         handleTextMessage(session, message);
     }
 
@@ -64,7 +70,7 @@ public class AttendanceHandler extends TextWebSocketHandler {
         //메세지보내기
 
         for(WebSocketSession key : myEmployees){
-            key.sendMessage(new TextMessage("msg"));
+            key.sendMessage(message);
         }
     }
 }

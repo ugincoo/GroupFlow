@@ -1,5 +1,6 @@
 package groupflow.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import groupflow.domain.attendance.AttendanceDto;
 import groupflow.domain.attendance.AttendanceEntity;
 import groupflow.domain.attendance.AttendanceRepository;
@@ -56,8 +57,11 @@ public class AttendanceService {
                  attendanceEntity1.setEmployeeEntity(entity);//생성된 근태엔티티에 직원엔티티 저장
 
 
-                 TextMessage message = new TextMessage("enter");
-                 try {attendanceHandler.handleMessage(null, message); }
+                 try {
+                     ObjectMapper mapper = new ObjectMapper();
+                     String json = mapper.writeValueAsString("enter");
+                     TextMessage message = new TextMessage(json);
+                     attendanceHandler.handleMessage(null, message); }
                  catch (Exception e) { throw new RuntimeException(e);}
                  return true;
              }
@@ -82,9 +86,15 @@ public class AttendanceService {
                //BaseTime @Date 를 넣어주고 setUdate 에 현재 시간을 강제적으러 넣어줘서 변경해줌.
                log.info("attendanceEntityList??22222:"+attendanceEntityList);
 
-               TextMessage message = new TextMessage("enter");
-               try {attendanceHandler.handleMessage(null, message); }
+
+               try {
+                   ObjectMapper mapper = new ObjectMapper();
+                   String json = mapper.writeValueAsString("enter");
+                   TextMessage message = new TextMessage(json);
+                   attendanceHandler.handleMessage(null, message); }
                catch (Exception e) { throw new RuntimeException(e);}
+
+
                return true;
             }
         }

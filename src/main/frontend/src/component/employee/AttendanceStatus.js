@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 //------------------------사용자----------------------------------------------------
 import styles from '../../css/attendancestatus.css'; //css
 
+import CircleIcon from '@mui/icons-material/Circle';
 
 
 const style = {
@@ -62,7 +63,7 @@ let [open, setOpen] = React.useState(false);
 
 
 
-
+console.log(myEmployee)
 
 
       return (
@@ -81,7 +82,9 @@ let [open, setOpen] = React.useState(false);
                </div>
                <p id="parent-modal-description">
                  {
-                    myEmployee==''? '' : myEmployee.map( (e)=>{ return( <div> {e.ename} </div>  ) })
+                    myEmployee==''? '' : myEmployee.map( (e)=>{ return(
+                        <div> <CircleIcon style={{color:e.color}}/> {e.ename} {e.pname}</div>
+                          ) })
                  }
                </p>
 
