@@ -50,7 +50,7 @@ export default function Header(props) {
 
 
       const [state, setState] = React.useState({
-        left: false, 
+        left: false,  
       });
 
         const toggleDrawer = (anchor, open) => (event) => {
