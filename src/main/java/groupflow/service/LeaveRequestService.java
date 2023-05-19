@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
+import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -83,7 +84,6 @@ public class LeaveRequestService {
         EmployeeDto employeeDto = (EmployeeDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // 2. 로그인 한 직원 정보 가져오기
         EmployeeEntity entity = employeeRepository.findByEno(employeeDto.getEno());
-
         // 3. 개인 연차 정보를 담을 리스트 생성
         List<LeaveRequestDto> dtoList = new ArrayList<>() ;
         // 4. 리스트에 담기

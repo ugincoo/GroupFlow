@@ -76,9 +76,9 @@ export default function LeaveRequestList(props){
              <TableHead>
                <TableRow className="tableTitle">
                  <TableCell align="center" style={{ width:'20%' }}>연차신청일</TableCell>
-                 <TableCell align="center" style={{ width:'40%' }}>연차사용일</TableCell>
-                 <TableCell align="center" style={{ width:'20%' }}>연차사유</TableCell>
                  <TableCell align="center" style={{ width:'20%' }}>결재상태</TableCell>
+                 <TableCell align="center" style={{ width:'20%' }}>연차사유</TableCell>
+                 <TableCell align="center" style={{ width:'40%' }}>연차사용일</TableCell>
                </TableRow>
              </TableHead>
              <TableBody>
@@ -86,11 +86,11 @@ export default function LeaveRequestList(props){
                  <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                      <TableCell align="center">{row.lrequestdate}</TableCell>
                      <TableCell align="center">
-                       {row.lstart} ~ {row.lend}
+                     {row.approvaldate != null ? '결재완료'+row.approvaldate : '결재대기중'}
                      </TableCell>
                      <TableCell align="center">{row.requestreason}</TableCell>
                      <TableCell align="center">
-                       {row.approvaldate != null ? row.approvaldate : '결재대기중'}
+                       {row.lstart} ~ {row.lend}
                      </TableCell>
                    </TableRow>
                ))}

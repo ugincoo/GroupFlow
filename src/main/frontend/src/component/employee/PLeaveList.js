@@ -28,6 +28,7 @@ export default function LeaveRequestList(props){
          let [ totalPage , setTotalPage] = useState( 1 )
          let [ totalCount , setTotalCount] = useState( 1 )
          console.log(login.dno);
+         console.log(login);
          // 2. 서버에게 요청하기 [ 컴포넌트가 처음 생성 되었을때 ] // useEffect( ()=>{} , [] )
          useEffect( ()=>{
              axios.get('/dayoff/position',{params:{dno:login.dno}})
@@ -76,40 +77,44 @@ const approval = (e) => {
     })
 };
 
-// 삼항연산자 map
- const pLeaveList = rows.map((row) => {
-   return (
-     <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-       <TableCell align="center">{row.lrequestdate}</TableCell>
-       <TableCell align="center">{row.ename}</TableCell>
-       <TableCell align="center">{row.dname}</TableCell>
-       <TableCell align="center">{row.lstart} ~ {row.lend}</TableCell>
-       <TableCell align="center">{row.requestreason}</TableCell>
-       {login.dno === row.dno && row.approvaldate === null ?
-       (
-         <TableCell>
-           <button onClick={approval} type="button" value={row.lno} className="pstate"> 승인 </button>
-         </TableCell>
-       )
-       : (
-         <>
-           {login.dno === row.dno && row.approvaldate !== null ? (
-             <TableCell align="center">{row.approvaldate}</TableCell>
-           )
-       : (
-             <TableCell></TableCell>
-           )}
-         </>
-       )}
-     </TableRow>
-   );
- });
+// map
+ const pLeaveList =  rows.map(row => {
+     if( login.dno == row.dno && row.approvaldate == null ){
+     console.log(row)
+         return(
+             <TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
+                 <TableCell align="center">{row.lrequestdate}</TableCell>
+                 <TableCell align="center">{row.ename}</TableCell>
+                 <TableCell align="center">{row.dname}</TableCell>
+                 <TableCell align="center">{row.lstart} ~ {row.lend}</TableCell>
+                 <TableCell align="center">{row.requestreason}</TableCell>
+                 <TableCell>
+                 <button onClick={approval} type="button" value={row.lno} className="pstate"> 승인 </button>
+                 </TableCell>
+             </TableRow>
+         )
+     }else if( login.dno == row.dno && row.approvaldate != null ){
+         return(
+                 <TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
+                     <TableCell align="center">{row.lrequestdate}</TableCell>
+                     <TableCell align="center">{row.ename}</TableCell>
+                     <TableCell align="center">{row.dname}</TableCell>
+                     <TableCell align="center">{row.lstart} ~ {row.lend}</TableCell>
+                     <TableCell align="center">{row.requestreason}</TableCell>
+                     <TableCell align="center">{row.approvaldate}</TableCell>
+                 </TableRow>
+             )
+     }else {
+          return(<TableRow  key={row.name}   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
+         </TableRow> )
+     }
 
-
+  });
 
      return (
 
      <Container>
+        <h4> {login.dname} 연차 신청내역</h4 >
          <TableContainer component={Paper}>
            <Table sx={{ minWidth: 650 }} aria-label="simple table">
              <TableHead>

@@ -41,9 +41,10 @@ const onApplication = () => {
              console.log("r.data : " + r.data);
             if(r.data == 1){
                console.log(r.data+"번");
+               alert('출근하신 후  이용 가능합니다.')
             }else if (r.data == 2){
                 console.log(r.data+"번");
-
+                alert('[경영지원팀문의] 연차 신청 실패 ')
             }else if (r.data == 3){
                 console.log(r.data+"번");
                 alert('연차 신청 되었습니다.');

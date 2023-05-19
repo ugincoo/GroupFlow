@@ -33,6 +33,7 @@ public class LeaveRequestEntity { // 연차테이블
     @Column
     private LocalDate lend; // 연차끝일
     @Column
+    @NonNull
     private String requestreason; // 신청사유
 
     @ManyToOne
