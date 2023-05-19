@@ -46,4 +46,8 @@ public class LeaveRequestController {
         return leaveRequestService.pok(dto);
     }
 
+    @DeleteMapping("")
+    public boolean deleteLeaveRequest( @RequestParam int lno ){
+        return leaveRequestService.deleteLeaveRequest(lno);
+    }
 }

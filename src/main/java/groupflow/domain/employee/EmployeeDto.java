@@ -1,5 +1,6 @@
 package groupflow.domain.employee;
 
+import groupflow.domain.evaluation.EvaluationDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,7 @@ import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +45,8 @@ public class EmployeeDto implements UserDetails {
     // 로그인시 권한 인증용
     private Set<GrantedAuthority> securityPermissionList; // securityPermissionList : 권한목록
 
+    //연차목록 반환
+    private List<EvaluationDto> evaluationDtoList = new ArrayList<>();
 
 
 

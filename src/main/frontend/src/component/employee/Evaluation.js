@@ -26,7 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function Evaluation(props) {
     // props.eno대신에 임시 eno
-    const eno = 2023002; // 김병찬 영업지원부
+    const eno = 2018001; // 김병찬 영업지원부
     // 로그인한 평가자 정보 상태변수
     const [ evaluator , setEvaluator ] = useState({})
     // 평가대상자 정보 상태변수
