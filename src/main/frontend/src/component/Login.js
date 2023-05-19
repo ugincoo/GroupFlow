@@ -34,7 +34,7 @@ export default function Login(props) {
                         // 로컬스토리지
                         //localStorage.setItem("login_token",JSON.stringify(r.data) );
                         // JS 세션 스토리지 [ 브라우저 모두 닫히면 사라진다. ]
-                        sessionStorage.setItem("login_token",JSON.stringify(r.data) );
+                        localStorage.setItem("login_token",JSON.stringify(r.data) );
                         window.location.href="/";
                     }
                 })
