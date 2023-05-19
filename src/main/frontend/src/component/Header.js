@@ -26,6 +26,17 @@ let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_toke
         else{  setGokDisabled(true )  }
     }
 
+        //김은영
+       const getAttendance =() => {
+            axios.get('/employee/infostate').then(r=>{setGokDisabled(r.data)
+            console.log(r.data)
+            })
+        }
+        useEffect (()=>{getAttendance()
+
+        ;}
+
+        ,[])
 
         axios.get('/login/confirm').then( r => { setEno(r.data.eno) } )
 
@@ -39,7 +50,7 @@ let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_toke
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/mypage">마이페이지</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a>}, // 유진 추가 05/16
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/adminofflist">전직원연차내역</a>},//유진 추가
-                    {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler} eno={eno}/>}
+                    {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler} getAttendance={getAttendance} eno={eno}/>}
 
                 ]
 

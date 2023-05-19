@@ -103,6 +103,7 @@ public class AttendanceService {
     }
 
     //출퇴근출력
+    @Transactional
  public List<AttendanceDto> gooutwork(){
      //Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); <- eno, ename암호화 , dno~pno~ 없음
      EmployeeDto employeeDto = loginService.loginInfo(); // employeeDto : eno, ename , dno, dname , pno , pname
@@ -124,16 +125,23 @@ public class AttendanceService {
     }
 
     //출근상태
+    @Transactional
     public boolean infostate(){
-        EmployeeDto employeeDto = loginService.loginInfo();
-        Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(employeeDto.getEno());
-        if(optionalEmployeeEntity.isPresent()){
-            List<AttendanceEntity>attendanceEntityList=optionalEmployeeEntity.get().getAttendanceEntityList();
-            if(attendanceEntityList.size()>0){return true;}
-
+        log.info("start!!!!");
+       EmployeeDto employeeDto = loginService.loginInfo();
+        log.info("employeeDto:????"+employeeDto);
+        Optional<AttendanceEntity> optionalAttendanceEntity=attendanceRepository.findByeno(employeeDto.getEno());
+        log.info("optionalAttendanceEntity:????"+optionalAttendanceEntity);
+        if(optionalAttendanceEntity.isPresent()){
+            AttendanceEntity attendanceEntity=optionalAttendanceEntity.get();
+            log.info("attendanceEntity:????"+attendanceEntity);
+            attendanceRepository.save(attendanceEntity);
+            if(attendanceEntity.getAno()>0){return true;}
         }
         return false;
-    }
+        }
+
+
 
 }
 

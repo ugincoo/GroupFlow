@@ -42,7 +42,7 @@ public class AttendanceController {
     }
 
     //출근상태
-    @GetMapping("")
+    @GetMapping("/infostate")
     public boolean infostate(){
        return attendanceService.infostate();
     }
