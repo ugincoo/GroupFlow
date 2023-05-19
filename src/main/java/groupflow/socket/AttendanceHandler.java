@@ -36,6 +36,9 @@ public class AttendanceHandler extends TextWebSocketHandler {
         myEmployees.put(session,eno);
         log.info("myEmployees:"+myEmployees);
 
+        TextMessage message = new TextMessage("enter");
+        handleTextMessage(session, message);
+
     }
 
 

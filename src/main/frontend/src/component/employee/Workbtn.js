@@ -16,8 +16,8 @@ export default function Workbtn(props) {
 
                  ws.current.onopen=()=>{ //서버접속과 동시에 메세지센드 함수발동
                   console.log("서버접속")
-                  ws.current.send(JSON.stringify({eno:props.eno}))
-                   }
+                 // ws.current.send(JSON.stringify({eno:props.eno}))
+                  }
 
                  ws.current.onclose=(e)=>{ console.log("나감") }
 
@@ -25,7 +25,6 @@ export default function Workbtn(props) {
                  ws.current.onmessage=(e)=>{
                  console.log("메세지")
                  const data = JSON.parse(e.data);
-                 console.log(data);
                  setConnectEmployee(data)
                   }
 
@@ -57,6 +56,6 @@ const outwork=()=>{
                 disabled={props.gokDisabled ? false : true}
                 onClick={outwork}  > 퇴근 </button>
 
-            <AttendanceStatus ws={ws} eno={props.eno} />
+            <AttendanceStatus  connectEmployee={connectEmployee}/>
     </>)
  }

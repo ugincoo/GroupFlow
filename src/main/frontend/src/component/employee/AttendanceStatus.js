@@ -26,10 +26,13 @@ const style = {
 
 export default function AttendanceStatus(props) {
 let [myEmployee,setMyEmployee]=useState([]) //나와같은부서 직원들넣기
-let [connectEmployee,setConnectEmployee]=useState();
+let [connectEmployee,setConnectEmployee]=useState([]); //출근한 전직원들
 let [open, setOpen] = React.useState(false);
 
-
+    console.log(props.connectEmployee)
+    useEffect( ()=>{
+        setConnectEmployee(props.connectEmployee)
+    },[props.connectEmployee])
 
     useEffect( ()=>{
         axios
@@ -37,11 +40,14 @@ let [open, setOpen] = React.useState(false);
             .then(r=>{
                 console.log(r.data)
                 setMyEmployee(r.data)
-            })
-            setConnectEmployee(props.connectEmployee)
-    },[])
 
-    console.log(myEmployee)
+            })
+
+    },[connectEmployee])
+
+
+
+    console.log(connectEmployee)
 
       const handleClose = () => {
         setOpen(false);
