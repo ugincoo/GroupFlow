@@ -50,7 +50,7 @@ export default function Header(props) {
            let 출근현황 = <AttendanceStatus ws={ws} eno={eno} aHtml={aHtml} setAhtml={setAhtml} test={test} setTest={setTest}  />
 
 
-      const [state, setState] = React.useState({
+      const [state, setState] = React.useState({ 
         left: false,
       });
 
