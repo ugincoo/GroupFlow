@@ -27,6 +27,7 @@ export default function Header(props) {
 
 
         axios.get('/login/confirm').then( r => { setEno(r.data.eno) } )
+
         console.log(eno);
            let page=[
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/registration">사원등록</a>},

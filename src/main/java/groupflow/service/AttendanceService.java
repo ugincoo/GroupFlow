@@ -7,11 +7,14 @@ import groupflow.domain.attendance.AttendanceRepository;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
 import groupflow.domain.employee.EmployeeRepository;
+import groupflow.socket.AttendanceHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,10 +31,14 @@ public class AttendanceService {
     private EmployeeRepository employeeRepository;
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private AttendanceHandler attendanceHandler;
     //출근퇴근---------------------------------------------------------------------------------------------
 
     @Transactional
     public  boolean gowork(){
+
+
         log.info("gowork실행");
         EmployeeDto employeeDto = loginService.loginInfo();
          Optional<EmployeeEntity> optionalEmployeeEntity =employeeRepository.findById(employeeDto.getEno());
@@ -47,6 +54,11 @@ public class AttendanceService {
                  attendanceEntity1.setEmployeeEntity(entity); // 근태엔티티에 직원엔티티 추가
                  entity.getAttendanceEntityList().add(attendanceEntity1);//eno로 찾은 직원엔티티에 근태리스트갖고와서 근태엔티티추가
                  attendanceEntity1.setEmployeeEntity(entity);//생성된 근태엔티티에 직원엔티티 저장
+
+
+                 TextMessage message = new TextMessage("enter");
+                 try {attendanceHandler.handleMessage(null, message); }
+                 catch (Exception e) { throw new RuntimeException(e);}
                  return true;
              }
 
@@ -69,12 +81,12 @@ public class AttendanceService {
                attendanceEntity.setUdate( LocalDateTime.now() ); // 근태엔티티에 변경할수있는 필드가 없어서 수정이 자동으로 안됌.
                //BaseTime @Date 를 넣어주고 setUdate 에 현재 시간을 강제적으러 넣어줘서 변경해줌.
                log.info("attendanceEntityList??22222:"+attendanceEntityList);
+
+               TextMessage message = new TextMessage("enter");
+               try {attendanceHandler.handleMessage(null, message); }
+               catch (Exception e) { throw new RuntimeException(e);}
+               return true;
             }
-
-
-
-           return true;
-
         }
         return false;
 

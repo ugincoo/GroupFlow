@@ -154,6 +154,8 @@ public class EmployeePrintService {
             DepartmentEntity departmentEntity=e.getDepartmentChangeEntityList().get(index2).getDepartmentEntity();
             PositionEntity positionEntity=e.getPositionChangeEntityList().get(index2).getPositionEntity();
 
+
+
             AttendanceListDto attendanceListDto=AttendanceListDto.builder()
                             .eno(e.getEno())
                             .dno(departmentEntity.getDno())

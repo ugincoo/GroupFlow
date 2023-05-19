@@ -37,6 +37,8 @@ public interface EmployeeRepository extends JpaRepository< EmployeeEntity , Inte
     List<EmployeeEntity> findByDno(@Param("dno") int dno);
 
 
+
+
     // 입력한 dno, pno에 해당하는 직원이 존재하는지 찾기 - 유슬비
     @Query( value = "select e.eno from employee e , departmentchange dc , positionchange pc where e.eno = dc.eno and e.eno = pc.eno and dc.dno = :dno and pc.pno = :pno", nativeQuery = true)
     Optional<EmployeeEntity> findByDnoAndPno( @Param(value = "dno") int dno , @Param("pno") int pno);
