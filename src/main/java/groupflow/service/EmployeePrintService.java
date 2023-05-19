@@ -133,6 +133,9 @@ public class EmployeePrintService {
     public List<AttendanceListDto> getMyEmployees() {
         int dno=0;
         Object o= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (o.equals("anonymousUser")) {
+            return null;
+        }
         EmployeeDto employeeDto=(EmployeeDto) o;
         Optional<EmployeeEntity> employeeEntity=employeeRepository.findById(employeeDto.getEno());
 
