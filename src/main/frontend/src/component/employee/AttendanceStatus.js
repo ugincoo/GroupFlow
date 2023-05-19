@@ -29,12 +29,12 @@ let [myEmployee,setMyEmployee]=useState([]) //나와같은부서 직원들넣기
 let [connectEmployee,setConnectEmployee]=useState([]); //출근한 전직원들
 let [open, setOpen] = React.useState(false);
 
-    console.log(props.connectEmployee)
-    useEffect( ()=>{
+
+    useEffect( ()=>{ //workbtn 컴포넌트에서 받아온 서버접속직원(출근한전직원)
         setConnectEmployee(props.connectEmployee)
     },[props.connectEmployee])
 
-    useEffect( ()=>{
+    useEffect( ()=>{ //나와같은 부서직원들뽑기
         axios
             .get("/employee/print/findmyemployees")
             .then(r=>{
@@ -45,9 +45,6 @@ let [open, setOpen] = React.useState(false);
 
     },[connectEmployee])
 
-
-
-    console.log(connectEmployee)
 
       const handleClose = () => {
         setOpen(false);
