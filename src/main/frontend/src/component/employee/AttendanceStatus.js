@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 //------------------------사용자----------------------------------------------------
 import styles from '../../css/attendancestatus.css'; //css
 
+import CircleIcon from '@mui/icons-material/Circle';
 
 
 const style = {
@@ -26,24 +27,30 @@ const style = {
 
 export default function AttendanceStatus(props) {
 let [myEmployee,setMyEmployee]=useState([]) //나와같은부서 직원들넣기
-let [connectEmployee,setConnectEmployee]=useState([]); //출근한 전직원들
 let [open, setOpen] = React.useState(false);
 
+ let ws=useRef(null);    //장민정 서버소켓
 
-    useEffect( ()=>{ //workbtn 컴포넌트에서 받아온 서버접속직원(출근한전직원)
-        setConnectEmployee(props.connectEmployee)
-    },[props.connectEmployee])
+    useEffect( ()=>{
+         ws.current=new WebSocket("ws://localhost:8080/commute");
+         ws.current.onopen=()=>{ console.log("서버접속") }
+         ws.current.onclose=(e)=>{ console.log("나감") }
+         ws.current.onmessage=(e)=>{
+         console.log("메세지")
+         const data = JSON.parse(e.data);
+         getmyEmployee()
+          }
+    },[])
 
-    useEffect( ()=>{ //나와같은 부서직원들뽑기
+    const getmyEmployee =()=>{
+
         axios
-            .get("/employee/print/findmyemployees")
-            .then(r=>{
-                console.log(r.data)
-                setMyEmployee(r.data)
+        .get("/employee/print/findmyemployees")
+        .then(r=>{
+         setMyEmployee(r.data)
 
-            })
-
-    },[connectEmployee])
+         } )
+    }
 
 
       const handleClose = () => {
@@ -56,7 +63,7 @@ let [open, setOpen] = React.useState(false);
 
 
 
-
+console.log(myEmployee)
 
 
       return (
@@ -75,7 +82,9 @@ let [open, setOpen] = React.useState(false);
                </div>
                <p id="parent-modal-description">
                  {
-                    myEmployee==''? '' : myEmployee.map( (e)=>{ return( <div> {e.ename} </div>  ) })
+                    myEmployee==''? '' : myEmployee.map( (e)=>{ return(
+                        <div> <CircleIcon style={{color:e.color}}/> {e.ename} {e.pname}</div>
+                          ) })
                  }
                </p>
 

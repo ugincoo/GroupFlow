@@ -16,6 +16,7 @@ public class AttendanceListDto {
     private String pname;
     private String cdate;
     private String udate;
+    private String color;
 
 
 }
