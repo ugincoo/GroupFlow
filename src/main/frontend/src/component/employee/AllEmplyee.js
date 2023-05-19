@@ -53,6 +53,7 @@ export default function AllEmplyee(props) {
 
 
 
+
         const departmentchange=(dno)=>{ //[부서별출력]
 
             console.log(dno)
@@ -87,6 +88,7 @@ export default function AllEmplyee(props) {
   };
 
     console.log(allEmplyee)
+    console.log(mydno)
 
      return (
  

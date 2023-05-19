@@ -4,6 +4,7 @@ import Main from './Main';
 import Header from './Header';
 import Footer from './Footer';
 import Login from './Login';
+import Logout from './Logout';
 import Mypage from './employee/Mypage';
 import Registration from './employee/Registration';
 import AllEmployee from './employee/AllEmplyee';
@@ -16,6 +17,8 @@ import Evaluation from './employee/Evaluation';
 import ManagerEmployeeListView from './employee/ManagerEmployeeListView';
 
 
+
+
 export default function Index(props) {
     return (<>
         <BrowserRouter>
@@ -23,6 +26,7 @@ export default function Index(props) {
             <Routes>
                 <Route path="/" element={ <Main/> }/>
                 <Route path="/login" element={ <Login/> }/>
+                <Route path="/logout" element={ <Logout/> }/>
                 <Route path="/registration" element={ <Registration/> }/>
                 <Route path="/off" element={ <LeaveRequest/> }/>
                 <Route path="/offlist" element={ <LeaveRequestList/> }/>
@@ -32,7 +36,7 @@ export default function Index(props) {
                 <Route path="/mypage" element={ <Mypage/> }/>
                 <Route path="/attendancestatus" element={ <AttendanceStatus/> }/>
                 <Route path="/evaluation/manager" element={ <Evaluation/> }/>
-                <Route path="/ManagerEmployeeListView" element={ <ManagerEmployeeListView/> }/>
+                <Route path="/managerEmployeeListView" element={ <ManagerEmployeeListView/> }/>
             </Routes>
             <Footer/>
         </BrowserRouter>
