@@ -87,6 +87,7 @@ export default function AllEmplyee(props) {
   };
 
     console.log(allEmplyee)
+
      return (
  
 
@@ -110,7 +111,7 @@ export default function AllEmplyee(props) {
                        </div>
                    </div>
                 </Box>
-                {mydno==1 ? <ViewDetailEmployee oneEmployee={oneEmployee} /> : ''}
+                { (mydno==1 && oneEmployee.eno !== undefined) ? <ViewDetailEmployee oneEmployee={oneEmployee} /> : ''}
 
 
             </Box>

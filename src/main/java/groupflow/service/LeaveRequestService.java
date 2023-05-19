@@ -145,6 +145,17 @@ public class LeaveRequestService {
         return false;
     }
 
+    // 5. 연차신청내역 삭제
+    @Transactional
+    public boolean deleteLeaveRequest( int lno ){
+       Optional<LeaveRequestEntity> optionalLeaveRequestEntity = leaveRequestRepository.findById(lno);
+       if (optionalLeaveRequestEntity.isPresent()){
+           leaveRequestRepository.delete( optionalLeaveRequestEntity.get() );
+           return true;
+       }
+       return false;
+    }
+
 }
 /*
     Repository findBy 만드는 방법
