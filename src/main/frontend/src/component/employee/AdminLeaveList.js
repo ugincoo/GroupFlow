@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 /*-----------------------------------------------------------*/
+import styles from '../../css/leave.css'; //css
 import Container from '@mui/material/Container';
 // 버튼
 import Button from '@mui/material/Button';
@@ -74,7 +75,7 @@ export default function AdminLeaveList(props){
          <TableContainer component={Paper}>
            <Table sx={{ minWidth: 650 }} aria-label="simple table">
              <TableHead>
-               <TableRow>
+               <TableRow className="tableTitle">
                  <TableCell align="center" style={{ width:'20%' }}>연차신청일</TableCell>
                  <TableCell align="center" style={{ width:'10%' }}>신청자</TableCell>
                  <TableCell align="center" style={{ width:'10%' }}>부서</TableCell>

@@ -1,9 +1,17 @@
+/*-----------테이블 css------------*/
+.tableTitle{
+    background-color: #F0F8FF;
+}
+
+
+/*-----------모달 css------------*/
 .LeaveButton{
     border: none;
     border-radius: 10px;
     padding: 10px;
     margin-bottom: 15px;
     background-color: #F0F8FF;
+    box-shadow: 2px 2px 2px #c8d0d6;
 }
 
 .modalBox{
@@ -17,18 +25,33 @@
       border-radius:10px;
 }
 
-.modalBoxTitle{
-    margin : 5px 5px;
+#child-modal-title{
+    color : #2196F3;
+    margin-left : 20px;
 }
+
+.requestReason{
+    background-color: #F0F8FF;
+}
+
 .modalBoxCon{
     margin : 5px 5px;
 }
+
+.modalBoxCon div{
+    margin : 5px 0px;
+}
+
+.lstart , .lend{
+    margin-left : 5px;
+}
+
 .modalButton{
+    background-color: #0c5272;
     border: none;
     border-radius: 10px;
-    padding: 10px 100px;
     color: #fff;
     font-size: 15px;
-    margin-bottom: 15px;
-    background-color: #0C5272;
+    margin: 10px;
+    padding: 13px 100px;
 }

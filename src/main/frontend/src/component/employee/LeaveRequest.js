@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Container from '@mui/material/Container';
 /*------------------------------------------------------------------------------------------------css-----*/
-
+import styles from '../../css/leave.css'; //css
 
 
 
@@ -92,7 +92,7 @@ const onApplication = () => {
             aria-labelledby="child-modal-title"
             aria-describedby="child-modal-description"
           >
-            <Box sx={{ ...style, }}>
+            <div className="modalBox">
               <h2 id="child-modal-title"> 연차 신청 </h2>
               <p id="child-modal-description">
                 <Container>
