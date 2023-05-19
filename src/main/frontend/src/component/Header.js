@@ -25,7 +25,6 @@ export default function Header(props) {
     const gokDisabledHandler = () =>{
         if( gokDisabled == true  ){ setGokDisabled(false)  }
         else{  setGokDisabled(true )  }
-    }
 
 
         let ws=useRef(null);    //장민정 서버소켓
@@ -45,12 +44,11 @@ export default function Header(props) {
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a>}, // 유진 추가 05/16
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/adminofflist">전직원연차내역</a>},//유진 추가
                     {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler} ws={ws} eno={eno}/>}
-
                 ]
            let 출근현황 = <AttendanceStatus ws={ws} eno={eno} aHtml={aHtml} setAhtml={setAhtml} test={test} setTest={setTest}  />
 
 
-      const [state, setState] = React.useState({ 
+      const [state, setState] = React.useState({
         left: false,
       });
 

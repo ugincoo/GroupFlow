@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Container from '@mui/material/Container';
 /*------------------------------------------------------------------------------------------------css-----*/
-import styles from '../../css/leave.css'; //css
+
 
 
 
@@ -41,10 +41,9 @@ const onApplication = () => {
              console.log("r.data : " + r.data);
             if(r.data == 1){
                console.log(r.data+"번");
-               alert('출근하신 후  이용 가능합니다.')
             }else if (r.data == 2){
                 console.log(r.data+"번");
-                alert('[경영지원팀문의] 연차 신청 실패 ')
+
             }else if (r.data == 3){
                 console.log(r.data+"번");
                 alert('연차 신청 되었습니다.');
@@ -83,9 +82,7 @@ const onApplication = () => {
 
 
     return(<>
-         <button
-            className="LeaveButton"
-            onClick={handleOpen}>연차신청</button>
+         <button onClick={handleOpen}>연차신청</button>
         <Modal
             className="aria-describedby"
             open={open}
@@ -93,11 +90,11 @@ const onApplication = () => {
             aria-labelledby="child-modal-title"
             aria-describedby="child-modal-description"
           >
-            <div className="modalBox">
+            <Box sx={{ ...style, }}>
               <h2 id="child-modal-title"> 연차 신청 </h2>
               <p id="child-modal-description">
                 <Container>
-                    <div className="modalBoxCon">
+                    <div>
                         <div> 이름 : <span className="ename">  {login.ename}   </span> </div>
                         <div> 부서 : <span className="dno"> {login.dname}  </span> </div>
                         <div> 직급 : <span className="pno"> {login.pname}  </span> </div>
@@ -110,9 +107,9 @@ const onApplication = () => {
                     </div>
                 </Container>
               </p>
-              <button className="modalButton" onClick={handleClose}>취소</button>
-              <button className="modalButton" onClick={onApplication}>신청</button>
-            </div>
+              <button  onClick={handleClose}>취소</button>
+              <button onClick={onApplication}>신청</button>
+            </Box>
           </Modal>
     </>);
 }

@@ -17,4 +17,5 @@ public interface DepartmentChangeEntityRepository extends JpaRepository<Departme
     @Query( value = "select * from departmentchange where eno = :eno and dcenddate is null" , nativeQuery = true )
     DepartmentChangeEntity findAllMyDepartmetChangeList ( @Param("eno") int eno );
 
+
 }

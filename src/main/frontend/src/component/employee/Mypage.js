@@ -1,8 +1,16 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
+import DepartmentChange from './DepartmentChange';
+import PositionChange from './PositionChange';
+import GoworkPrint from './GoworkPrint';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { blue } from '@mui/material/colors';
+//--------------------------텝------------------------------------------
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import Tab from '@mui/material/Tab';
 //---------------------------테이블-------------------------------------
 import { DataGrid } from '@mui/x-data-grid';
 //---------------------------컨테이너-------------------------------------
@@ -10,46 +18,38 @@ import Container from '@mui/material/Container';
 
 
 
-const columns = [
-  { field: 'id', headerName: '번호', width: 300},
-  { field: 'cdate', headerName: '출근', width: 300 },
-  { field: 'udate', headerName: '퇴근', width: 300 },
-  { field: 'eno', headerName: '사원번호', width: 300 }
-];
-
 
 
 export default function Mypage(props) {
-//const [ login,setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) );
- const [ rows , setRows ] = useState([]);
 
- useEffect(() =>{
-    axios.get('/employee/gooutwork').then(r=>{
-        console.log(r.data);
-        setRows(r.data);
-    })
- },[])
-console.log(rows);
+const [value, setValue] = React.useState('1');
+     //2.탭 변경 함수
+      const handleTabsChange = (event, newValue) => {
+         setValue(newValue);
+       };
 return (
-    <Container>
-        <Box
-        sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', mb : 4 }}
-        >
-            <div style={{ height: 400, width: '100%' }}>
-              <DataGrid
-                rows={rows}
-                columns={columns}
-                initialState={{
-                  pagination: {
-                    paginationModel: { page: 0, pageSize: 5 },
-                  },
-                }}
-                pageSizeOptions={[5, 10]}
+       <Box sx={{ width: '100%', typography: 'body1' }}>
+         <TabContext value={value}>
+           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+             <TabList onChange={handleTabsChange} aria-label="lab API tabs example">
+               <Tab label="출근이력 " value="1" />
+               <Tab label="직급변경 이력" value="2" />
+               <Tab label="부서이동 이력" value="3" />
 
-              />
-            </div>
-        </Box>
-    </Container>
+             </TabList>
+           </Box>
+           <TabPanel value="1">
+             <GoworkPrint />
+           </TabPanel>
+           <TabPanel value="2">
+              <PositionChange />
+           </TabPanel>
+           <TabPanel value="3">
+             <DepartmentChange />
+           </TabPanel>
+
+         </TabContext>
+       </Box>
   );
 
 
@@ -57,3 +57,6 @@ return (
 
 
 }
+
+
+
