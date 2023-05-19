@@ -35,10 +35,18 @@ public class AttendanceController {
         boolean result = attendanceService.outwork();
         return result;
     }
+    //출퇴근출력
     @GetMapping("/gooutwork")
     public List<AttendanceDto> gooutwork(){
        return attendanceService.gooutwork();
     }
+
+    //출근상태
+    @GetMapping("")
+    public boolean infostate(){
+       return attendanceService.infostate();
+    }
+
 
 }
 

@@ -26,6 +26,7 @@ export default function Header(props) {
     }
 
 
+
         axios.get('/login/confirm').then( r => { setEno(r.data.eno) } )
         console.log(eno);
            let page=[
@@ -37,7 +38,7 @@ export default function Header(props) {
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/mypage">마이페이지</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a>}, // 유진 추가 05/16
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/adminofflist">전직원연차내역</a>},//유진 추가
-                    {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler} eno={eno}/>}
+                    {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler}eno={eno}/>}
 
                 ]
 
@@ -52,6 +53,7 @@ export default function Header(props) {
 
         };
         const list = (anchor) => (
+
             <Box
               role="presentation"
               onClick={toggleDrawer(anchor, false)}
@@ -71,6 +73,7 @@ export default function Header(props) {
               </List>
               <Divider />
             </Box>
+
           );
 
 

@@ -5,14 +5,17 @@ import AttendanceStatus from './AttendanceStatus';
 export default function Workbtn(props) {
  let ws=useRef(null);    //장민정 서버소켓
  const [connectEmployee,setConnectEmployee]=useState(); //출근한 사람들 (소켓에 접속한 전직원)
+ const [work,setWork]=useState();
     const gowork=()=>{
 
     axios.post("/employee/gowork").then((r)=>{
-            console.log(r.data)
+            console.log(r.data);
+
             if(r.data==true){
                 alert("출근등록 되었습니다.")
                  ws.current=new WebSocket("ws://localhost:8080/commute/"+props.eno);
                  props.gokDisabledHandler()
+
 
                  ws.current.onopen=()=>{ //서버접속과 동시에 메세지센드 함수발동
                   console.log("서버접속")

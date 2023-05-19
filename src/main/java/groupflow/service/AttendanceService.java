@@ -47,11 +47,12 @@ public class AttendanceService {
                  attendanceEntity1.setEmployeeEntity(entity); // 근태엔티티에 직원엔티티 추가
                  entity.getAttendanceEntityList().add(attendanceEntity1);//eno로 찾은 직원엔티티에 근태리스트갖고와서 근태엔티티추가
                  attendanceEntity1.setEmployeeEntity(entity);//생성된 근태엔티티에 직원엔티티 저장
+
                  return true;
              }
 
-         }
-
+         }//
+//
 
         return false;
     }
@@ -101,6 +102,17 @@ public class AttendanceService {
      return  null;
     }
 
+    //출근상태
+    public boolean infostate(){
+        EmployeeDto employeeDto = loginService.loginInfo();
+        Optional<EmployeeEntity> optionalEmployeeEntity=employeeRepository.findById(employeeDto.getEno());
+        if(optionalEmployeeEntity.isPresent()){
+            List<AttendanceEntity>attendanceEntityList=optionalEmployeeEntity.get().getAttendanceEntityList();
+            if(attendanceEntityList.size()>0){return true;}
+
+        }
+        return false;
+    }
 
 }
 
