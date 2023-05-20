@@ -43,7 +43,7 @@ let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_toke
 
                 ]
 
-        let 출근내역=<AttendanceStatus  />
+        let 출근내역=<AttendanceStatus/>
 
 
 

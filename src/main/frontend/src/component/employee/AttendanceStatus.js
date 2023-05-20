@@ -80,13 +80,21 @@ console.log(myEmployee)
                    <h2 id="parent-modal-title">출근현황</h2>
                    <Button onClick={handleClose}>x</Button>
                </div>
-               <p id="parent-modal-description">
+               <table className="attendancestatusTable">
+                   <tr><th></th> <th></th> <th>출근시간 </th> <th>퇴근시간</th></tr>
+
                  {
-                    myEmployee==''? '' : myEmployee.map( (e)=>{ return(
-                        <div> <CircleIcon style={{color:e.color}}/> {e.ename} {e.pname}</div>
+                    myEmployee==''? '' : myEmployee.map( (e)=>{
+                    return(
+
+                        <tr>
+                            <td><CircleIcon style={{color:e.color}}/></td><td>{e.ename}{e.pname}</td><td>{e.cdate}</td><td>{e.udate}</td>
+                        </tr>
+
                           ) })
                  }
-               </p>
+
+               </table>
 
              </Box>
            </Modal>
