@@ -3,6 +3,8 @@ package groupflow.domain.evaluation;
 import groupflow.domain.BaseTime;
 import groupflow.domain.employee.EmployeeEntity;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import java.time.format.DateTimeFormatter;
@@ -27,9 +29,6 @@ public class EvaluationEntity extends BaseTime {
     
     @Column( nullable = false )
     private String evopnion; // 평가의견
-
-    @Column
-    private boolean eqstate; // 문항을 선택했는지 확인
 
     // BaseTime
     // cdate 평가날짜 

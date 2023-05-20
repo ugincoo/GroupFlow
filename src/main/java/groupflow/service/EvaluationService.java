@@ -113,6 +113,7 @@ public class EvaluationService {
 
     // 입력받은 eno에 해당하는 인사평가 리스트 반환
     public List<EvaluationDto> getEvaluationList( int eno ){
+        log.info("eno : " + eno);
         List<EvaluationEntity> evaluationEntityList = evaluationRepository.findByTargeteno(eno);
         return evaluationEntityList.stream().map( evaluationEntity ->  evaluationEntity.toDto() ).collect(Collectors.toList());
     }

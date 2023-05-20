@@ -36,7 +36,7 @@ export default function Index(props) {
                 <Route path="/mypage" element={ <Mypage/> }/>
                 <Route path="/attendancestatus" element={ <AttendanceStatus/> }/>
                 <Route path="/evaluation/manager" element={ <Evaluation/> }/>
-                <Route path="/managerEmployeeListView" element={ <ManagerEmployeeListView/> }/>
+                <Route path="/manageremployeelistview" element={ <ManagerEmployeeListView/> }/>
             </Routes>
             <Footer/>
         </BrowserRouter>

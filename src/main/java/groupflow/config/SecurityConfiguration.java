@@ -50,6 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests()
                     .antMatchers("/pofflist").hasRole("부장")
                     .antMatchers("/adminofflist").hasAnyRole("경영지원팀")
+                    .antMatchers("/manageremployeelistview").hasAnyRole("부장")
                     .antMatchers("/**").permitAll()
                 .and()
 

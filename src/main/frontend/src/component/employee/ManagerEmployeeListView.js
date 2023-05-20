@@ -37,6 +37,8 @@ export default function ManagerEmployeeListView(props) {
     const [ evaluationList , setEvaluationList ] = useState([]);
     //console.log(evaluationList)
 
+
+
     // 실행시 로그인한 사람의 부서직원리스트 가져오기
     useEffect(() => {
         axios.get("/employee/department").then(r=>{setEmployeesByDepartment(r.data);})
@@ -122,6 +124,12 @@ export default function ManagerEmployeeListView(props) {
         })
     }
 
+    const alarm = ()=>{
+        let today = new Date();
+        let todayMonth = today.getMonth();
+        console.log(todayMonth)
+    }
+
     return (
         <Stack direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
             <Item>
@@ -163,6 +171,7 @@ export default function ManagerEmployeeListView(props) {
                             })
 
                         }
+                    {alarm()}
                 </Box>
             </Item>
       </Stack>
