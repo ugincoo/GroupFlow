@@ -28,6 +28,9 @@ public class EvaluationEntity extends BaseTime {
     @Column( nullable = false )
     private String evopnion; // 평가의견
 
+    @Column
+    private boolean eqstate; // 문항을 선택했는지 확인
+
     // BaseTime
     // cdate 평가날짜 
     // udate 평가수정날짜

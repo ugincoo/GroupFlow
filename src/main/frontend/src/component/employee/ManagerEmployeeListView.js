@@ -31,7 +31,7 @@ export default function ManagerEmployeeListView(props) {
 
     // 부서내 직원리스트
     const [ employeesByDepartment , setEmployeesByDepartment ] = useState([]);
-    //console.log(employeesByDepartment)
+    console.log(employeesByDepartment)
 
     // 선택한 직원 한명의 인사평가 리스트
     const [ evaluationList , setEvaluationList ] = useState([]);
