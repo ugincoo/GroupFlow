@@ -1,6 +1,6 @@
 import React,{useState,useRef,useEffect} from 'react';
 import axios from 'axios';
-
+import MenuIcon from '@mui/icons-material/Menu';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -47,61 +47,75 @@ let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_toke
 
 
 
-        const toggleDrawer = (anchor, open) => (event) => {
-          if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-          }
+         const [state, setState] = React.useState({
+                left: false,
+              });
 
-        };
+                const toggleDrawer = (anchor, open) => (event) => {
+                  if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+                    return;
+                  }
+                  setState({ ...state, [anchor]: open });
+                };
+                const list = (anchor) => (
+                    <Box
+                      role="presentation"
+                      onClick={toggleDrawer(anchor, true)}
+                      onKeyDown={toggleDrawer(anchor, false)}
+                    >
+                      <List>
+                        {page.map((e, index) => (
+                          <ListItem key={e.page} disablePadding>
+                            <ListItemButton>
+                              <ListItemIcon>
+                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                              </ListItemIcon>
+                              <ListItemText primary={e.page} />
+                            </ListItemButton>
+                          </ListItem>
+                        ))}
+                      </List>
+
+                      <Divider />
+
+
+                       { !login?'':
+                         ( login.pno >=6?
+                          <List >
+                            {[출근내역].map((text, index) => (
+                              <ListItem key={text} disablePadding>
+                                <ListItemButton>
+                                  <ListItemIcon>
+                                    {index % 2 === 1 ? <InboxIcon /> : <MailIcon />}
+                                  </ListItemIcon>
+                                  <ListItemText className="aaa" primary={text} />
+                                </ListItemButton>
+                              </ListItem>
+                            ))}
+                          </List> :'')
+                     }
+
+                    </Box>
+                  );
+
+
+
+
 
 
 const drawerWidth = 240;
     return (<>
-
-             <Drawer
-                     sx={{
-                       width: drawerWidth,
-                       flexShrink: 0,
-                       '& .MuiDrawer-paper': {
-                         width: drawerWidth,
-                         boxSizing: 'border-box',
-                       },
-                     }}
-                     variant="permanent"
-                     anchor="left"
-                   >
-
-                    <List>
-                      {page.map((e, index) => (
-                        <ListItem key={e.page} disablePadding>
-                          <ListItemButton>
-                            <ListItemIcon>
-                              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={e.page} />
-                          </ListItemButton>
-                        </ListItem>
-                      ))}
-                    </List>
-                    <Divider />
-
-                   { !login?'':
-                       ( login.pno >=6?
-                        <List>
-                          {[출근내역].map((text, index) => (
-                            <ListItem key={text} disablePadding>
-                              <ListItemButton>
-                                <ListItemIcon>
-                                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                              </ListItemButton>
-                            </ListItem>
-                          ))}
-                        </List> :'')
-                   }
-
-                   </Drawer>
-
+                 {['left'].map((anchor) => (
+                    <React.Fragment key={anchor}>
+                      <Button className="menu" onClick={toggleDrawer(anchor, true)}><MenuIcon/></Button>
+                      <Drawer
+                        anchor={anchor}
+                        open={state[anchor]}
+                        onClose={toggleDrawer(anchor, false)}
+                      >
+                        {list(anchor)}
+                      </Drawer>
+                    </React.Fragment>
+                  ))}
     </>)
     }
