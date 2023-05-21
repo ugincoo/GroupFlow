@@ -26,7 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function Evaluation(props) {
     // props.eno대신에 임시 eno
-    const eno = 2018001; // 김병찬 영업지원부
+    const eno = props.targetEmployee.eno; // 상위컴포넌트에게 넘겨받은 평가대상자의 eno
     // 로그인한 평가자 정보 상태변수
     const [ evaluator , setEvaluator ] = useState({})
     // 평가대상자 정보 상태변수
@@ -92,7 +92,11 @@ export default function Evaluation(props) {
         else if( r.data == 3 ){ alert('평가대상자가 부서내 직원이 아닙니다.')}
         else if( r.data == 4 ){ alert('평가등록실패 - 관리자문의 오류번호: '+r.data)}
         else if( r.data == 5 ){ alert('평가등록실패 - 관리자문의 오류번호: '+r.data)}
-        else if( r.data == 6 ){ alert('평가등록성공')}
+        else if( r.data == 6 ){
+            alert('평가등록성공')
+            props.listItemClick(props.targetEmployee); // 업무평가를 작성한 직원의 업무평가리스트(상위컴포넌트) 다시 DB에서 가져오기
+            props.removeComponentPrint(); // 상위컴포넌트에서 호출한 자신컴포넌트 지우는 함수
+        }
     })
   }
 

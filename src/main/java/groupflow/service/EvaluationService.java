@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +26,7 @@ public class EvaluationService {
     @Autowired private EquestionRepository equestionRepository;
     @Autowired private DepartmentRepository departmentRepository;
     @Autowired private EvscoreRepository evscoreRepository;
+
 
 
     // 1. 평가하기 [ 매개변수 : 평가대상자eno, 10문항평가점수객체 ]
@@ -115,7 +114,26 @@ public class EvaluationService {
     public List<EvaluationDto> getEvaluationList( int eno ){
         log.info("eno : " + eno);
         List<EvaluationEntity> evaluationEntityList = evaluationRepository.findByTargeteno(eno);
-        return evaluationEntityList.stream().map( evaluationEntity ->  evaluationEntity.toDto() ).collect(Collectors.toList());
+        //return evaluationEntityList.stream().map( evaluationEntity ->  evaluationEntity.toDto() ).collect(Collectors.toList());
+        List<EvaluationDto> evaluationDtoList = new ArrayList<>();
+        for( EvaluationEntity evaluationEntity : evaluationEntityList ){
+            List<EvscoreEntity> evscoreEntityList = evscoreRepository.findByEvno(evaluationEntity.getEvno());
+            // 점수넣을 Map
+            Map<Integer, Integer> evscoreMap = new HashMap<>();
+            // 점수리스트 하나씩 돌려서 map에 넣기
+            for( EvscoreEntity evscoreEntity : evscoreEntityList ){
+                // 키( 문항번호 )
+                evscoreEntity.getEquestionEntity().getEqno();
+                // 값( 문항별 점수 )
+                evscoreEntity.getEqscore();
+                // Map에 문항:점수 하나씩 넣기
+                evscoreMap.put(evscoreEntity.getEquestionEntity().getEqno() ,evscoreEntity.getEqscore());
+            }
+            EvaluationDto evaluationDto = evaluationEntity.toDto();
+            evaluationDto.setEvscoreMap(evscoreMap);
+            evaluationDtoList.add(evaluationDto);
+        }
+        return evaluationDtoList;
     }
 
 
