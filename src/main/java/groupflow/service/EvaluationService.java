@@ -242,4 +242,25 @@ public class EvaluationService {
         }
         return 8; // 수정성공
     }
+
+    // 평가자가 등록한 업무평가중에 미완료된 것 있는지 확인
+    public byte checkEvaluationIncomplete(){
+
+        // 1. 로그인세션 호출해서 부장님인지 확인하기
+            // 1. 로그인한 세션 가져오기
+        EmployeeDto loginEmployeeDto = loginService.loginInfo();
+        if (loginEmployeeDto == null){ return 1;} // 로그인 안함.
+            // 2. 직급테이블의 '부장'직급의 pno가져오기
+        int managerpno = employeeService.findManagerPno();
+            // 3. 부장이 아니면 false
+        if( managerpno != loginEmployeeDto.getPno() ){ return 2; } // 부장이 아님 권한없음
+
+        // 2. 평가한 업무평가 목록에서 미완료된 것 있는지 확인하기
+        List<EvaluationEntity>  evaluationEntityList = evaluationRepository.findByEvaluatorenoIncompleteEvaluation(loginEmployeeDto.getEno());
+        if ( evaluationEntityList.size() > 0){ return 3;  } // 미완료 있음
+        // 3. 미작성한 평가의견 있는지 확인
+        List<EvaluationEntity> evaluationEntityList1 = evaluationRepository.findByEvaluatorenoIncompleteEvopnion(loginEmployeeDto.getEno());
+        if ( evaluationEntityList1.size() > 0){ return 3;  } // 미완료 있음
+        return 4; // 미완료 없음
+    }
 }

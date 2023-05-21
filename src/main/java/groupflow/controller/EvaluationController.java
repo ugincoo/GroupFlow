@@ -47,4 +47,10 @@ public class EvaluationController {
     public byte updateEvaluation( @RequestBody EvaluationDto evaluationDto ){
         return evaluationService.updateEvaluation(evaluationDto);
     }
+
+    // 6. 로그인한 평가자가 미완료한 업무가 있는지 확인
+    @GetMapping("/check/incomplete")
+    public byte checkEvaluationIncomplete(){
+        return evaluationService.checkEvaluationIncomplete();
+    }
 }

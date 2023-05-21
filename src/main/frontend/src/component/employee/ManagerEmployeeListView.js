@@ -58,9 +58,9 @@ export default function ManagerEmployeeListView(props) {
     // 작성 클릭시 업무평가 컴포넌트 출력하기 위한 상태변수
     const [ evaluationComponent , setEvaluationComponent ] = useState(<></>)
 
-    // 작성 클릭시 업무평가 컴포넌트 출력 , 컴포넌트에 props = 선택한직원정보, 업무평가리스트DB에서 가져오는함수, 컴포넌트 지우는함수
+    // 작성 클릭시 업무평가 컴포넌트 출력 , 컴포넌트에 props = 선택한직원정보, 업무평가리스트DB에서 가져오는함수, 컴포넌트 지우는함수 , 미완료업무평가체크함수
     const evaluationPrint = ()=>{
-        setEvaluationComponent( <><Evaluation targetEmployee={ selectEmployee } listItemClick={listItemClick} removeComponentPrint={removeComponentPrint} /></> )
+        setEvaluationComponent( <><Evaluation targetEmployee={ selectEmployee } listItemClick={listItemClick} removeComponentPrint={removeComponentPrint} checkIncomplete={checkIncomplete} /></> )
     }
 
     // 선택한 직원의 evaluationList 가져오고, 선택직원변수가 변경되기때문에
@@ -123,7 +123,7 @@ export default function ManagerEmployeeListView(props) {
                    <ListItem disablePadding>
                        <ListItemButton>
                            <ListItemText primary={text} />
-                           <Button variant="outlined" onClick={evaluationPrint}>작성</Button>
+                           <Button variant="contained" onClick={evaluationPrint}>작성</Button>
                        </ListItemButton>
                    </ListItem>
                </List>
@@ -176,12 +176,25 @@ export default function ManagerEmployeeListView(props) {
        }
     },[evperiod])
 
-    // 실행시 로그인한 사람의 부서직원리스트 가져오기 , 업무평가 보고서 제출기한인지 체크
+    // 미완료한 업무평가 있는지 확인
+    const checkIncomplete = ()=>{
+        axios.get("/evaluation/check/incomplete").then(r=>{
+            console.log(r.date)
+            if ( r.data == 1 ){ alert("로그인 하세요")}
+            else if( r.data == 2 ){ alert("권한이 없습니다.")}
+            else if( r.data == 3){ // 미완료 건이 있음.
+                setAlerthtml( <> <Alert variant="filled" severity="warning"> 미완료된 업무평가보고서가 있습니다. </Alert> </> )
+            }
+        })
+    }
+    // 실행시 로그인한 사람의 부서직원리스트 가져오기 , 업무평가 보고서 제출기한인지 체크 , 미완료한 업무평가 있는지 확인
     useEffect(() => {
         // 업무평가 보고서 기한설정
         setUpEvperiod();
         // 실행시 로그인한 사람의 부서직원리스트 가져오기
         axios.get("/employee/department").then(r=>{setEmployeesByDepartment(r.data);})
+        // 미완료한 업무평가 있는지 확인
+        checkIncomplete();
     }, [])
 
 
@@ -201,9 +214,9 @@ export default function ManagerEmployeeListView(props) {
                 let month = parseInt(cdate.split("-")[1]);
                 console.log(month);
                 if ( month < 7 ){
-                    e.halfPeriodTitle=year+"년 상반기"
+                    e.halfPeriodTitle=year+"년 상반기 업무평가보고서"
                 }else{
-                    e.halfPeriodTitle=year+"년 하반기"
+                    e.halfPeriodTitle=year+"년 하반기 업무평가보고서"
                 }
                 // disabled 평가기간이 지난 평가는 disabled
                     // 1.현재날짜
@@ -237,7 +250,7 @@ export default function ManagerEmployeeListView(props) {
 
     // 미완료 또는 수정 버튼 누르면 => 수정컴포넌트 출력
     const updateEvaluation = (e)=>{
-        setEvaluationComponent( <><UpdateEvaluation targetEmployee={ selectEmployee } evaluation={ e } listItemClick={listItemClick} removeComponentPrint={removeComponentPrint} /></> )
+        setEvaluationComponent( <><UpdateEvaluation targetEmployee={ selectEmployee } evaluation={ e } listItemClick={listItemClick} removeComponentPrint={removeComponentPrint} checkIncomplete={checkIncomplete} /></> )
     }
 
     // 각 evaluation마다 현재총점 , 미완료/수정/완료 구분해서 버튼생성
@@ -261,7 +274,7 @@ export default function ManagerEmployeeListView(props) {
             }
         }
         let html = <ListItemText primary={score+"/100점"} />;
-        sum != 55 ? html = <>{html}<Button variant="contained" color="error" onClick={()=>updateEvaluation(e)} >미완료</Button></>
+        sum != 55 || e.evopnion === null || e.evopnion === "" ? html = <>{html}<Button variant="contained" color="warning" onClick={()=>updateEvaluation(e)} >미완료</Button></>
             : e.disabled ? html = <>{html}<Button variant="contained" color="success" disabled={e.disabled}>완료</Button></>
             : html = <>{html}<Button variant="contained" disabled={e.disabled} onClick={()=>updateEvaluation(e)} >수정</Button></>
         console.log(html)
@@ -274,19 +287,19 @@ export default function ManagerEmployeeListView(props) {
         <div>
             <Stack direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
                 <Item>
-                    <Grid container>
+                    <Grid container sx={{ p:'20px'}}>
                         <Grid item xs={12} sm={12}>
                             {alerthtml}
                         </Grid>
                     </Grid>
-                    <Grid container>
+                    <Grid container sx={{ p:'20px'}}>
                         <Grid item xs={12} sm={5}>
-                            <Box width='100%' maxWidth='180px' marginRight='40px' sx={{boxShadow: 1, bgcolor: 'white'}}>
+                            <Box width='100%' maxWidth='400px' height='300px' marginRight='40px' padding='20px' sx={{boxShadow: 1, bgcolor: 'white' , overflow: 'auto'}}>
                                 <nav aria-label="secondary mailbox folders">
                                     {
                                         employeesByDepartment.map(employee =>{
                                             return (
-                                                <List>
+                                                <List key={employee.eno}>
                                                     <ListItem disablePadding>
                                                         <ListItemButton onClick={ ()=> listItemClick(employee)}>
                                                             <ListItemText primary={employee.ename+" "+employee.pname} />
@@ -301,12 +314,18 @@ export default function ManagerEmployeeListView(props) {
                             </Box>
                         </Grid>
                         <Grid item xs={12} sm={7}>
-                            <Box width='100%' maxWidth='400px' marginRight='40px' sx={{boxShadow: 1, bgcolor: 'white'}}>
+                            <Box width='100%' maxWidth='640px' height='50px' padding='20px' sx={{boxShadow: 1, bgcolor: 'white'}}>
+                                { Object.keys(selectEmployee).length !== 0 ?
+                                    <Typography>사번 : {selectEmployee.eno} 성함 : {selectEmployee.ename} {selectEmployee.pname}</Typography>
+                                : "" }
+                            </Box>
+                            <Box width='100%' maxWidth='640px' height='200px' padding='20px' sx={{boxShadow: 1, bgcolor: 'white' , overflow: 'auto'}}>
                                 <nav aria-label="secondary mailbox folders">
+                                    {evRegistBtn}
                                     {
                                         evaluationList.map(e =>{
                                             return (
-                                                <List>
+                                                <List key={e.evno}>
                                                     <ListItem disablePadding>
                                                         <ListItemButton>
                                                             <ListItemText primary={e.halfPeriodTitle} />
@@ -318,7 +337,6 @@ export default function ManagerEmployeeListView(props) {
                                             );
                                         })
                                     }
-                                    {evRegistBtn}
                                 </nav>
                             </Box>
                         </Grid>

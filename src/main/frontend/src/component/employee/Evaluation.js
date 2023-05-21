@@ -84,6 +84,7 @@ export default function Evaluation(props) {
 
   const evaluationSubmit = (e)=>{
     console.log(scores)
+    if ( Object.keys(scores).length === 0 && eopinion === "" ){ alert("문항을 최소 1개 이상 작성해주세요"); return;}
     let info = { targetEno : eno , evopnion : eopinion , evscoreMap : scores }
     axios.post("/evaluation",info).then(r=> {
         console.log(r.data)
@@ -96,6 +97,7 @@ export default function Evaluation(props) {
             alert('평가등록성공')
             props.listItemClick(props.targetEmployee); // 업무평가를 작성한 직원의 업무평가리스트(상위컴포넌트) 다시 DB에서 가져오기
             props.removeComponentPrint(); // 상위컴포넌트에서 호출한 자신컴포넌트 지우는 함수
+            props.checkIncomplete(); // 미완료 업무평가가 있는지 확인하는 함수
         }
     })
   }
