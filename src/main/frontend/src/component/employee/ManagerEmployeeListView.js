@@ -12,7 +12,7 @@ import { Paper , Stack , Box , Typography , Chip , TextareaAutosize , Grid , But
 import { styled } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import Evaluation from './Evaluation';
-
+import UpdateEvaluation from './employee/UpdateEvaluation';
 
 
 export default function ManagerEmployeeListView(props) {
@@ -71,6 +71,7 @@ export default function ManagerEmployeeListView(props) {
     const removeComponentPrint = ()=>{
         setEvaluationComponent(<></>)
     }
+    // 선택한 직원이 바뀔때마다 실행
     useEffect( ()=>{
         // 다른 직원선택하면(selectEmployee가 변경되면) 아래 하위컴포넌트 출력제거
         removeComponentPrint();
@@ -128,17 +129,7 @@ export default function ManagerEmployeeListView(props) {
                </List>
            </>);
         }
-            //evaluationList에서 하나씩 꺼내기
-            /*
-        <List>
-            <ListItem disablePadding>
-                <ListItemButton>
-                    <ListItemText primary="업무평가보고서 작성" />
-                    <Button variant="outlined">작성</Button>
-                </ListItemButton>
-            </ListItem>
-        </List>
-        */
+
 
     },[selectEmployee] )
 
@@ -195,38 +186,6 @@ export default function ManagerEmployeeListView(props) {
 
 
 
-    // 선택한 직원의 업무평가리스트 갖고올 때마다 업무평가리스트 항목에 반기 기준 항목추가
-    /*
-    useEffect( ()=>{
-        evaluationList.forEach(e=>{
-            //e.cdate // "2023-05-17 오후 19:35:45"
-
-            let cdate = e.cdate.split(" ")[0];
-            console.log(cdate);
-            let year = parseInt(cdate.split("-")[0]);
-            console.log(year);
-            let month = parseInt(cdate.split("-")[1]);
-            console.log(month);
-            if ( month < 7 ){
-                e.halfPeriodTitle=year+"년 상반기"
-            }else{
-                e.halfPeriodTitle=year+"년 하반기"
-            }
-            console.log(e.halfPeriodTitle)
-            /*
-            let today = new Date();
-            console.log(today);
-            console.log(today.getFullYear());
-            console.log(today.getMonth()+1);
-            todayMonth = today.getMonth()+1;
-            if ( todayMonth)
-
-        })
-        // for문 끝나고 렌더링
-        setEvaluationList([...evaluationList])
-    },[])
-    */
-
     // 직원선택 , 선택한 직원의 evaluationList가져오기
     const listItemClick = (e)=>{
         //console.log(e)
@@ -277,6 +236,38 @@ export default function ManagerEmployeeListView(props) {
     }
 
 
+    // 각 evaluation마다 현재총점 , 미완료/수정/완료 구분해서 버튼생성
+    const getEvaluationBtnState = (e)=>{
+        console.log("evscoreMap")
+        console.log(e.evscoreMap)
+        let sum = 0;
+        let score = 0;
+        for (const key in e.evscoreMap) {
+            if (e.evscoreMap.hasOwnProperty(key)) {
+                const value = e.evscoreMap[key];
+                //console.log(`Key: ${key}, Value: ${value}`);
+                let intkey = parseInt(key);
+                sum = sum + intkey;
+                let intvalue = parseInt(value);
+                score = score + intvalue;
+                //console.log("key : " + intkey)
+                //console.log("sum : "+sum)
+                console.log("intvalue :"+intvalue)
+                console.log("score :"+score)
+            }
+        }
+        let html = <ListItemText primary={score+"/100점"} />;
+        sum != 55 ? html = <>{html}<Button variant="outlined" disabled="false" onClick={updateEvaluation(e)}>미완료</Button></>
+            : e.disabled ? html = <>{html}<Button variant="outlined" disabled={e.disabled}>완료</Button></>
+            : html = <>{html}<Button variant="outlined" disabled={e.disabled} onClick={updateEvaluation(e)>수정</Button></>
+        console.log(html)
+        return html;
+    }
+
+    // 미완료 또는 수정 버튼 누르면 => 수정컴포넌트 출력
+    const updateEvaluation = (e)=>{
+        setEvaluationComponent( <><UpdateEvaluation targetEmployee={ selectEmployee } evaluation={ e } listItemClick={listItemClick} removeComponentPrint={removeComponentPrint} /></> )
+    }
 
     return (
         <div>
@@ -318,19 +309,8 @@ export default function ManagerEmployeeListView(props) {
                                                     <ListItem disablePadding>
                                                         <ListItemButton>
                                                             <ListItemText primary={e.halfPeriodTitle} />
-                                                           {
-                                                                let sum = 0;
-                                                                for (const key in e.evscoreMap) {
-                                                                  if (evscoreMap.hasOwnProperty(key)) {
-                                                                    const value = evscoreMap[key];
-                                                                    console.log(`Key: ${key}, Value: ${value}`);
-                                                                    sum = sum + key;
-                                                                  }
-                                                                }
-                                                                sum == 55 ? <Button variant="outlined" disabled="false">미완료</Button>
-                                                                    : e.disabled ? <Button variant="outlined" disabled={e.disabled}>완료</Button>
-                                                                    : <Button variant="outlined" disabled={e.disabled}>수정</Button>
-                                                           }
+                                                            {getEvaluationBtnState(e)}
+
                                                         </ListItemButton>
                                                     </ListItem>
                                                 </List>
