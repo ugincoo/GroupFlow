@@ -12,7 +12,7 @@ import { Paper , Stack , Box , Typography , Chip , TextareaAutosize , Grid , But
 import { styled } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import Evaluation from './Evaluation';
-import UpdateEvaluation from './employee/UpdateEvaluation';
+import UpdateEvaluation from './UpdateEvaluation';
 
 
 export default function ManagerEmployeeListView(props) {
@@ -235,6 +235,10 @@ export default function ManagerEmployeeListView(props) {
         })
     }
 
+    // 미완료 또는 수정 버튼 누르면 => 수정컴포넌트 출력
+    const updateEvaluation = (e)=>{
+        setEvaluationComponent( <><UpdateEvaluation targetEmployee={ selectEmployee } evaluation={ e } listItemClick={listItemClick} removeComponentPrint={removeComponentPrint} /></> )
+    }
 
     // 각 evaluation마다 현재총점 , 미완료/수정/완료 구분해서 버튼생성
     const getEvaluationBtnState = (e)=>{
@@ -257,17 +261,14 @@ export default function ManagerEmployeeListView(props) {
             }
         }
         let html = <ListItemText primary={score+"/100점"} />;
-        sum != 55 ? html = <>{html}<Button variant="outlined" disabled="false" onClick={updateEvaluation(e)}>미완료</Button></>
-            : e.disabled ? html = <>{html}<Button variant="outlined" disabled={e.disabled}>완료</Button></>
-            : html = <>{html}<Button variant="outlined" disabled={e.disabled} onClick={updateEvaluation(e)>수정</Button></>
+        sum != 55 ? html = <>{html}<Button variant="contained" color="error" onClick={()=>updateEvaluation(e)} >미완료</Button></>
+            : e.disabled ? html = <>{html}<Button variant="contained" color="success" disabled={e.disabled}>완료</Button></>
+            : html = <>{html}<Button variant="contained" disabled={e.disabled} onClick={()=>updateEvaluation(e)} >수정</Button></>
         console.log(html)
         return html;
     }
 
-    // 미완료 또는 수정 버튼 누르면 => 수정컴포넌트 출력
-    const updateEvaluation = (e)=>{
-        setEvaluationComponent( <><UpdateEvaluation targetEmployee={ selectEmployee } evaluation={ e } listItemClick={listItemClick} removeComponentPrint={removeComponentPrint} /></> )
-    }
+
 
     return (
         <div>

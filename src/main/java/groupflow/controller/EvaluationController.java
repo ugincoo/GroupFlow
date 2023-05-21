@@ -41,4 +41,10 @@ public class EvaluationController {
     public boolean checkEvaluation( @RequestParam int eno ){
         return evaluationService.checkEvaluation(eno);
     }
+    
+    // 5. 기존 업무평가 수정
+    @PutMapping("")
+    public byte updateEvaluation( @RequestBody EvaluationDto evaluationDto ){
+        return evaluationService.updateEvaluation(evaluationDto);
+    }
 }

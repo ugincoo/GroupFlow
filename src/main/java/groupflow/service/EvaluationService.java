@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -82,20 +83,23 @@ public class EvaluationService {
         for (Map.Entry<Integer, Integer> score : evaluationDto.getEvscoreMap().entrySet()) {
             // 1. 저장할 EquestionEntity 객체생성
             EvscoreEntity evscoreEntity = new EvscoreEntity();
-            // 2. evscoreEntity에 평가entity넣기
+            // 2. evscoreEntity에 평가entity넣기 // 단방향
             evscoreEntity.setEvaluationEntity(saveEvaluationEntity);
-            // 3. evscoreEntity에 문항equestionEntity 넣기
+            // 3. evaluationEntity에 evscoreEntityList에 evscoreEntity add하기 // 양방향
+            saveEvaluationEntity.getEvscoreEntityList().add(evscoreEntity);
+
+            // 4. evscoreEntity에 문항equestionEntity 넣기
                 // 하나의 score에는 문항테이블 fk와 점수가 있음
                 // key와 value를 사용하여 DB 테이블에 레코드를 저장하는 로직 수행
             Integer eqno = score.getKey();
             Optional<EquestionEntity> optionalEquestionEntity  = equestionRepository.findById(eqno);
             optionalEquestionEntity.ifPresent( equestionEntity -> { evscoreEntity.setEquestionEntity(equestionEntity);});
 
-            // 4. evscoreEntity에 점수넣기
+            // 5. evscoreEntity에 점수넣기
             Integer eqscore = score.getValue();
             evscoreEntity.setEqscore(eqscore);
 
-            // 5. evescoreEntity DB에 저장
+            // 6. evescoreEntity DB에 저장
             EvscoreEntity saveEvscoreEntity = evscoreRepository.save(evscoreEntity);
             if ( saveEvscoreEntity.getEsno() < 1 ){ return 5;} // 점수테이블 저장실패
         }
@@ -164,5 +168,78 @@ public class EvaluationService {
         // 업무평가가 이미 있으면 false 없으면 true => true는 평가등록가능
         if ( evaluationEntityList.size()>0){ return false;}
         else{ return true; }
+    }
+
+    // 5. 수정
+    @Transactional
+    public byte updateEvaluation( EvaluationDto evaluationDto ){
+
+        // 1. 로그인세션 호출해서 부장님인지 확인하기
+            // 1. 로그인한 세션 가져오기
+        EmployeeDto loginEmployeeDto = loginService.loginInfo();
+        if (loginEmployeeDto == null){ return 1;} // 로그인 안함.
+            // 2. 직급테이블의 '부장'직급의 pno가져오기
+        int managerpno = employeeService.findManagerPno();
+            // 3. 부장이 아니면 false
+        if( managerpno != loginEmployeeDto.getPno() ){ return 2; } // 부장이 아님 권한없음
+
+        // 2.식별번호로 기존에 저장된 업무평가레코드(evaluationEntity) 찾기
+        Optional<EvaluationEntity> optionalEvaluationEntity = evaluationRepository.findById( evaluationDto.getEvno());
+        if ( !optionalEvaluationEntity.isPresent()) { return 3;} // 해당 evno로 업무평가 레코드(evaluationEntity) 찾을 수 없음
+        EvaluationEntity evaluationEntity = optionalEvaluationEntity.get();
+
+        // 3. js에서 가져온 평가대상자와 DB의 평가대상자 동일한지 체크
+        int targetEmployeeEno = evaluationEntity.getTargetEmployeeEntity().getEno();
+        if ( targetEmployeeEno != evaluationDto.getTargetEno() ){ return 4;} //
+
+        // 4. 평가대상자와 부장이 동일한 부서인지 검사 ( DB에서 가져온 평가대상자eno로 부서dno가져오기 )
+        // departmentRepository에 eno로 직원의 소속 부서(departmentEntity) 찾기 쿼리
+        Optional<DepartmentEntity> optionalDepartmentEntity = departmentRepository.findByEno(targetEmployeeEno);
+        if(optionalDepartmentEntity.isPresent()){
+            if ( optionalDepartmentEntity.get().getDno() != loginEmployeeDto.getDno() ){ return 5; } // 해당직원의 평가권한이 없는 평가자입니다.
+        }
+
+
+        // evaluationEntity에 수정할것: 평가의견
+        evaluationEntity.setEvopnion(evaluationDto.getEvopnion());
+
+        // 기존 점수리스트 가져오기
+        List<EvscoreEntity> evscoreEntityList = evaluationEntity.getEvscoreEntityList();
+        log.info("evscoreEntityList : " + evscoreEntityList);
+        // 기존 점수리트스 키값 저장
+        List<Integer> eqNoList = new ArrayList<>();
+        // 점수리스트 하나씩 돌려서 점수수정
+        for( EvscoreEntity evscoreEntity : evscoreEntityList ){
+            // 입력받은 점수 키,값 하나씩 꺼내서 evscoreEntity 점수 수정
+            for (Map.Entry<Integer, Integer> entry : evaluationDto.getEvscoreMap().entrySet()) {
+                //Integer key = entry.getKey();
+                //Integer value = entry.getValue();
+                //System.out.println("Key: " + key + ", Value: " + value);
+
+                // 키( 문항번호 )가 동일하면 값 수정 , 기존점수리스트에 키 추가
+                if ( evscoreEntity.getEquestionEntity().getEqno() == entry.getKey() ){
+                    eqNoList.add(entry.getKey());
+                    evscoreEntity.setEqscore(entry.getValue());
+
+                } // if문 end
+            } // for문 end
+        }// for문 end
+
+        // 새로운 항목에 점수를 등록했을 경우
+        for (Map.Entry<Integer, Integer> entry : evaluationDto.getEvscoreMap().entrySet()) {
+            if ( !( eqNoList.contains( entry.getKey() ) )  ){
+                Optional<EquestionEntity> optionalEquestionEntity = equestionRepository.findById(entry.getKey());
+                if ( !optionalEquestionEntity.isPresent() ){ return 6;} // 문항찾기 실패
+                EquestionEntity equestionEntity = optionalEquestionEntity.get();
+                EvscoreEntity evscoreEntity = EvscoreEntity.builder()
+                        .eqscore(entry.getValue())
+                        .equestionEntity(equestionEntity)
+                        .evaluationEntity(evaluationEntity)
+                        .build();
+                EvscoreEntity evscoreEntity1 = evscoreRepository.save(evscoreEntity);
+                if ( evscoreEntity1 == null ){ return 7; } // 점수레코드 저장실패
+            }
+        }
+        return 8; // 수정성공
     }
 }

@@ -198,7 +198,7 @@ export default function Evaluation(props) {
                         type="button"
                         onClick={evaluationSubmit}
                       >
-                        평가완료
+                        평가저장
                     </Button>
                 </Grid>
             </Grid>
