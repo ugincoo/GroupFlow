@@ -13,6 +13,7 @@ import { styled } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import Evaluation from './Evaluation';
 import UpdateEvaluation from './UpdateEvaluation';
+import EvaluationView from './EvaluationView';
 
 
 export default function ManagerEmployeeListView(props) {
@@ -281,6 +282,12 @@ export default function ManagerEmployeeListView(props) {
         return html;
     }
 
+    // 각 evaluation 선택하면 선택한 업무평가 조회
+    const evView = (evno)=>{
+        console.log("업무평가 클릭함")
+        console.log("evno : "+ evno)
+        setEvaluationComponent(<><EvaluationView evno={evno} /></>)
+    }
 
 
     return (
@@ -322,12 +329,14 @@ export default function ManagerEmployeeListView(props) {
                             <Box width='100%' maxWidth='640px' height='200px' padding='20px' sx={{boxShadow: 1, bgcolor: 'white' , overflow: 'auto'}}>
                                 <nav aria-label="secondary mailbox folders">
                                     {evRegistBtn}
+                                </nav>
+                                <nav aria-label="secondary mailbox folders">
                                     {
                                         evaluationList.map(e =>{
                                             return (
                                                 <List key={e.evno}>
                                                     <ListItem disablePadding>
-                                                        <ListItemButton>
+                                                        <ListItemButton onClick={ ()=> evView(e.evno) }>
                                                             <ListItemText primary={e.halfPeriodTitle} />
                                                             {getEvaluationBtnState(e)}
 

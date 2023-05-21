@@ -2,6 +2,7 @@ package groupflow.controller;
 
 import groupflow.domain.evaluation.EquestionDto;
 import groupflow.domain.evaluation.EvaluationDto;
+import groupflow.domain.evaluation.EvaluationViewDto;
 import groupflow.service.EvaluationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,11 @@ public class EvaluationController {
     @GetMapping("/check/incomplete")
     public byte checkEvaluationIncomplete(){
         return evaluationService.checkEvaluationIncomplete();
+    }
+    
+    // 7. evno로 업무평가 조회페이지 필요한 정보 가져오기
+    @GetMapping("/view")
+    public List<EvaluationViewDto> findByEvnoAll( @RequestParam int evno ){
+        return evaluationService.findByEvnoAll(evno);
     }
 }
