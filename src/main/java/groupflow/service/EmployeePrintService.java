@@ -151,7 +151,7 @@ public class EmployeePrintService {
             dno=employeeEntity.get().getDepartmentChangeEntityList().get(index).getDepartmentEntity().getDno();
         }
         log.info("mydno:"+dno);
-        List<EmployeeEntity> entityList= employeeRepository.findByDno(dno);
+        List<EmployeeEntity> entityList= employeeRepository.findByDno(dno); //나랑 같은 부서 직원 구하기
         log.info("entityList:"+entityList);
         entityList.forEach((e)->{
             int index2=e.getPositionChangeEntityList().size()-1;
@@ -171,6 +171,7 @@ public class EmployeePrintService {
 
             String cdate= attendanceRepository.findCdatebyEno(e.getEno());
             String udate= attendanceRepository.findUdatebyEno(e.getEno());
+
 
 
             AttendanceListDto attendanceListDto=AttendanceListDto.builder()
