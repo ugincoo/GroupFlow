@@ -50,7 +50,7 @@ export default function Header(props) {
             return;
           }
 
-        };
+        }; 
         const list = (anchor) => (
             <Box
               role="presentation"
