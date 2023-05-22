@@ -18,6 +18,7 @@ import styles from '../css/header.css'; //css
 
 
 export default function Header(props) {
+let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
     const [ eno, setEno] = useState();
     const [ gokDisabled, setGokDisabled] = useState(false);
     const gokDisabledHandler = () =>{
@@ -25,8 +26,20 @@ export default function Header(props) {
         else{  setGokDisabled(true )  }
     }
 
+        //김은영
+       const getAttendance =() => {
+            axios.get('/employee/infostate').then(r=>{setGokDisabled(r.data)
+            console.log(r.data)
+            })
+        }
+        useEffect (()=>{getAttendance()
+
+        ;}
+
+        ,[])
 
         axios.get('/login/confirm').then( r => { setEno(r.data.eno) } )
+
         console.log(eno);
            let page=[
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/registration">사원등록</a>},
@@ -37,11 +50,11 @@ export default function Header(props) {
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/mypage">마이페이지</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a>}, // 유진 추가 05/16
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/adminofflist">전직원연차내역</a>},//유진 추가
-                    {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler} eno={eno}/>}
+                    {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler} getAttendance={getAttendance} eno={eno}/>}
 
                 ]
 
-        //let 출근내역=<AttendanceStatus ws={ws} eno={eno} />
+        let 출근내역=<AttendanceStatus  />
 
 
 
@@ -52,6 +65,7 @@ export default function Header(props) {
 
         }; 
         const list = (anchor) => (
+
             <Box
               role="presentation"
               onClick={toggleDrawer(anchor, false)}
@@ -71,6 +85,7 @@ export default function Header(props) {
               </List>
               <Divider />
             </Box>
+
           );
 
 
@@ -93,19 +108,36 @@ const drawerWidth = 240;
                      variant="permanent"
                      anchor="left"
                    >
-                     <List>
-                       {page.map((e, index) => (
-                         <ListItem key={e.page} disablePadding>
-                           <ListItemButton>
-                             <ListItemIcon>
-                               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                             </ListItemIcon>
-                             <ListItemText primary={e.page} />
-                           </ListItemButton>
-                         </ListItem>
-                       ))}
-                     </List>
-                     <Divider />
+
+                    <List>
+                      {page.map((e, index) => (
+                        <ListItem key={e.page} disablePadding>
+                          <ListItemButton>
+                            <ListItemIcon>
+                              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={e.page} />
+                          </ListItemButton>
+                        </ListItem>
+                      ))}
+                    </List>
+                    <Divider />
+
+                   { !login?'':
+                       ( login.pno >=6?
+                        <List>
+                          {[출근내역].map((text, index) => (
+                            <ListItem key={text} disablePadding>
+                              <ListItemButton>
+                                <ListItemIcon>
+                                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                              </ListItemButton>
+                            </ListItem>
+                          ))}
+                        </List> :'')
+                   }
 
                    </Drawer>
 

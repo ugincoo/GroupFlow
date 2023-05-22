@@ -45,11 +45,8 @@ export default function AllEmplyee(props) {
         useEffect( ()=>{
             axios
                 .get("/employee/print/finddno")
-                .then(r=>{
-                console.log(r.data)
-                setMydno(r.data)
-                })
-        },[mydno])
+                .then(r=>{setMydno(r.data) })
+                },[mydno])
 
 
 
@@ -86,13 +83,8 @@ export default function AllEmplyee(props) {
 
   };
 
-    console.log(allEmplyee)
-
      return (
- 
-
              <Box sx={{display: 'flex',flexDirection: 'column', mt:'50px',alignItems: 'center',height: '100vh' }} >
-
 
                 <Box
                  sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', mb : 4 }} >

@@ -1,5 +1,6 @@
 package groupflow.config;
 
+import groupflow.controller.AuthSuccessFailHandler;
 import groupflow.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private AuthSuccessFailHandler authSuccessFailHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -53,8 +56,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                         .loginPage("/login")    // 로그인페이지로 사용할 url
                         .loginProcessingUrl("/employee/login")   // 로그인 처리할 매핑 url
-                        .defaultSuccessUrl("/allemployee") // 로그인성공했을때
-                        .failureUrl("/login") // 로그인실패시매핑url
+                        .successHandler( authSuccessFailHandler )
+                        //.failureUrl("/member/login")//로그인 실패했을 때 이동할 매핑  url
+                        .failureHandler( authSuccessFailHandler)
                         .usernameParameter("eno") // 로그인시 사용될 계정 아이디 필드명 -> 직원이름으로 사용
                         .passwordParameter("ename")   // 로그인시 사용될 계정 비밀번호 필드명 -> 사번으로 사용
                 .and()
