@@ -40,18 +40,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .ignoringAntMatchers("http://localhost:3000/login") // login url은 csrf 무시
                     .ignoringAntMatchers("/employee/login") // login url은 csrf 무시*/
                 /*.and()*/
-                /*
-                .authorizeRequests()
-                    .anyRequest().authenticated() // 로그인 해야지만 모든페이지 접속가능
-                .and()
-                */
+
 
                 //.antMatchers("/adminofflist").hasAnyRole("경영지원팀")
                 .authorizeHttpRequests()
                     .antMatchers("/pofflist").hasRole("부장")
                     .antMatchers("/adminofflist").hasRole("경영지원팀")
                     .antMatchers("/manageremployeelistview").hasRole("부장")
-                    //.antMatchers("/**").hasRole("EMPLOYEE")
+                    .antMatchers("/login").permitAll()
+                    .antMatchers("/*").authenticated()
                 .and()
 
                 .formLogin()
@@ -65,7 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/employee/logout"))     // 로그아웃처리 요청할 매핑 url
-                .logoutSuccessUrl("/logout")         // 로그아웃처리 성공시 매핑 url
+                .logoutSuccessUrl("/login")         // 로그아웃처리 성공시 매핑 url
                 .invalidateHttpSession(true);       // 세션초기화X
 
         http.csrf().disable();

@@ -31,9 +31,10 @@ export default function Login(props) {
                         // JSON.stringify( 객체) String타입의 json형식 : Object --> JSON형식String
                         // JSON.parse( String타입json ) : String --> JSON타입
 
-                        // 로컬스토리지
-                        //localStorage.setItem("login_token",JSON.stringify(r.data) );
+
+
                         // JS 세션 스토리지 [ 브라우저 모두 닫히면 사라진다. ]
+                        // 로컬스토리지
                         localStorage.setItem("login_token",JSON.stringify(r.data) );
                         window.location.href="/allemployee";
                     }
@@ -66,7 +67,6 @@ export default function Login(props) {
         display: 'flex',
         justifyContent: 'center',
         height: '350px',
-        bgcolor: '#EEF2F6',
         mt:'50px'
       }}
     >

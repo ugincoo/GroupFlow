@@ -2,14 +2,6 @@ import React, { useState , useEffect } from 'react';
 import axios from 'axios';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { blue } from '@mui/material/colors';
-
-const colorPalette = {
-  lightest: blue[50],
-  light: blue[100],
-  main: blue[500],
-  dark: blue[700],
-};
 
 export default function Registration(props) {
     let [imagePreview, setImagePreview] = useState(null);
@@ -28,7 +20,6 @@ export default function Registration(props) {
     console.log(positionList)
     console.log(departmentList)
 
-    axios.get("/login/confirm").then((r)=>{ console.log('로그인정보가져오기'); console.log(r.data); })
 
     // 부서랑 직급목록 가져오기
     useEffect(()=>{
@@ -110,7 +101,7 @@ const handleChange = (e) => {
         sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'aliceblue', width: '100%', maxWidth: '1200px', mb : 4 }}
       >
         <Typography
-          sx={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 'bold', color: colorPalette.dark, textAlign: 'left', }}
+          sx={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 'bold', color: 'rgb(12, 82, 114)', textAlign: 'left', }}
           variant="h5"
           component="h1"
         >
@@ -118,7 +109,7 @@ const handleChange = (e) => {
         </Typography>
       </Box>
 
-      <Box sx={{ p: 6, borderRadius: 3, boxShadow: 1, bgcolor: 'aliceblue', width: '100%', maxWidth: '1200px', }} >
+      <Box sx={{ p: 6, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', }} >
         <form onSubmit={handleSubmit}>
           <Grid container spacing={5}>
             <Grid item xs={12} sm={2}>
@@ -220,7 +211,7 @@ const handleChange = (e) => {
             <Grid item xs={12}>
               <Button
                 variant="contained"
-                sx={{ bgcolor: colorPalette.main, color: 'white', width: '100%' }}
+                sx={{ bgcolor: 'rgb(12, 82, 114)', color: 'white', width: '100%' }}
                 type="submit"
               >
                 등록하기

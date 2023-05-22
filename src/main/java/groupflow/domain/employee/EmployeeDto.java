@@ -45,9 +45,11 @@ public class EmployeeDto implements UserDetails {
     // 로그인시 권한 인증용
     private Set<GrantedAuthority> securityPermissionList; // securityPermissionList : 권한목록
 
-    //연차목록 반환
+    // 업무평가목록 반환
     private List<EvaluationDto> evaluationDtoList = new ArrayList<>();
 
+    // 연차개수
+    private int yearno;
 
 
 

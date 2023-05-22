@@ -2,8 +2,10 @@ package groupflow.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import groupflow.domain.employee.EmployeeDto;
+import groupflow.domain.position.PositionDto;
 import groupflow.service.EmployeeService;
 import groupflow.service.LoginService;
+import groupflow.service.PositionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,12 +29,20 @@ public class AuthSuccessFailHandler implements AuthenticationSuccessHandler, Aut
 
     //@Autowired EmployeeService employeeService;
     @Autowired LoginService loginService;
+    @Autowired EmployeeService employeeService;
+    @Autowired PositionService positionService;
 
     @Override // 인수 : request , response, authentication:인증성공정보
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("authentication success : " + authentication);
         EmployeeDto employeeDto = (EmployeeDto)authentication.getPrincipal();
-       String json = mapper.writeValueAsString(employeeDto);
+        employeeDto.setEname( loginService.findByEno(employeeDto.getEno()).getEname() ); // 암호화된 이름만 다시 원본데이터로 넣기
+        // 연차개수추가
+        employeeDto.setYearno(positionService.getYearno(employeeDto.getEno()).getYearno());
+        log.info("로그인성공 employeeDto : " + employeeDto);
+        String json = mapper.writeValueAsString(employeeDto);
+
+
 
         // ajax 전송
         response.setCharacterEncoding("UTF-8");
