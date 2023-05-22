@@ -169,7 +169,8 @@ public class EmployeePrintService {
                 color = "red";
             }
 
-
+            String cdate= attendanceRepository.findCdatebyEno(e.getEno());
+            String udate= attendanceRepository.findUdatebyEno(e.getEno());
 
 
             AttendanceListDto attendanceListDto=AttendanceListDto.builder()
@@ -180,6 +181,8 @@ public class EmployeePrintService {
                             .dname(departmentEntity.getDname())
                             .pname(positionEntity.getPname())
                             .color(color)
+                            .cdate(cdate)
+                            .udate(udate)
                             .build();
 
             attendanceListDtoList.add(attendanceListDto);
