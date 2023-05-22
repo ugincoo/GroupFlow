@@ -14,6 +14,7 @@ import AdminLeaveList from './employee/AdminLeaveList';
 import AttendanceStatus from './employee/AttendanceStatus';
 import PLeaveList from './employee/PLeaveList';
 import ManagerEmployeeListView from './employee/ManagerEmployeeListView';
+import Notice from './employee/Notice';
 
 
 
@@ -35,6 +36,7 @@ export default function Index(props) {
                 <Route path="/mypage" element={ <Mypage/> }/>
                 <Route path="/attendancestatus" element={ <AttendanceStatus/> }/>
                 <Route path="/manageremployeelistview" element={ <ManagerEmployeeListView/> }/>
+                <Route path="/notice" element={ <Notice/> }/>
             </Routes>
             <Footer/>
         </BrowserRouter>

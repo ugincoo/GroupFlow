@@ -129,6 +129,7 @@ public class AttendanceService {
     public boolean infostate(){
         log.info("start!!!!");
        EmployeeDto employeeDto = loginService.loginInfo();
+       if(employeeDto==null){return false;}
         log.info("employeeDto:????"+employeeDto);
         Optional<AttendanceEntity> optionalAttendanceEntity=attendanceRepository.findByeno(employeeDto.getEno());
         log.info("optionalAttendanceEntity:????"+optionalAttendanceEntity);

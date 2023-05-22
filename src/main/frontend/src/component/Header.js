@@ -13,6 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Workbtn from './employee/Workbtn';
+import Notice from './employee/Notice';
 import AttendanceStatus from './employee/AttendanceStatus';
 import styles from '../css/header.css'; //css
 
@@ -51,6 +52,7 @@ let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_toke
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a>}, // 유진 추가 05/16
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/adminofflist">전직원연차내역</a>},//유진 추가
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/manageremployeelistview">업무평가</a>},//슬비 추가
+                    {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/notice">공지사항</a>},
                     {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler} getAttendance={getAttendance}eno={eno}/>}
 
                 ]
