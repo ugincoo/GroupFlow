@@ -9,13 +9,13 @@ export default function Workbtn(props) {
     axios.post("/employee/gowork").then((r)=>{
             console.log(r.data)
             if(r.data==true){
-                alert("출근등록 되었습니다.")
+                alert("출근등록 되었습니다.") 
                 props.getAttendance();
                 props.gokDisabledHandler()
 
             }
          }) 
-       } 
+       }
 
 const outwork=()=>{
         axios.put("/employee/outwork").then((r)=>{
