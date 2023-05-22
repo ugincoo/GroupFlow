@@ -22,7 +22,7 @@ const outwork=()=>{
             console.log(r.data);
             if(r.data==true){alert("퇴근등록 되었습니다.");
                props.getAttendance();
-                props.gokDisabledHandler()} 
+                props.gokDisabledHandler()}
                 })
              }
 
