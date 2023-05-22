@@ -12,7 +12,8 @@ import { styled } from '@mui/material/styles';
 const TAX_RATE = 0.07;
 
 function ccyFormat(num) {
-  return `${num.toFixed(2)}`;
+    let intnum = parseInt(num);
+    return `${intnum.toFixed(2)}`; // toFixed(2) 변수에 할당된 숫자를 소수점 아래 둘째 자리까지 반올림한 후 문자열로 반환
 }
 
 /*
@@ -26,20 +27,22 @@ function createRow( 번호, 주제 , 문항 , 점수 ) {
   return { 번호, 주제 , 문항 , 점수 };
 }
 
-function subtotal(items) {
+
+function invoiceTotal(items) {
   return items.map(({ 점수 }) => 점수).reduce((sum, i) => sum + i, 0);
 }
 
+
 const rows = [
-  createRow(1,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', '10'),
-  createRow(2,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', '10'),
-  createRow(3,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', '10'),
+  createRow(1,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', 10 ),
+  createRow(2,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', 8 ),
+  createRow(3,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', 10 ),
 ];
 
 
-const invoiceSubtotal = subtotal(rows);
-const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+//const invoiceSubtotal = subtotal(rows);
+//const invoiceTaxes = TAX_RATE * invoiceSubtotal;
+//const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 export default function EvaluationView(props) {
     const Item = styled(Paper)(({ theme }) => ({
@@ -84,7 +87,7 @@ export default function EvaluationView(props) {
                         <TableRow key={row.번호}>
                           <TableCell>{row.주제}</TableCell>
                           <TableCell>{row.문항}</TableCell>
-                          <TableCell align="right">{ccyFormat(row.점수)}</TableCell>
+                          <TableCell align="right">{row.점수}</TableCell>
                         </TableRow>
                       ))}
 
