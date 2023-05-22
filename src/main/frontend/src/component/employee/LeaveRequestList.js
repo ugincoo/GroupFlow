@@ -68,14 +68,6 @@ export default function LeaveRequestList(props){
         console.log(e.target.innerHTML); // 해당 button에서 안에 출력되는 html 호출
         console.log(e.target.outerText); // 해당 button에서 밖으로 출력되는 text 호출
     }
-// 연차 개수
-useEffect( () => {
-  if (rows.length > 0) {
-    console.log(rows[0]);
-    console.log(rows[0].yearno);
-    setYearNo(rows[0].yearno);
-  }
-}, [rows]);
 
 // 연차 개수 차감 함수
 const getDateDiff = () => {
@@ -107,7 +99,7 @@ const deductedYearNo = getDateDiff();
         <div className="div2">
             <span id="countYn"> { deductedYearNo } </span>
             <span > /  </span>
-            <span id="yn"> {yearNo} </span>
+            <span id="yn"> {login.yearno} </span>
         </div>
         </div>
          <TableContainer component={Paper}>
