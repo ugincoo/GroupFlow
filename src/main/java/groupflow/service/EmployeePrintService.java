@@ -6,6 +6,7 @@ import groupflow.domain.attendance.AttendanceRepository;
 import groupflow.domain.department.*;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
+import groupflow.domain.employee.EmployeePrintDto;
 import groupflow.domain.employee.EmployeeRepository;
 import groupflow.domain.position.PositionChangeEntityRepository;
 import groupflow.domain.position.PositionEntity;
@@ -190,4 +191,31 @@ public class EmployeePrintService {
         });
         return attendanceListDtoList;
     }
+
+
+    //부서별 직원
+    public List<EmployeePrintDto> getEmployeeBydno(int dno){
+        List<EmployeeEntity> employeeEntityList=employeeRepository.findByDno(dno);
+        List<EmployeePrintDto> employeePrintDtoList=new ArrayList<>();
+
+        employeeEntityList.forEach((e)->{
+
+            int dindex =  e.getDepartmentChangeEntityList().size()-1;
+            int pindex =  e.getPositionChangeEntityList().size()-1;
+            EmployeePrintDto employeePrintDto=EmployeePrintDto.builder()
+                    .eno(e.getEno())
+                    .ename(e.getEname())
+                    .dno(e.getDepartmentChangeEntityList().get(dindex).getDepartmentEntity().getDno())
+                    .pno(e.getPositionChangeEntityList().get(pindex).getPositionEntity().getPno())
+                    .dname(e.getDepartmentChangeEntityList().get(dindex).getDepartmentEntity().getDname())
+                    .pname(e.getPositionChangeEntityList().get(pindex).getPositionEntity().getPname())
+                    .build();
+            employeePrintDtoList.add(employeePrintDto);
+
+        });
+        return employeePrintDtoList;
+
+    }
+
+
 }
