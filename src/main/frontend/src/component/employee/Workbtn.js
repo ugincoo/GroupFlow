@@ -10,7 +10,7 @@ export default function Workbtn(props) {
             console.log(r.data)
             if(r.data==true){
                 alert("출근등록 되었습니다.")
-                props.getAttendance(); 
+                props.getAttendance();
                 props.gokDisabledHandler()
 
             }
@@ -22,7 +22,7 @@ const outwork=()=>{
             console.log(r.data);
             if(r.data==true){alert("퇴근등록 되었습니다.");
                props.getAttendance();
-                props.gokDisabledHandler()}
+                props.gokDisabledHandler()} 
                 })
              }
 
