@@ -6,10 +6,6 @@ import Modal from '@mui/material/Modal';
 import Container from '@mui/material/Container';
 /*------------------------------------------------------------------------------------------------css-----*/
 
-
-
-
-
 // 연차 신청 모달
 export default function LeaveRequest(props){
 // 0. 로그인 정보 변수
@@ -18,15 +14,20 @@ const [ login,setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_t
 let [open, setOpen] = React.useState(false);
 
 // 1. 로그인 정보 호출
-useEffect ( () => {
-    axios.get('/login/confirm').then( r => {
-        if(r.data != ''){  // 만약에 로그인이 null이 아니면
-            sessionStorage.setItem( "login_token",JSON.stringify(r.data) ) ;
-            setLogin( JSON.parse(sessionStorage.getItem( "login_token" ) ) );
-            console.log(r.data);
-        }
-    } )
-},[] );
+useEffect(() => {
+  axios.get('/login/confirm')
+    .then(r => {
+      if (r.data !== '') { // 만약에 로그인이 null이 아니면
+        sessionStorage.setItem("login_token", JSON.stringify(r.data));
+        setLogin(JSON.parse(sessionStorage.getItem("login_token")));
+        console.log(r.data);
+      }
+    })
+    .catch(err => {
+      console.log("로그인 정보를 가져오는 중 오류가 발생했습니다.");
+
+    });
+}, []);
 
 
 const onApplication = () => {

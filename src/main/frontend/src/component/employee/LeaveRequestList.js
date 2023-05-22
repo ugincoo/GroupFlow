@@ -25,6 +25,7 @@ export default function LeaveRequestList(props){
 
     // 1. 요청한 게시물 정보를 가지고 있는 리스트 변수[ 상태 관리변수 ]
      let [ rows , setRows ] = useState( [] );
+     let [pageInfo , setPageInfo] = useState({ 'page':1 });
      let [ totalPage , setTotalPage] = useState( 1 );
      let [ yearNo , setYearNo ] = useState(0);
 
@@ -75,21 +76,29 @@ useEffect( () => {
     setYearNo(rows[0].yearno);
   }
 }, [rows]);
-// 연차 개수 차감
-const yearNoCount = rows.map( row => (
-    if(row.approvaldate != ''){
-        int yearno = yearNo
-        for (let i = yearno; i < row.length; i--){
+/*
 
-        }
-    }
- ));
+// 연차 개수 차감 함수
+const getDateDiff = rows.map(row =>{
+    console.log(typeof row.lend);
+    console.log(typeof row.lstart);
+    const date1 = new Date(row.lend);        console.log(typeof date1);
+    const date2 = new Date(row.lstart);      console.log(typeof date2);
+
+    const diffsec =  ( date1.getTime() - date2.getTime() ) / 1000 // 초 차이 구하기
+
+    const diffday = diffsec / (24*60*60); //일자수 차이
+    })
+
+*/
+
+
 
      return (
 
      <Container>
         <div className="topDiv">
-        { /* <LeaveRequest /> */}
+         {/*<LeaveRequest />*/}
         <div>
             <span> </span>
             <span> /  </span>
@@ -109,7 +118,6 @@ const yearNoCount = rows.map( row => (
              <TableBody>
               {rows.map((row) => (
                  <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-
                      <TableCell align="center"> {row.lrequestdate}</TableCell>
                      <TableCell align="center">
                      {row.approvaldate != null ? '결재완료'+row.approvaldate : '결재대기중'}
