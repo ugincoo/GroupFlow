@@ -14,7 +14,7 @@ export default function Workbtn(props) {
                 props.gokDisabledHandler()
 
             }
-         })
+         }) 
        }
 
 const outwork=()=>{
