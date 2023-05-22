@@ -56,8 +56,5 @@ public class EvaluationController {
     }
     
     // 7. evno로 업무평가 조회페이지 필요한 정보 가져오기
-    @GetMapping("/view")
-    public List<EvaluationViewDto> findByEvnoAll( @RequestParam int evno ){
-        return evaluationService.findByEvnoAll(evno);
-    }
+
 }

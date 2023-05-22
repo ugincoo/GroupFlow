@@ -24,7 +24,5 @@ public interface EvaluationRepository extends JpaRepository<EvaluationEntity,Int
     @Query( value = "select * from evaluation where evaluatoreno=:evaluatoreno and ( evopnion is null or evopnion = '' )" , nativeQuery = true)
     List<EvaluationEntity> findByEvaluatorenoIncompleteEvopnion( @Param(value = "evaluatoreno") int evaluatoreno);
 
-    // 입력받은 evaluation 식별번호로 업무평가조회페이지에 필요한 모든 데이터 가져오기 // 오류, 컨버터 건들여야해서 없앨예정
-    @Query( value = "select eq.eqno , eq.eqtitle , eq.equestion , sc.eqscore , ev.*  from evaluation ev , evscore sc , equestion eq where ev.evno = sc.evno and eq.eqno = sc.eqno and ev.evno = :evno order by eq.eqno" , nativeQuery = true)
-    List<EvaluationViewDto> findByEvnoAll( @Param("evno") int evno);
+
 }

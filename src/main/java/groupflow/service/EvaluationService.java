@@ -264,7 +264,5 @@ public class EvaluationService {
         return 4; // 미완료 없음
     }
 
-    public List<EvaluationViewDto> findByEvnoAll( int evno ){
-        return evaluationRepository.findByEvnoAll(evno);
-    }
+
 }
