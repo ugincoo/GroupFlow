@@ -2,6 +2,7 @@ package groupflow.controller;
 
 import groupflow.domain.evaluation.EquestionDto;
 import groupflow.domain.evaluation.EvaluationDto;
+import groupflow.domain.evaluation.EvaluationViewDto;
 import groupflow.service.EvaluationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,19 @@ public class EvaluationController {
     public boolean checkEvaluation( @RequestParam int eno ){
         return evaluationService.checkEvaluation(eno);
     }
+    
+    // 5. 기존 업무평가 수정
+    @PutMapping("")
+    public byte updateEvaluation( @RequestBody EvaluationDto evaluationDto ){
+        return evaluationService.updateEvaluation(evaluationDto);
+    }
+
+    // 6. 로그인한 평가자가 미완료한 업무가 있는지 확인
+    @GetMapping("/check/incomplete")
+    public byte checkEvaluationIncomplete(){
+        return evaluationService.checkEvaluationIncomplete();
+    }
+    
+    // 7. evno로 업무평가 조회페이지 필요한 정보 가져오기
+
 }

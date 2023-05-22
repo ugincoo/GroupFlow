@@ -43,6 +43,10 @@ export default function Registration(props) {
     //console.log(info)
     //console.log("ephoto")
     //console.log(ephoto)
+
+    if (ephoto.size > 1048576) { // 1MB 제한 (1048576 바이트)
+          alert("파일 크기가 너무 큽니다."); return;
+    }
     const data = new FormData();
     data.append("ephotodata", ephoto );
     data.append(
@@ -70,6 +74,9 @@ export default function Registration(props) {
 
 const handleImageChange = (e) => {
   const file = e.target.files[0];
+  if (file.size > 1048576) { // 1MB 제한 (1048576 바이트)
+      alert("파일 크기가 너무 큽니다."); return;
+  }
   //console.log("file")
   //console.log(file)
   setEphoto(file)

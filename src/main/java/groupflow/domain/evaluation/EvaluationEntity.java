@@ -1,11 +1,16 @@
 package groupflow.domain.evaluation;
 
 import groupflow.domain.BaseTime;
+import groupflow.domain.department.DepartmentChangeEntity;
 import groupflow.domain.employee.EmployeeEntity;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity@Table(name = "evaluation")
 @Data@AllArgsConstructor@NoArgsConstructor@Builder
@@ -31,6 +36,11 @@ public class EvaluationEntity extends BaseTime {
     // BaseTime
     // cdate 평가날짜 
     // udate 평가수정날짜
+
+    // 점수테이블 양방향
+    @OneToMany(mappedBy = "evaluationEntity")
+    @Builder.Default
+    private List<EvscoreEntity> evscoreEntityList = new ArrayList<>();
 
     public EvaluationDto toDto(){
         return EvaluationDto.builder()

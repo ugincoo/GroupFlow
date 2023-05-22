@@ -23,6 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -357,6 +358,7 @@ public class EmployeeService {
                     .pname(positionEntity.getPname())
                     .dno(departmentEntity.getDno())
                     .dname(departmentEntity.getDname())
+                    .hiredate(employeeEntity.getHiredate().format( DateTimeFormatter.ofPattern( "yy-MM-dd")))
                     .build();
         }
         return null;

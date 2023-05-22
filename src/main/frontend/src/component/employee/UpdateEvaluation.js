@@ -7,6 +7,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -22,9 +24,25 @@ const Item = styled(Paper)(({ theme }) => ({
     padding : '20px',
 }));
 
+const ConfirmationModal = ({ open, onClose, onConfirm }) => {
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>확인</DialogTitle>
+      <DialogContent>
+        <p>기한이 지나 저장 후 수정이 불가합니다. 제출하시겠습니까?</p>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>아니오</Button>
+        <Button onClick={onConfirm} variant="contained" autoFocus>
+          예
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
-
-export default function Evaluation(props) {
+export default function UpdateEvaluation(props) {
+    // props.evaluation / props.listItemClick / props.removeComponentPrint / props.targetEmployee / props.checkIncomplete
     // props.eno대신에 임시 eno
     const eno = props.targetEmployee.eno; // 상위컴포넌트에게 넘겨받은 평가대상자의 eno
     // 로그인한 평가자 정보 상태변수
@@ -33,6 +51,12 @@ export default function Evaluation(props) {
     const [ targetEmployee , setTargetEmployee ] = useState({})
     // 문항리스트 상태변수배열
     const [ equestionList , setEquestionList ] = useState([])
+    // 각 문항의 점수를 저장할 상태 설정
+    const [scores, setScores] = useState({});
+    console.log(scores);
+    // 평가의견 상태변수
+    const [eopinion,setEopinion] = useState('');
+
     // 첫실행시 문항리스트 가져오기 , 로그인 정보(평가자) , 평가대상자(props로 받은 eno)정보 가져오기
     useEffect(()=>{
         //문항리스트 가져오기
@@ -41,7 +65,13 @@ export default function Evaluation(props) {
         axios.get("/login/confirm").then(r=>{console.log(r.data); setEvaluator(r.data);})
         //평가대상자(props로 받은 eno)정보 가져오기
         axios.get("/employee/select/info" , {params:{eno:eno}}).then(r=>{console.log(r.data); setTargetEmployee(r.data);})
+        // 기존문항 점수선택값 적용하기
+        setScores( props.evaluation.evscoreMap )
+        // 기존 업무평가 의견가져와서 적용하기
+        setEopinion(props.evaluation.evopnion)
+
     },[])
+
 
     // 오늘날짜
     const currentDate = new Date();
@@ -50,13 +80,6 @@ export default function Evaluation(props) {
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
 
-
-    // 각 문항의 점수를 저장할 상태 설정
-    const [scores, setScores] = useState({});
-    console.log(scores);
-
-    // 평가의견 상태변수
-    const [eopinion,setEopinion] = useState('');
 
     // 평가의견 onChange
     const opinionOnChange = (e)=>{
@@ -80,30 +103,53 @@ export default function Evaluation(props) {
         return totalScore
     }
 
+    // 모달 열기 닫기용 상태변수
+    const [open, setOpen] = useState(false);
 
+    // 모달닫기
+    const handleCloseModal = () => { setOpen(false); };
 
-  const evaluationSubmit = (e)=>{
-    console.log(scores)
-    if ( Object.keys(scores).length === 0 && eopinion === "" ){ alert("문항을 최소 1개 이상 작성해주세요"); return;}
-    let info = { targetEno : eno , evopnion : eopinion , evscoreMap : scores }
-    axios.post("/evaluation",info).then(r=> {
-        console.log(r.data)
-        if( r.data == 1 ){ alert('로그인 하세요')}
-        else if( r.data == 2 ){ alert('부서담당자 외에는 평가 불가합니다.')}
-        else if( r.data == 3 ){ alert('평가대상자가 부서내 직원이 아닙니다.')}
-        else if( r.data == 4 ){ alert('평가등록실패 - 관리자문의 오류번호: '+r.data)}
-        else if( r.data == 5 ){ alert('평가등록실패 - 관리자문의 오류번호: '+r.data)}
-        else if( r.data == 6 ){
-            alert('평가등록성공')
-            props.listItemClick(props.targetEmployee); // 업무평가를 작성한 직원의 업무평가리스트(상위컴포넌트) 다시 DB에서 가져오기
-            props.removeComponentPrint(); // 상위컴포넌트에서 호출한 자신컴포넌트 지우는 함수
-            props.checkIncomplete(); // 미완료 업무평가가 있는지 확인하는 함수
-        }
-    })
-  }
+    // 평가 저장 누르면
+    const evaluationUpdateSubmit = (e)=>{
+        console.log(scores)
+        // 기한이 지난 업무평가는 수정불가를 모달로 안내.
+        if (props.evaluation.disabled === true) { setOpen(true); }
+        else{ handleConfirmModal(); } // 기한문제 없으면 안내 없이 저장
+    }
+    // 모달 예 누르면 업무평가 제출처리
+    const handleConfirmModal = () => {
+        setOpen(false);
+        // 업무평가 제출 처리
+        /*
+        if ( props.evaluation.disabled === true ){
+            let result = confirm("기한이 지나 저장 후 수정이 불가합니다. 제출하시겠습니까?");
+            if (!result) { return; }
+        }*/
+        let info = { evno:props.evaluation.evno , targetEno : eno , evopnion : eopinion , evscoreMap : scores }
+        console.log(info)
+        axios.put("/evaluation",info).then(r=> {
+            console.log(r.data)
+
+            if( r.data == 1 ){ alert('로그인 하세요')}
+            else if( r.data == 2 ){ alert('부서담당자 외에는 평가 불가합니다.')}
+            else if( r.data == 3 ){ alert('평가등록실패 - 관리자문의 오류번호: '+r.data)}
+            else if( r.data == 4 ){ alert('평가등록실패 - 관리자문의 오류번호: '+r.data)}
+            else if( r.data == 5 ){ alert('해당 직원에 대한 평가권한이 없습니다. - 관리자문의 오류번호: '+r.data)}
+            else if( r.data == 6 ){ alert('평가등록실패 - 관리자문의 오류번호: '+r.data)}
+            else if( r.data == 7 ){ alert('평가등록실패 - 관리자문의 오류번호: '+r.data)}
+            else if( r.data == 8 ){
+                alert('수정되었습니다.')
+                props.listItemClick(props.targetEmployee); // 업무평가를 작성한 직원의 업무평가리스트(상위컴포넌트) 다시 DB에서 가져오기
+                props.removeComponentPrint(); // 상위컴포넌트에서 호출한 자신컴포넌트 출력을 지우는 함수
+                props.checkIncomplete(); // 미완료 업무평가가 있는지 확인하는 함수
+            }
+        })
+    }
 
   return (
     <>
+      {/* 모달 컴포넌트 */}
+      <ConfirmationModal open={open} onClose={handleCloseModal} onConfirm={handleConfirmModal} />
       <Stack direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
         <Item >
           <Box width='100%' maxWidth='180px' marginRight='40px'>
@@ -198,7 +244,7 @@ export default function Evaluation(props) {
                         variant="contained"
                         sx={{ bgcolor: '#0c5272', color: 'white', width: '100%', mb:4 }}
                         type="button"
-                        onClick={evaluationSubmit}
+                        onClick={evaluationUpdateSubmit}
                       >
                         평가저장
                     </Button>
