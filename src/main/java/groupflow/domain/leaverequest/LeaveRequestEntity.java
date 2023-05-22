@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 @Entity
 @Data
@@ -46,7 +47,7 @@ public class LeaveRequestEntity { // 연차테이블
     @ToString.Exclude
     private DepartmentEntity departmentEntity;
 
-    // 관리자 / 부장 출력용
+    //
     public LeaveRequestDto toDto(){
         return LeaveRequestDto.builder()
                 .lno(this.lno)
@@ -61,16 +62,5 @@ public class LeaveRequestEntity { // 연차테이블
                 .dname(this.departmentEntity.getDname())
                 .build();
     }
-  /*  // 직원 개인 연차 출력용
-    public LeaveRequestDto toMyDto(){
-        return  LeaveRequestDto.builder()
-                .lno(this.lno)
-                .approvalstate(this.approvalstate)
-                .requestreason(this.requestreason)
-                .lrequestdate( this.lrequestdate.format(DateTimeFormatter.ofPattern("yy-MM-dd")))
-                .lstart(this.lstart.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
-                .lend(this.lend.format(DateTimeFormatter.ofPattern("yy-MM-dd")) )
-                .approvaldate (this.cdate.format( DateTimeFormatter.ofPattern( "yy-MM-dd a hh:mm")))
-                .build();
-    }*/
+
 }

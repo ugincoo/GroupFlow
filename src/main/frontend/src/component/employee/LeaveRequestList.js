@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 /*-----------------------------------------------------------*/
+import styles from '../../css/leave.css'; //css
 import Container from '@mui/material/Container';
 // 버튼
 import Button from '@mui/material/Button';
@@ -24,8 +25,8 @@ export default function LeaveRequestList(props){
 
     // 1. 요청한 게시물 정보를 가지고 있는 리스트 변수[ 상태 관리변수 ]
      let [ rows , setRows ] = useState( [] );
-     let [pageInfo , setPageInfo] = useState({ 'page':1 });
      let [ totalPage , setTotalPage] = useState( 1 );
+     let [ yearNo , setYearNo ] = useState(0);
 
     // 로그인 정보 호촐
      useEffect( ()=>{
@@ -66,11 +67,35 @@ export default function LeaveRequestList(props){
         console.log(e.target.innerHTML); // 해당 button에서 안에 출력되는 html 호출
         console.log(e.target.outerText); // 해당 button에서 밖으로 출력되는 text 호출
     }
-    console.log(rows)
+// 연차 개수
+useEffect( () => {
+  if (rows.length > 0) {
+    console.log(rows[0]);
+    console.log(rows[0].yearno);
+    setYearNo(rows[0].yearno);
+  }
+}, [rows]);
+// 연차 개수 차감
+const yearNoCount = rows.map( row => (
+    if(row.approvaldate != ''){
+        int yearno = yearNo
+        for (let i = yearno; i < row.length; i--){
+
+        }
+    }
+ ));
+
      return (
 
      <Container>
-        <LeaveRequest />
+        <div className="topDiv">
+        { /* <LeaveRequest /> */}
+        <div>
+            <span> </span>
+            <span> /  </span>
+            <span> {yearNo} </span>
+        </div>
+        </div>
          <TableContainer component={Paper}>
            <Table sx={{ minWidth: 650 }} aria-label="simple table">
              <TableHead>
@@ -84,7 +109,8 @@ export default function LeaveRequestList(props){
              <TableBody>
               {rows.map((row) => (
                  <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                     <TableCell align="center">{row.lrequestdate}</TableCell>
+
+                     <TableCell align="center"> {row.lrequestdate}</TableCell>
                      <TableCell align="center">
                      {row.approvaldate != null ? '결재완료'+row.approvaldate : '결재대기중'}
                      </TableCell>

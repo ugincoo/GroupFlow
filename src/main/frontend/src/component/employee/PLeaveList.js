@@ -63,7 +63,8 @@ const approval = (e) => {
     console.log(e.target.value);
     let info ={
         lno : e.target.value,
-        approvaldate : approvaldate
+        approvaldate : approvaldate,
+        approvalsate : 1
     }
 
     axios.put("/dayoff/pok",info)

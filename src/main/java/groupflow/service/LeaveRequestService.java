@@ -10,10 +10,10 @@ import groupflow.domain.employee.EmployeeRepository;
 import groupflow.domain.leaverequest.LeaveRequestDto;
 import groupflow.domain.leaverequest.LeaveRequestEntity;
 import groupflow.domain.leaverequest.LeaveRequestRepository;
-import groupflow.domain.position.PositionEntity;
-import groupflow.domain.position.PositionEntityRepository;
+import groupflow.domain.position.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +38,7 @@ public class LeaveRequestService {
     @Autowired
     EmployeeRepository employeeRepository;
     @Autowired
-    private LoginService loginService;
+    PositionEntityRepository positionEntityRepository;
 
     //1. 연차신청
     @Transactional
@@ -84,12 +84,20 @@ public class LeaveRequestService {
         EmployeeDto employeeDto = (EmployeeDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // 2. 로그인 한 직원 정보 가져오기
         EmployeeEntity entity = employeeRepository.findByEno(employeeDto.getEno());
+        
+        List<PositionEntity> yearno =  positionEntityRepository.findByYearno( employeeDto.getEno()  );
+        log.info("연차개수 : " + yearno.get(0).getYearno());
         // 3. 개인 연차 정보를 담을 리스트 생성
         List<LeaveRequestDto> dtoList = new ArrayList<>() ;
         // 4. 리스트에 담기
-        entity.getLeaveRequestEntityList().forEach( (e) -> {
-            dtoList.add(e.toDto());
-        } );
+            entity.getLeaveRequestEntityList().forEach( (e) -> {
+                LeaveRequestDto dto = e.toDto();
+                dto.setYearno(yearno.get(0).getYearno());
+                dtoList.add(dto);
+
+                log.info("개인연차내역 : " + dtoList);
+            } );
+
         return dtoList;
     }
 
@@ -100,6 +108,7 @@ public class LeaveRequestService {
         EmployeeDto employeeDto = (EmployeeDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // 2. 로그인 한 직원 정보 가져오기
         EmployeeEntity entity = employeeRepository.findByEno(employeeDto.getEno());
+
         // 3. 부서 별 직원 내역 가져오기
         List<LeaveRequestEntity> entityList = leaveRequestRepository.findAll();
         log.info("entityList : " + entityList);
@@ -107,6 +116,7 @@ public class LeaveRequestService {
         // 4. 개인 연차 정보를 담을 리스트 생성
         List<LeaveRequestDto> dtoList = new ArrayList<>();
         entityList.forEach( (e) -> {
+
             dtoList.add(e.toDto());
         } );
         return dtoList;
@@ -139,6 +149,7 @@ public class LeaveRequestService {
         if( optionalLREntity.isPresent() ){
             LeaveRequestEntity requestEntity = optionalLREntity.get();
             requestEntity.setApprovaldate(dto.getApprovaldate());
+            requestEntity.setApprovalstate(dto.getApprovalstate());
             return true;
         }
 
