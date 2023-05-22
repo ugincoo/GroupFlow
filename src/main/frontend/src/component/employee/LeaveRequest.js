@@ -105,7 +105,7 @@ const onApplication = () => {
                         <div>  연차 사유 : </div>
                         <textarea className="requestReason"
                             style={{width: "100%", height: "60px" , border: "none", resize: "none"}}
-                            placeholder="연차 사유를 상세하게 작성해주세요." / >
+                            placeholder="※남은 연차 개수는 결재완료 전 차감 개수이니 확인 후 신청 부탁드립니다." / >
                     </div>
                 </Container>
               </p>
