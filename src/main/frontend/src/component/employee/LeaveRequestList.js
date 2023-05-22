@@ -76,33 +76,38 @@ useEffect( () => {
     setYearNo(rows[0].yearno);
   }
 }, [rows]);
-/*
 
 // 연차 개수 차감 함수
-const getDateDiff = rows.map(row =>{
-    console.log(typeof row.lend);
-    console.log(typeof row.lstart);
-    const date1 = new Date(row.lend);        console.log(typeof date1);
-    const date2 = new Date(row.lstart);      console.log(typeof date2);
+const getDateDiff = () => {
+  let deductedYearNo = yearNo;
 
-    const diffsec =  ( date1.getTime() - date2.getTime() ) / 1000 // 초 차이 구하기
+  rows.forEach(row => {
+    if (row.approvaldate != null) {
+      const date1 = new Date("20" + row.lend);
+      const date2 = new Date("20" + row.lstart);
 
-    const diffday = diffsec / (24*60*60); //일자수 차이
-    })
+      const diffsec = (date1.getTime() - date2.getTime()) / 1000; // 초 차이 구하기
+      const diffday = diffsec / (24 * 60 * 60); // 일자 수 차이
 
-*/
+      deductedYearNo -= diffday;
+    }
+  });
 
+  return deductedYearNo;
+};
 
+// 연차 개수 차감 결과
+const deductedYearNo = getDateDiff();
 
      return (
 
      <Container>
         <div className="topDiv">
-         {/*<LeaveRequest />*/}
-        <div>
-            <span> </span>
-            <span> /  </span>
-            <span> {yearNo} </span>
+        {  deductedYearNo == 0 ? <span id="nullLR"> 연차 소진 </span> : <LeaveRequest /> }
+        <div className="div2">
+            <span id="countYn"> { deductedYearNo } </span>
+            <span > /  </span>
+            <span id="yn"> {yearNo} </span>
         </div>
         </div>
          <TableContainer component={Paper}>

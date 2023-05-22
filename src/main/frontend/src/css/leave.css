@@ -5,7 +5,7 @@
 
 
 /*-----------모달 css------------*/
-.LeaveButton{
+.LeaveButton, #nullLR{
     border: none;
     border-radius: 10px;
     padding: 10px;
@@ -55,7 +55,13 @@
     margin: 10px;
     padding: 13px 100px;
 }
-
+/*-----------------연차내역------------------*/
+.topDiv{
+    width : 100%;
+    height : 10%;
+    display: flex;
+    justify-content: space-between
+}
 .pstate{
     border: none;
     border-radius: 10px;
@@ -64,6 +70,15 @@
     background-color: #F0F8FF;
     box-shadow: 2px 2px 2px #c8d0d6;
 }
-.topDiv{
-      margin: 30px 0px 15px 120px ; /*확인용*/
+#countYn{
+    color : #2196F3;
+    font-size : 25px;
+}
+.deducted{
+    color : #F0F8FF;
+    font-size : 12px;
+}
+#yn{
+    color : #0C5272;
+    font-size : 25px;
 }

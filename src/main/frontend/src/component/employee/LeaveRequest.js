@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Container from '@mui/material/Container';
 /*------------------------------------------------------------------------------------------------css-----*/
+import styles from '../../css/leave.css'; //css
 
 // 연차 신청 모달
 export default function LeaveRequest(props){
@@ -83,7 +84,7 @@ const onApplication = () => {
 
 
     return(<>
-         <button onClick={handleOpen}>연차신청</button>
+         <button className="LeaveButton" onClick={handleOpen}>연차신청</button>
         <Modal
             className="aria-describedby"
             open={open}
@@ -91,7 +92,7 @@ const onApplication = () => {
             aria-labelledby="child-modal-title"
             aria-describedby="child-modal-description"
           >
-            <Box sx={{ ...style, }}>
+            <div className="modalBox">
               <h2 id="child-modal-title"> 연차 신청 </h2>
               <p id="child-modal-description">
                 <Container>
@@ -108,9 +109,9 @@ const onApplication = () => {
                     </div>
                 </Container>
               </p>
-              <button  onClick={handleClose}>취소</button>
-              <button onClick={onApplication}>신청</button>
-            </Box>
+              <button className="modalButton" onClick={handleClose}>취소</button>
+              <button className="modalButton" onClick={onApplication}>신청</button>
+            </div>
           </Modal>
     </>);
 }
