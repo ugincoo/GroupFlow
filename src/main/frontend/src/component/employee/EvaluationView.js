@@ -15,23 +15,25 @@ function ccyFormat(num) {
   return `${num.toFixed(2)}`;
 }
 
+/*
 function priceRow(qty, unit) {
   return qty * unit;
 }
+*/
 
-function createRow(desc, qty, unit) {
-  const price = priceRow(qty, unit);
-  return { desc, qty, unit, price };
+function createRow( 번호, 주제 , 문항 , 점수 ) {
+  //const price = priceRow(qty, unit);
+  return { 번호, 주제 , 문항 , 점수 };
 }
 
 function subtotal(items) {
-  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
+  return items.map(({ 점수 }) => 점수).reduce((sum, i) => sum + i, 0);
 }
 
 const rows = [
-  createRow('Paperclips (Box)', 100, 1.15),
-  createRow('Paper (Case)', 10, 45.99),
-  createRow('Waste Basket', 2, 17.99),
+  createRow(1,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', '10'),
+  createRow(2,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', '10'),
+  createRow(3,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', '10'),
 ];
 
 
@@ -58,7 +60,7 @@ export default function EvaluationView(props) {
     const evno = props.evno;
 
     useEffect(()=>{
-        axios.get("/evaluation/view",{params:{evno:props.evno}})
+        axios.get("/evaluation/view",{params:{evno:props.evno}}) // 아직 백엔드 없음
             .then( r=> {
                 console.log(r.data)
             })
@@ -72,38 +74,20 @@ export default function EvaluationView(props) {
                   <Table sx={{ minWidth: 700 }} aria-label="spanning table">
                     <TableHead>
                       <TableRow>
-                        <TableCell align="center" colSpan={3}>
-                          Details
-                        </TableCell>
-                        <TableCell align="right">Price</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Desc</TableCell>
-                        <TableCell align="right">주제</TableCell>
-                        <TableCell align="right">문항</TableCell>
+                        <TableCell>주제</TableCell>
+                        <TableCell>문항</TableCell>
                         <TableCell align="right">점수</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {rows.map((row) => (
-                        <TableRow key={row.desc}>
-                          <TableCell>{row.desc}</TableCell>
-                          <TableCell align="right">{row.qty}</TableCell>
-                          <TableCell align="right">{row.unit}</TableCell>
-                          <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+                        <TableRow key={row.번호}>
+                          <TableCell>{row.주제}</TableCell>
+                          <TableCell>{row.문항}</TableCell>
+                          <TableCell align="right">{ccyFormat(row.점수)}</TableCell>
                         </TableRow>
                       ))}
 
-                      <TableRow>
-                        <TableCell rowSpan={3} />
-                        <TableCell colSpan={2}>Subtotal</TableCell>
-                        <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Tax</TableCell>
-                        <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
-                        <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
-                      </TableRow>
                       <TableRow>
                         <TableCell colSpan={2}>Total</TableCell>
                         <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
