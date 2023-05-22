@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -20,7 +21,7 @@ public class PositionService {
 
     @Autowired
     private PositionEntityRepository positionEntityRepository;
-    @GetMapping("/all")
+
     public List<PositionDto> allPositions() {
         List<PositionDto> positionDtoList = new ArrayList<>();
 
@@ -31,6 +32,15 @@ public class PositionService {
             });
         }
         return positionDtoList;
+    }
+
+    // 입력한 eno로 연차개수 반환
+    public PositionDto getYearno ( int eno ){
+        List<PositionEntity> positionEntityList = positionEntityRepository.findByYearno( eno );
+        if ( positionEntityList.size() > 0 ) {
+            return positionEntityList.get(0).toDto();
+        }
+        return null;
     }
 
 }

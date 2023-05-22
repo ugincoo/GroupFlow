@@ -6,7 +6,8 @@ export default function Logout(props) {
 
     useEffect(()=>{
         localStorage.clear();
-        window.location.href="/login";
+        window.location.href="/employee/logout";
+
     },[])
 
 }

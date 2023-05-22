@@ -336,10 +336,9 @@ export default function ManagerEmployeeListView(props) {
                                             return (
                                                 <List key={e.evno}>
                                                     <ListItem disablePadding>
-                                                        <ListItemButton onClick={ ()=> evView(e.evno) }>
-                                                            <ListItemText primary={e.halfPeriodTitle} />
+                                                        <ListItemButton>
+                                                            <ListItemText primary={e.halfPeriodTitle} onClick={ ()=> evView(e.evno) } />
                                                             {getEvaluationBtnState(e)}
-
                                                         </ListItemButton>
                                                     </ListItem>
                                                 </List>

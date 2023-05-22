@@ -19,7 +19,7 @@ import styles from '../css/header.css'; //css
 
 
 export default function Header(props) {
-let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
+    let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
     const [ eno, setEno] = useState();
     const [ gokDisabled, setGokDisabled] = useState(false);
     const gokDisabledHandler = () =>{
@@ -39,6 +39,7 @@ let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_toke
 
         ,[])
 
+
         axios.get('/login/confirm').then( r => { setEno(r.data.eno) } )
 
         console.log(eno);
@@ -46,7 +47,7 @@ let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_toke
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/registration">사원등록</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/allemployee">직원출력</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/login">로그인</a>},
-                    {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/employee/logout">로그아웃</a>},
+                    {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/logout">로그아웃</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/offlist">연차내역</a>}, //유진 추가
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/mypage">마이페이지</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a>}, // 유진 추가 05/16

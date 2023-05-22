@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 import {BrowserRouter,Routes,Route,Link} from 'react-router-dom';
 import Main from './Main';
 import Header from './Header';
@@ -20,9 +20,12 @@ import Notice from './employee/Notice';
 
 
 export default function Index(props) {
+    let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
+    console.log( login === null )
+
     return (<>
         <BrowserRouter>
-            <Header/>
+            { login!==null ? <Header/> : "" }
             <Routes>
                 <Route path="/" element={ <Main/> }/>
                 <Route path="/login" element={ <Login/> }/>

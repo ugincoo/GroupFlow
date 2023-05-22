@@ -19,7 +19,7 @@ import Pagination from '@mui/material/Pagination';
 // 전직원 연차 내역 [ 경영지원팀 ]
 export default function AdminLeaveList(props){
     // 0. 로그인 정보 변수
-    const [ login , setLogin ] = useState( JSON.parse( sessionStorage.getItem('login_token') ) )
+    let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
     // 1. 요청한 게시물 정보를 가지고 있는 리스트 변수[ 상태 관리변수 ]
 
          let [ rows , setRows ] = useState( [] )
@@ -39,19 +39,7 @@ export default function AdminLeaveList(props){
 
          } , [pageInfo] )
 
-        // 로그인 정보 호촐
-         useEffect( ()=>{
-            axios.get("/login/confirm")
-                .then(r => {
-                    console.log(r);
-                    if(r.data != ''){// 로그인이 되어 있으면 // 서비스에서 null 이면 js에서 ''이다
-                        sessionStorage.setItem( "login_token",JSON.stringify(r.data) );
-                        //상태변수에 저장
-                        setLogin(JSON.parse( sessionStorage.getItem("login_token") ) );
-                        console.log(r.data);
-                    }
-                })
-        }, [] )
+
 
 
         //3. 페이징 변경

@@ -66,11 +66,12 @@ public class LoginService implements UserDetailsService {
             log.info("permission1: " + permission1);
             SimpleGrantedAuthority permission2 = new SimpleGrantedAuthority( "ROLE_"+departmentEntity.getDname() ); // 부서
             log.info("permission2: " + permission2);
-            SimpleGrantedAuthority permission3 = new SimpleGrantedAuthority( "EMPLOYEE" ); // 모든 직원
+            SimpleGrantedAuthority permission3 = new SimpleGrantedAuthority( "ROLE_EMPLOYEE" ); // 모든 직원
             log.info("permission3: " + permission3);
             // 3. 만든 권한객체를 권한목록[컬렉션]에  추가
             securityPermissionList.add( permission1 );
             securityPermissionList.add( permission2 );
+            securityPermissionList.add( permission3 );
 
             EmployeeDto employeeDto = employeeEntity.toDto();
             employeeDto.setEname(new BCryptPasswordEncoder().encode(employeeDto.getEname()));
@@ -115,8 +116,18 @@ public class LoginService implements UserDetailsService {
                         .pname(positionEntity.getPname())
                         .dno(departmentEntity.getDno())
                         .dname(departmentEntity.getDname())
-                        .esocialno(0).id(0).build();
+                        .build();
             }
+        }
+        return null;
+    }
+
+    // 사번으로 employeeEntity찾아서 EmployeeDto 반환
+    public EmployeeDto findByEno( int eno ){
+        Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findById(eno);
+        //entityOptional.ifPresent( o -> {  productEntityRepository.delete( o ); } );
+        if (optionalEmployeeEntity.isPresent()){
+            return optionalEmployeeEntity.get().toDto();
         }
         return null;
     }
