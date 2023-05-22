@@ -37,6 +37,7 @@ export default function Header(props) {
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/mypage">마이페이지</a>},
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/pofflist">부서연차내역</a>}, // 유진 추가 05/16
                     {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/adminofflist">전직원연차내역</a>},//유진 추가
+                    {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/manageremployeelistview">업무평가</a>},//슬비 추가
                     {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler} eno={eno}/>}
 
                 ]

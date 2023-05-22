@@ -46,12 +46,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 */
 
-
+                //.antMatchers("/adminofflist").hasAnyRole("경영지원팀")
                 .authorizeHttpRequests()
                     .antMatchers("/pofflist").hasRole("부장")
-                    .antMatchers("/adminofflist").hasAnyRole("경영지원팀")
-                    .antMatchers("/manageremployeelistview").hasAnyRole("부장")
-                    .antMatchers("/**").permitAll()
+                    .antMatchers("/adminofflist").hasRole("경영지원팀")
+                    .antMatchers("/manageremployeelistview").hasRole("부장")
+                    //.antMatchers("/**").hasRole("EMPLOYEE")
                 .and()
 
                 .formLogin()
