@@ -9,8 +9,8 @@ export default function Workbtn(props) {
     axios.post("/employee/gowork").then((r)=>{
             console.log(r.data)
             if(r.data==true){
-                alert("출근등록 되었습니다.") 
-                props.getAttendance();
+                alert("출근등록 되었습니다.")
+                props.getAttendance(); 
                 props.gokDisabledHandler()
 
             }
