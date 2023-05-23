@@ -45,10 +45,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/adminofflist").hasAnyRole("경영지원팀")
                 .authorizeHttpRequests()
                     .antMatchers("/pofflist").hasRole("부장")
-                    .antMatchers("/adminofflist").hasRole("경영지원팀")
-                    .antMatchers("/manageremployeelistview").hasRole("부장")
+                    .antMatchers("/adminofflist").hasRole("경영지원팀")  //업무평가페이지
+                    .antMatchers("/manageremployeelistview").hasRole("부장") //업무평가페이지
+                    //.antMatchers("/registration").hasRole("경영지원팀") //사원등록페이지
                     .antMatchers("/login").permitAll()
-                    .antMatchers("/*").authenticated()
+                    //.antMatchers("/*").authenticated()
                 .and()
 
                 .formLogin()
