@@ -3,6 +3,7 @@ package groupflow.controller;
 import groupflow.domain.attendance.AttendanceListDto;
 import groupflow.domain.department.DepartmentDto;
 import groupflow.domain.employee.EmployeeDto;
+import groupflow.domain.employee.EmployeePrintDto;
 import groupflow.service.EmployeePrintService;
 import groupflow.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,13 @@ public class EmployeePrintController {
         log.info("우리직원"+result);
         return result;
 
+    }
+
+    @GetMapping("/findbydno") //부서별 직원들 출력하기
+    public List<EmployeePrintDto> getEmployeeBydno(@RequestParam int dno){
+        log.info("dno:"+dno);
+        List<EmployeePrintDto> result = employeePrintService.getEmployeeBydno(dno);
+        return  result;
     }
 
 

@@ -6,6 +6,7 @@ import groupflow.domain.attendance.AttendanceRepository;
 import groupflow.domain.department.*;
 import groupflow.domain.employee.EmployeeDto;
 import groupflow.domain.employee.EmployeeEntity;
+import groupflow.domain.employee.EmployeePrintDto;
 import groupflow.domain.employee.EmployeeRepository;
 import groupflow.domain.position.PositionChangeEntityRepository;
 import groupflow.domain.position.PositionEntity;
@@ -151,7 +152,7 @@ public class EmployeePrintService {
             dno=employeeEntity.get().getDepartmentChangeEntityList().get(index).getDepartmentEntity().getDno();
         }
         log.info("mydno:"+dno);
-        List<EmployeeEntity> entityList= employeeRepository.findByDno(dno);
+        List<EmployeeEntity> entityList= employeeRepository.findByDno(dno); //나랑 같은 부서 직원 구하기
         log.info("entityList:"+entityList);
         entityList.forEach((e)->{
             int index2=e.getPositionChangeEntityList().size()-1;
@@ -173,6 +174,7 @@ public class EmployeePrintService {
             String udate= attendanceRepository.findUdatebyEno(e.getEno());
 
 
+
             AttendanceListDto attendanceListDto=AttendanceListDto.builder()
                             .eno(e.getEno())
                             .dno(departmentEntity.getDno())
@@ -189,4 +191,31 @@ public class EmployeePrintService {
         });
         return attendanceListDtoList;
     }
+
+
+    //부서별 직원
+    public List<EmployeePrintDto> getEmployeeBydno(int dno){
+        List<EmployeeEntity> employeeEntityList=employeeRepository.findByDno(dno);
+        List<EmployeePrintDto> employeePrintDtoList=new ArrayList<>();
+
+        employeeEntityList.forEach((e)->{
+
+            int dindex =  e.getDepartmentChangeEntityList().size()-1;
+            int pindex =  e.getPositionChangeEntityList().size()-1;
+            EmployeePrintDto employeePrintDto=EmployeePrintDto.builder()
+                    .eno(e.getEno())
+                    .ename(e.getEname())
+                    .dno(e.getDepartmentChangeEntityList().get(dindex).getDepartmentEntity().getDno())
+                    .pno(e.getPositionChangeEntityList().get(pindex).getPositionEntity().getPno())
+                    .dname(e.getDepartmentChangeEntityList().get(dindex).getDepartmentEntity().getDname())
+                    .pname(e.getPositionChangeEntityList().get(pindex).getPositionEntity().getPname())
+                    .build();
+            employeePrintDtoList.add(employeePrintDto);
+
+        });
+        return employeePrintDtoList;
+
+    }
+
+
 }

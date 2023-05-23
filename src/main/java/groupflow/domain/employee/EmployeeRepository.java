@@ -33,7 +33,7 @@ public interface EmployeeRepository extends JpaRepository< EmployeeEntity , Inte
     EmployeeEntity findByEno(int Eno);
 
     //부서직원들찾기-장민정
-    @Query(value="SELECT * FROM groupflow.employee natural join groupflow.departmentchange where dno= :dno and eenddate is null",nativeQuery = true)
+    @Query(value="SELECT * FROM groupflow.employee natural join groupflow.departmentchange where eenddate is null and dcenddate is null and dno= :dno",nativeQuery = true)
     List<EmployeeEntity> findByDno(@Param("dno") int dno);
 
 
