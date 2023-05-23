@@ -15,15 +15,20 @@ import AttendanceStatus from './employee/AttendanceStatus';
 import PLeaveList from './employee/PLeaveList';
 import ManagerEmployeeListView from './employee/ManagerEmployeeListView';
 import Notice from './employee/Notice';
+import NoticePrint from './employee/NoticePrint';
+import Marquee from "react-fast-marquee";
 
 
 
 
 export default function Index(props) {
+
+
     let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
     console.log( login === null )
 
     return (<>
+         <Marquee><NoticePrint /></Marquee>
         <BrowserRouter>
             { login!==null ? <Header/> : "" }
             <Routes>
@@ -40,6 +45,7 @@ export default function Index(props) {
                 <Route path="/attendancestatus" element={ <AttendanceStatus/> }/>
                 <Route path="/manageremployeelistview" element={ <ManagerEmployeeListView/> }/>
                 <Route path="/notice" element={ <Notice/> }/>
+
             </Routes>
             <Footer/>
         </BrowserRouter>

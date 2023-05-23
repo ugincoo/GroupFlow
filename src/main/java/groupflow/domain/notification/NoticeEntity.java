@@ -20,4 +20,10 @@ public class NoticeEntity {
     private int nno;
     @Column
     private String content;   //내용
+
+    public NoticeDto todto(){
+        return NoticeDto.builder()
+                .content(this.content)
+                .build();
+    }
 }
