@@ -82,7 +82,7 @@ const deductedYearNo = getDateDiff();
 
      <Container>
         <div className="topDiv">
-        {  deductedYearNo == 0 ? <span id="nullLR"> 연차 소진 </span> : <LeaveRequest /> }
+        {  /*deductedYearNo == 0 ? <span id="nullLR"> 연차 소진 </span> : */ <LeaveRequest /> }
         <div className="div2">
             <span id="countYn"> { deductedYearNo } </span>
             <span > /  </span>
