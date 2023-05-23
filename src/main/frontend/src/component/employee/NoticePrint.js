@@ -9,7 +9,7 @@ const[nnotice,setNotice]=useState([]);
 const getnotice=()=>{
      axios.get("/notice/noticeget").then((r) => {
         setNotice(r.data);
-        console.log(r.data);
+
      })
      }//함수만 정의해놓은것
 
