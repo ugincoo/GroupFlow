@@ -43,13 +43,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
                 //.antMatchers("/adminofflist").hasAnyRole("경영지원팀")
-               /* .authorizeHttpRequests()
+               .authorizeHttpRequests()
                     .antMatchers("/pofflist").hasRole("부장")
                     .antMatchers("/adminofflist").hasRole("경영지원팀")
                     .antMatchers("/manageremployeelistview").hasRole("부장")
                     .antMatchers("/login").permitAll()
                     .antMatchers("/*").authenticated()
-                .and()*/
+                .and()
 
                 .formLogin()
                         .loginPage("/login")    // 로그인페이지로 사용할 url
