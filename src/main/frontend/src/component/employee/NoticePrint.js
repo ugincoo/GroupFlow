@@ -19,7 +19,7 @@ const getnotice=()=>{
     return(<>
             {
                 nnotice.map(r=>{
-                    return(<span style={{color: "yellow", backgroundColor: "black"}}>{r.content}</span>)
+                    return(<span style={{color: "black",fontWeight: "bold",backgroundColor: "aliceblue" ,marginRight:"20px"}}>{r.content}</span>)
 
                 })
 
