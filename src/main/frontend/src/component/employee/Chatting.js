@@ -13,20 +13,27 @@ import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 
 export default function Chatting(props) {
-     const [open, setOpen] = React.useState(true);
+let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
+     const [open, setOpen] = React.useState(true); //mui
      let[alldepartment,setAlldepartment]= useState([]); //모든 부서 출력
-     let[employee,setEmployee]= useState([]); //부서별직원
+     let[employee,setEmployee]= useState(); //부서별직원
+     let[sss,setSss]= useState([]);//test용 소켓에 접속한 모든 명단
+
 
       let ws=useRef(null);
         useEffect( ()=>{
-              ws.current=new WebSocket("ws://localhost:80/chat");
-              ws.current.onopen=()=>{ console.log("서버접속") }
-              ws.current.onclose=(e)=>{ console.log("나감") }
+              ws.current=new WebSocket("ws://localhost:80/chat/"+login.eno);
+              ws.current.onopen=()=>{ console.log("서버접속");  }
+              ws.current.onclose=(e)=>{ console.log("나가..지마..") }
               ws.current.onmessage=(e)=>{
               console.log("메세지")
-              const data = JSON.parse(e.data);
+              //const data = JSON.parse(e.data);
+             //setSss([sss],...e.data) 이게 맞는건데 왜안되지?
+              setSss(e.data)
+
                }
          },[])
 
@@ -55,32 +62,11 @@ export default function Chatting(props) {
 
  const chat = (eno) =>  { //eno 누르고 채팅시작
     console.log(eno)
-    ws.current.send(JSON.stringify({eno:eno}));
-    ws.current.message=(e)=>{
-    console.log(e.data)
-    }
+
+
 
  }
-
- const test=() => {
-    return employee.map((e) => (
-
-           <Collapse in={open} timeout="auto" unmountOnExit key={e.eno}>
-             <List component="div" disablePadding>
-               <ListItemButton sx={{ pl: 4 }} onClick={() => chat(e.eno)}>
-                 <ListItemIcon>
-                   <StarBorder />
-                 </ListItemIcon>
-                 <ListItemText primary={e.ename} />
-               </ListItemButton>
-             </List>
-           </Collapse>
-         ))
-}
-
-
-
-
+console.log(sss)
 console.log(alldepartment)
 
     return (
@@ -91,9 +77,8 @@ console.log(alldepartment)
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
             Group-Flow 사내메신저
-          </ListSubheader>
-        }
-      >
+          </ListSubheader> } >
+
         {alldepartment.map((d) => (
           <React.Fragment key={d.dno}>
             <ListItemButton onClick={() => handleClick(d.dno)}>
@@ -106,12 +91,15 @@ console.log(alldepartment)
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 {employee.map((e) => (
-                  <ListItemButton sx={{ pl: 4 }} onClick={() => chat(e.eno)} key={e.eno}>
+
+                  e.dno==d.dno?
+                   <ListItemButton sx={{ pl: 4 }} onClick={() => chat(e.eno)} key={e.eno}>
                     <ListItemIcon>
-                      <StarBorder />
+                      <TipsAndUpdatesIcon sx={sss.includes(e.eno) ? { color: "yellow" } : {}} />
                     </ListItemIcon>
                     <ListItemText primary={e.ename} />
-                  </ListItemButton>
+                  </ListItemButton>:''
+
                 ))}
               </List>
             </Collapse>
