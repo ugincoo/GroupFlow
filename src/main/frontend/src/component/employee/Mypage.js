@@ -3,6 +3,7 @@ import axios from 'axios';
 import DepartmentChange from './DepartmentChange';
 import PositionChange from './PositionChange';
 import GoworkPrint from './GoworkPrint';
+import PerInfoPrint from './PerInfoPrint';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { blue } from '@mui/material/colors';
@@ -36,6 +37,7 @@ return (
                <Tab label="출근이력 " value="1" />
                <Tab label="직급변경 이력" value="2" />
                <Tab label="부서이동 이력" value="3" />
+               <Tab label="기본정보" value="4" />
 
              </TabList>
            </Box>
@@ -48,7 +50,9 @@ return (
            <TabPanel value="3">
              <DepartmentChange />
            </TabPanel>
-
+           <TabPanel value="4">
+             <PerInfoPrint />
+           </TabPanel>
          </TabContext>
        </Box>
    </Container>

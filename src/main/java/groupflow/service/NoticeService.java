@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Slf4j
 public class NoticeService {
@@ -23,5 +26,15 @@ public class NoticeService {
         }
         return false;
     }
-
+    //공지출력
+    @Transactional
+    public List<NoticeDto> noticeget(){
+        List<NoticeEntity> noticeEntityList=noticeRepository.findAll();
+        List<NoticeDto> list=new ArrayList<>();
+        noticeEntityList.forEach((e)->{
+            list.add(e.todto());
+        });
+        log.info("list??????:"+list);
+        return list;
+    }
 }

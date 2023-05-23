@@ -16,6 +16,8 @@ import PLeaveList from './employee/PLeaveList';
 import ManagerEmployeeListView from './employee/ManagerEmployeeListView';
 import Notice from './employee/Notice';
 import Chatting from './employee/Chatting';
+import NoticePrint from './employee/NoticePrint';
+import Marquee from "react-fast-marquee";
 
 
 
@@ -26,6 +28,7 @@ export default function Index(props) {
     console.log( login === null )
 
     return (<>
+         <Marquee><NoticePrint /></Marquee>
         <BrowserRouter>
             { login!==null ? <Header/> : "" }
             <Routes>
@@ -42,6 +45,8 @@ export default function Index(props) {
                 <Route path="/attendancestatus" element={ <AttendanceStatus/> }/>
                 <Route path="/manageremployeelistview" element={ <ManagerEmployeeListView/> }/>
                 <Route path="/chatting" element={ <Chatting/> }/>
+                <Route path="/notice" element={ <Notice/> }/>
+
             </Routes>
              { login!==null ? <Footer/> : "" }
         </BrowserRouter>
