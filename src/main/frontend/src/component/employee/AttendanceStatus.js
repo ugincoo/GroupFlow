@@ -32,7 +32,7 @@ let [open, setOpen] = React.useState(false);
  let ws=useRef(null);    //장민정 서버소켓
 
     useEffect( ()=>{
-         ws.current=new WebSocket("ws://localhost:8080/commute");
+         ws.current=new WebSocket("ws://localhost:80/commute");
          ws.current.onopen=()=>{ console.log("서버접속") }
          ws.current.onclose=(e)=>{ console.log("나감") }
          ws.current.onmessage=(e)=>{

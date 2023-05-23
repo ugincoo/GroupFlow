@@ -21,7 +21,7 @@ export default function Chatting(props) {
 
       let ws=useRef(null);
         useEffect( ()=>{
-              ws.current=new WebSocket("ws://localhost:8080/chat");
+              ws.current=new WebSocket("ws://localhost:80/chat");
               ws.current.onopen=()=>{ console.log("서버접속") }
               ws.current.onclose=(e)=>{ console.log("나감") }
               ws.current.onmessage=(e)=>{
