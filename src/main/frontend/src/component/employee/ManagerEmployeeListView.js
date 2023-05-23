@@ -185,6 +185,8 @@ export default function ManagerEmployeeListView(props) {
             else if( r.data == 2 ){ alert("권한이 없습니다.")}
             else if( r.data == 3){ // 미완료 건이 있음.
                 setAlerthtml( <> <Alert variant="filled" severity="warning"> 미완료된 업무평가보고서가 있습니다. </Alert> </> )
+            }else if( r.data == 4){
+                setEvperiod({...evperiod})
             }
         })
     }
