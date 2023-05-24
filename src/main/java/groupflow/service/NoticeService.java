@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -37,4 +38,14 @@ public class NoticeService {
         log.info("list??????:"+list);
         return list;
     }
+    @Transactional
+    public boolean noticedelete(int nno){
+        Optional<NoticeEntity> optionalNoticeEntity =noticeRepository.findById(nno);
+        if(optionalNoticeEntity.isPresent()){
+            NoticeEntity noticeEntity=optionalNoticeEntity.get();
+            noticeRepository.delete(noticeEntity); return  true;
+        }
+        return false;
+    }
+
 }
