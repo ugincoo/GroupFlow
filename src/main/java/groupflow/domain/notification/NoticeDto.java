@@ -15,6 +15,7 @@ public class NoticeDto {
 
     public NoticeEntity toEntity(){
         return NoticeEntity.builder()
+                .nno(this.nno)
                 .content(this.content)
                 .build();
     }

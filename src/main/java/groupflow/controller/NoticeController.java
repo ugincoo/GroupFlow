@@ -28,4 +28,11 @@ public class NoticeController {
         List<NoticeDto> list= noticeService.noticeget();
         return list;
     }
+    @DeleteMapping("/noticedelete")
+    public boolean noticedelete (@RequestParam int nno){
+        log.info("nno controller??:"+nno);
+        return noticeService.noticedelete(nno);
+
+    }
+
 }
