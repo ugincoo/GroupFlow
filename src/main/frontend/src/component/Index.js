@@ -18,6 +18,7 @@ import Notice from './employee/Notice';
 import Chatting from './employee/Chatting';
 import NoticePrint from './employee/NoticePrint';
 import Marquee from "react-fast-marquee";
+import Chart from "./employee/Chart";
 
 
 
@@ -45,6 +46,8 @@ export default function Index(props) {
                 <Route path="/manageremployeelistview" element={ <ManagerEmployeeListView/> }/>
                 <Route path="/chatting" element={ <Chatting/> }/>
                 <Route path="/notice" element={ <Notice/> }/>
+                <Route path="/chart" element={ <Chart/> }/>
+
 
             </Routes>
              { login!==null ? <Footer/> : "" }

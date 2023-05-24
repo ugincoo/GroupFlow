@@ -91,23 +91,12 @@ const handleChange = (e) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        bgcolor: 'white'
+        bgcolor: 'white',
+        marginTop : '50px'
       }}
     >
-      <Box
-        sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'aliceblue', width: '100%', maxWidth: '1200px', mb : 4 }}
-      >
-        <Typography
-          sx={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 'bold', color: 'rgb(12, 82, 114)', textAlign: 'left', }}
-          variant="h5"
-          component="h1"
-        >
-          사원 등록
-        </Typography>
-      </Box>
 
       <Box sx={{ p: 6, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', }} >
         <form onSubmit={handleSubmit}>

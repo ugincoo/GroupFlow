@@ -1,34 +1,26 @@
 import React from 'react';
 import {
-  Chart as ChartJS,
-  RadialLinearScale,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { PolarArea } from 'react-chartjs-2';
+  Chart as ChartJS,  RadialLinearScale,  PointElement,
+  LineElement,  Filler,  Tooltip,  Legend,} from 'chart.js';
+import { Radar } from 'react-chartjs-2';
 
-ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
+ChartJS.register(
+  RadialLinearScale,  PointElement,  LineElement,
+  Filler,  Tooltip,  Legend);
 
 export const data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  labels: ['Thing 1', 'Thing 2', 'Thing 3', 'Thing 4', 'Thing 5', 'Thing 6', 'Thing 7', 'Thing 8', 'Thing 9', 'Thing 10'],
   datasets: [
     {
       label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.5)',
-        'rgba(54, 162, 235, 0.5)',
-        'rgba(255, 206, 86, 0.5)',
-        'rgba(75, 192, 192, 0.5)',
-        'rgba(153, 102, 255, 0.5)',
-        'rgba(255, 159, 64, 0.5)',
-      ],
+      data: [2, 9, 3, 5, 2, 3, 3, 4, 5, 6],
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: 'rgba(255, 99, 132, 1)',
       borderWidth: 1,
     },
   ],
 };
 
-export function App() {
-  return <PolarArea data={data} />;
+export default function Chart() {
+  return <Radar data={data} />;
 }
