@@ -22,7 +22,7 @@ let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_toke
                 nnotice.map(r=>{
                     return( login!==null ?
 
-                    <span style={{color: "black",fontWeight: "bold",backgroundColor: "aliceblue" ,marginRight:"20px"}}>{r.content}</span>
+                    <span style={{color: "black",fontWeight: "bold",backgroundColor: "aliceblue" ,marginRight:"20px",fontSize:"20px"}}>{r.content}</span>
                    :""
                    )
 

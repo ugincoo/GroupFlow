@@ -14,12 +14,14 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Workbtn from './employee/Workbtn';
 import Notice from './employee/Notice';
+import Weather from './employee/Weather';
 import AttendanceStatus from './employee/AttendanceStatus';
 import styles from '../css/header.css'; //css
 import Fab from '@mui/material/Fab';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function Header(props) {
+    const[weather, setWeather]=useState([]);
     let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
     const [ eno, setEno] = useState();
     const [ gokDisabled, setGokDisabled] = useState(false);
@@ -28,6 +30,9 @@ export default function Header(props) {
         if( gokDisabled == true  ){ setGokDisabled(false)  }
         else{  setGokDisabled(true )  }
     }
+        //[날씨]
+        axios.get('/employee/weather').then(r=>{setWeather(r.data)})
+
 
         //김은영
         const getAttendance =() => {
@@ -56,10 +61,11 @@ export default function Header(props) {
                 {page : <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/notice">공지사항</a>},
                 {page : <Workbtn gokDisabled={gokDisabled} gokDisabledHandler={gokDisabledHandler} getAttendance={getAttendance}eno={eno}/>}
 
+
             ]
 
         let 출근내역=<AttendanceStatus/>
-
+        let 날씨구현=<Weather/>
         // 로그인 로컬스토리지 세션 변경될때마다 로그아웃버튼 출력여부 확인
         useEffect(()=>{
             console.log("login!==null : "+login!==null)
@@ -112,7 +118,7 @@ export default function Header(props) {
                        { !login?'':
                          ( login.pno >=6?
                           <List >
-                            {[출근내역].map((text, index) => (
+                            {[출근내역,날씨구현].map((text, index) => (
                               <ListItem key={text} disablePadding>
                                 <ListItemButton>
                                   <ListItemIcon>

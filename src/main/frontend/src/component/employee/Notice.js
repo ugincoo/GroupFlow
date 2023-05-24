@@ -45,7 +45,9 @@ const onWriteHandler=()=>{
             console.log(r.data);
          })
          }//함수만 정의해놓은것
+     useEffect(()=>{getnotice()},[])
          console.log(nnotice);
+
     //삭제함수
     const onDeleteHandler=(nno)=>{
     axios.delete("/notice/noticedelete",{ params: { nno: nno } }).then((r) => {
