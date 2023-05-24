@@ -21,7 +21,7 @@ import Fab from '@mui/material/Fab';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function Header(props) {
-    const[weather, setWeather]=useState([]);
+    const[weather, setWeather]=useState();
     let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
     const [ eno, setEno] = useState();
     const [ gokDisabled, setGokDisabled] = useState(false);
@@ -31,7 +31,10 @@ export default function Header(props) {
         else{  setGokDisabled(true )  }
     }
         //[날씨]
-        axios.get('/employee/weather').then(r=>{setWeather(r.data)})
+        useEffect(()=>{  axios.get('/weather').then(r=>{setWeather(r.data);
+                               console.log(r.data);
+                               })},[])
+    console.log(weather);
 
 
         //김은영
@@ -65,7 +68,7 @@ export default function Header(props) {
             ]
 
         let 출근내역=<AttendanceStatus/>
-        let 날씨구현=<Weather/>
+        let 날씨구현=<Weather />
         // 로그인 로컬스토리지 세션 변경될때마다 로그아웃버튼 출력여부 확인
         useEffect(()=>{
             console.log("login!==null : "+login!==null)
@@ -129,7 +132,7 @@ export default function Header(props) {
                               </ListItem>
                             ))}
                           </List> :'')
-                     } 
+                     }
 
 
                     </Box>

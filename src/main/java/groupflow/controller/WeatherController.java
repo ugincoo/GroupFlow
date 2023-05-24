@@ -16,9 +16,11 @@ public class WeatherController {
 
     @Autowired
     private WeatherService weatherService;
-    @GetMapping("/")
+    @GetMapping("")
     public String getWeather(){
 
-       return weatherService.getWeather();
+        String result=weatherService.getWeather();
+       return result;
+
     }
 }
