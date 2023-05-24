@@ -31,16 +31,39 @@ let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_toke
       let ws=useRef(null);
         useEffect( ()=>{
               ws.current=new WebSocket("ws://localhost:80/chat/"+login.eno);
-              ws.current.onopen=()=>{ console.log("서버접속");  }
+              ws.current.onopen=()=>{
+                    console.log("서버접속");
+                    let msg = {
+                        type : "1"
+                    }
+                    ws.current.send( JSON.stringify(msg)  )
+                }
               ws.current.onclose=(e)=>{ console.log("나가..지마..") }
               ws.current.onmessage=(e)=>{
-              console.log("메세지")
-              console.log(e.data)
-              setSss(  JSON.parse(e.data) );
+                  console.log("메세지")
+                  console.log(e.data)
+                    let result = JSON.parse(e.data);
+                  console.log(result)
+                  // 만약에 받은 메시지가 1이면 상태
+                if( result.type == "1" ){
+                    setSss( result.enos )
+                }else if( result.type == "2") {
+                    // 본인이 받은 메시지들을 보관하는 useState 변수에 set
+                }
+
+                  // 만약에 받은 메시지가 2이면 메시지창에 내용 뿌리기
 
                }
-         },[])
+         },[])/*
 
+         // 전송 했을때 이벤트
+         let msg = {
+             type : "2" ,
+             msg :
+             toeno :  ,
+
+         }
+*/
 
 
      useEffect(() => { //부서전체출력
