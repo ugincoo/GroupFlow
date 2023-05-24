@@ -292,6 +292,7 @@ public class EvaluationService {
 
     // 8. [차트] 모든직원의 항목별 점수평균
     public List<ChartViewDto> getChartAllEvaluation() {
+        List<ChartViewDto> chartViewDtoList = new ArrayList<>();
         List<CharView>  resultList = evaluationRepository.findAllChart();
         log.info("resultList: " + resultList);
         if ( resultList.size() > 0 ){
@@ -299,8 +300,15 @@ public class EvaluationService {
                 log.info("resultList : "+ r.getEqno());
                 log.info("resultList : "+ r.getEqtitle());
                 log.info("resultList : "+ r.getEqscore());
+
+                chartViewDtoList.add(ChartViewDto.builder()
+                        .eqno(r.getEqno())
+                        .eqtitle(r.getEqtitle())
+                        .eqscore(r.getEqscore())
+                        .build()
+                );
             });
         }
-        return  null;
+        return  chartViewDtoList;
     }
 }
