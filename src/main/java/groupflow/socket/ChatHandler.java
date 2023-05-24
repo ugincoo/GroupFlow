@@ -40,9 +40,9 @@ public class ChatHandler extends TextWebSocketHandler {
             log.info(  message.getPayload() );
         MsgboxDto msgbox = mapper.readValue(message.getPayload(), MsgboxDto.class);
             log.info(  "msgbox : " + msgbox );
-        if( msgbox.getType().equals("1") ){
+        if( msgbox.getType().equals("1") ){//----------type1
             List<String> enos = new ArrayList<>();
-            for (WebSocketSession s : sessions) { //sessions 는 모든 접속명단, 1:1 채팅명단을 만들것
+            for (WebSocketSession s : sessions) { //sessions 은 chat.js 에 접속한 모든 직원
                 int endindex= s.getUri().getPath().split("/").length-1;
                 String eno = s.getUri().getPath().split("/")[endindex];
                 enos.add(eno);
@@ -54,16 +54,21 @@ public class ChatHandler extends TextWebSocketHandler {
                 String json = mapper.writeValueAsString(m);
                 key.sendMessage( new TextMessage( json ) );
             }
-        }else if( msgbox.getType().equals("2")  ){
-            for (WebSocketSession s : sessions) { //sessions 는 모든 접속명단, 1:1 채팅명단을 만들것
+        }else if( msgbox.getType().equals("2")  ){//----------type2
+          
+            for (WebSocketSession s : sessions) { //sessions 은 chat.js 에 접속한 모든 직원
                 int endindex= s.getUri().getPath().split("/").length-1;
                 String eno = s.getUri().getPath().split("/")[endindex];
                 // 메시지 안에 받는사람과 같으면  그사람에게 메시지 전송
-                if( msgbox.getToeno().equals(eno)  ) {
+                //참고로 msgbox는 js에서 넘어온 json타입의  메세지,타입,toeno,fromeno 을 java 타입으로 바꾼애다
+                if( msgbox.getToeno().equals(eno)  ) { 
                     MsgboxDto m = MsgboxDto.builder()
-                            .type("2").msg( msgbox.getMsg()  )
+                            .type("2")
+                            .msg( msgbox.getMsg()  )
+                            .toeno(msgbox.getToeno())
+                            .fromeno(msgbox.getFromeno())
                             .build();
-                    String json = mapper.writeValueAsString(m);
+                    String json = mapper.writeValueAsString(m); //java에서 사용하기위해 타입변환했다가 다시 보내줄떈
                         s.sendMessage( new TextMessage(  json ) );
                 }
             }
