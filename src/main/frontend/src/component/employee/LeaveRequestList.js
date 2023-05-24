@@ -58,7 +58,7 @@ export default function LeaveRequestList(props){
 
 // 연차 개수 차감 함수
 const getDateDiff = () => {
-  let deductedYearNo = yearNo;
+  let deductedYearNo = login.yearno;
 
   rows.forEach(row => {
     if (row.approvaldate != null) {
@@ -66,7 +66,7 @@ const getDateDiff = () => {
       const date2 = new Date("20" + row.lstart);
 
       const diffsec = (date1.getTime() - date2.getTime()) / 1000; // 초 차이 구하기
-      const diffday = diffsec / (24 * 60 * 60); // 일자 수 차이
+      const diffday = (diffsec / (24 * 60 * 60) )+1; // 일자 수 차이
 
       deductedYearNo -= diffday;
     }
@@ -84,7 +84,7 @@ const deductedYearNo = getDateDiff();
         <div className="topDiv">
         {  deductedYearNo == 0 || rows > 0 ?  <span id="nullLR"> 연차 소진 </span> : <LeaveRequest /> }
         <div className="div2">
-            <span id="countYn"> { rows > 0 ? deductedYearNo : login.yearno } </span>
+            <span id="countYn"> { rows > [0] ? deductedYearNo : login.yearno } </span>
             <span > /  </span>
             <span id="yn"> {login.yearno} </span>
         </div>
