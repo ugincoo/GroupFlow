@@ -21,8 +21,8 @@ public class ChatHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-            sessions.add(session);
-           log.info("ss:"+session); //왜 한명씩만 들어와지는지알수가업사..
+        sessions.add(session);
+        log.info("ss:"+sessions);
         log.info("uri:"+session.getUri().getPath());
         log.info("uri:"+session.getUri().getPath().split("/"));
         int endindex= session.getUri().getPath().split("/").length-1;
@@ -31,8 +31,8 @@ public class ChatHandler extends TextWebSocketHandler {
         log.info("eno:"+eno);
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(eno);
-
         TextMessage message= new TextMessage(json);
+
         handleTextMessage(session, message);
     }
 
@@ -50,8 +50,22 @@ public class ChatHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
        // log.info("msg"+message.getPayload()); //회원번호 일단 만들어는놈..
 
+        List<String> enos = new ArrayList<>();
+
+        for (WebSocketSession s : sessions) { //sessions 는 모든 접속명단, 1:1 채팅명단을 만들것
+            int endindex= s.getUri().getPath().split("/").length-1;
+            String eno = s.getUri().getPath().split("/")[endindex];
+            enos.add(eno);
+        }
+
+
+        ObjectMapper mapper = new ObjectMapper();
+
         for (WebSocketSession key : sessions) { //sessions 는 모든 접속명단, 1:1 채팅명단을 만들것
-            key.sendMessage(message);
+
+            String json = mapper.writeValueAsString(enos);
+            key.sendMessage( new TextMessage( json ) );
+
         }
 
     }

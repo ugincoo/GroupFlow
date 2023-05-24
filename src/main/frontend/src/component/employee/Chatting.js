@@ -15,12 +15,17 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 
+
+//---------------------------컨테이너-------------------------------------
+import Container from '@mui/material/Container';
+import styles from '../../css/chat.css'; //css
+
 export default function Chatting(props) {
 let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
      const [open, setOpen] = React.useState(true); //mui
      let[alldepartment,setAlldepartment]= useState([]); //모든 부서 출력
-     let[employee,setEmployee]= useState(); //부서별직원
-     let[sss,setSss]= useState([]);//test용 소켓에 접속한 모든 명단
+     let[employee,setEmployee]= useState([]); //부서별직원
+     let[sss,setSss]= useState( [] );//test용 소켓에 접속한 모든 명단
 
 
       let ws=useRef(null);
@@ -30,9 +35,8 @@ let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_toke
               ws.current.onclose=(e)=>{ console.log("나가..지마..") }
               ws.current.onmessage=(e)=>{
               console.log("메세지")
-              //const data = JSON.parse(e.data);
-             //setSss([sss],...e.data) 이게 맞는건데 왜안되지?
-              setSss(e.data)
+              console.log(e.data)
+              setSss(  JSON.parse(e.data) );
 
                }
          },[])
@@ -63,13 +67,21 @@ let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_toke
  const chat = (eno) =>  { //eno 누르고 채팅시작
     console.log(eno)
 
-
-
  }
+
+  const onSend = () =>  { //전송버튼
+     console.log('전송')
+
+  }
+
+
 console.log(sss)
 console.log(alldepartment)
+console.log(employee)
 
     return (
+    <Container>
+    <div className="chat">
       <List
         sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
         component="nav"
@@ -90,12 +102,12 @@ console.log(alldepartment)
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                {employee.map((e) => (
-
+                {employee==null?'':
+                employee.map((e) => (
                   e.dno==d.dno?
                    <ListItemButton sx={{ pl: 4 }} onClick={() => chat(e.eno)} key={e.eno}>
                     <ListItemIcon>
-                      <TipsAndUpdatesIcon sx={sss.includes(e.eno) ? { color: "yellow" } : {}} />
+                      <TipsAndUpdatesIcon sx={sss.includes( e.eno+"" ) ? { color: "yellow" } : {}} />
                     </ListItemIcon>
                     <ListItemText primary={e.ename} />
                   </ListItemButton>:''
@@ -106,5 +118,18 @@ console.log(alldepartment)
           </React.Fragment>
         ))}
       </List>
+
+       <div>
+           <div className="chatBox">
+           </div>
+           <div  className="chatInputBox">
+              <textarea className="msgInput"/>
+              <button onClick={onSend}><SendIcon/></button>
+           </div>
+       </div>
+
+     </div>
+   </Container>
+
     );
 }
