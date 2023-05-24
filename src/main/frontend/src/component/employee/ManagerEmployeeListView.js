@@ -279,16 +279,17 @@ export default function ManagerEmployeeListView(props) {
         let html = <ListItemText primary={score+"/100점"} />;
         sum != 55 || e.evopnion === null || e.evopnion === "" ? html = <>{html}<Button variant="contained" color="warning" onClick={()=>updateEvaluation(e)} >미완료</Button></>
             : e.disabled ? html = <>{html}<Button variant="contained" color="success" disabled={e.disabled}>완료</Button></>
-            : html = <>{html}<Button variant="contained" disabled={e.disabled} onClick={()=>updateEvaluation(e)} >수정</Button></>
+            : html = <>{html}<Button variant="contained" color="success" disabled={e.disabled} onClick={()=>updateEvaluation(e)} >수정</Button></>
         console.log(html)
         return html;
     }
 
     // 각 evaluation 선택하면 선택한 업무평가 조회
-    const evView = (evno)=>{
+    const evView = (e)=>{
         console.log("업무평가 클릭함")
-        console.log("evno : "+ evno)
-        setEvaluationComponent(<><EvaluationView evno={evno} /></>)
+        console.log(e)
+        console.log("evno : "+ e.evno)
+        setEvaluationComponent(<><EvaluationView evaluation={e} selectEmployee={selectEmployee} /></>)
     }
 
 
@@ -339,7 +340,7 @@ export default function ManagerEmployeeListView(props) {
                                                 <List key={e.evno}>
                                                     <ListItem disablePadding>
                                                         <ListItemButton>
-                                                            <ListItemText primary={e.halfPeriodTitle} onClick={ ()=> evView(e.evno) } />
+                                                            <ListItemText primary={e.halfPeriodTitle} onClick={ ()=> evView(e) } />
                                                             {getEvaluationBtnState(e)}
                                                         </ListItemButton>
                                                     </ListItem>
