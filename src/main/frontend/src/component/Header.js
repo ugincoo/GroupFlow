@@ -21,7 +21,7 @@ import Fab from '@mui/material/Fab';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function Header(props) {
-    const[weather, setWeather]=useState();
+    const[weather, setWeather]=useState();//날씨
     let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
     const [ eno, setEno] = useState();
     const [ gokDisabled, setGokDisabled] = useState(false);
@@ -35,6 +35,20 @@ export default function Header(props) {
                                console.log(r.data);
                                })},[])
     console.log(weather);
+   // console.log(weather.body);
+   // console.log(weather.body.items);
+   // console.log(weather.body.items.item[3]);
+
+/*  axios.get(url).then((responseData) => {
+    const data = responseData.data;
+    setWeather({
+      id: data.weather[0].id,
+      temperature: data.main.temp,
+      main: data.weather[0].main,
+      loading: false,
+    });
+  });*/
+
 
 
         //김은영
