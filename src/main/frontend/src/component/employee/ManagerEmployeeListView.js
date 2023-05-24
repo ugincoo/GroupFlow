@@ -251,8 +251,8 @@ export default function ManagerEmployeeListView(props) {
             console.log(r.data)
             setEvaluationList(r.data)
             setSelectEmployee({...e}) // 하위컴포넌트에서 업무평가후 업무평가리스트 렌더링하기 - 동일번호가 선택되기 때문에 렌더링안되는 문제 -> 렌더링되어야해서 새로운 주소값으로 넣어줌
-            evaluationComponent = (<><Chart/></>);
-            setEvaluationComponent(...evaluationComponent); // 직원별 차트 출력
+            //evaluationComponent = (<><Chart/></>);
+            //setEvaluationComponent(...evaluationComponent); // 직원별 차트 출력
         })
     }
 

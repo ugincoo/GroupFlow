@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -289,4 +290,17 @@ public class EvaluationService {
 
     }
 
+    // 8. [차트] 모든직원의 항목별 점수평균
+    public List<ChartViewDto> getChartAllEvaluation() {
+        List<CharView>  resultList = evaluationRepository.findAllChart();
+        log.info("resultList: " + resultList);
+        if ( resultList.size() > 0 ){
+            resultList.forEach( r->{
+                log.info("resultList : "+ r.getEqno());
+                log.info("resultList : "+ r.getEqtitle());
+                log.info("resultList : "+ r.getEqscore());
+            });
+        }
+        return  null;
+    }
 }

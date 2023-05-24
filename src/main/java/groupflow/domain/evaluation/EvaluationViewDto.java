@@ -24,4 +24,6 @@ public class EvaluationViewDto {
     private int targeteno;
     private String targetename;
     @Builder.Default private List<EvscoreDto> evscoreDtoList = new ArrayList<>();
+    
+
 }
