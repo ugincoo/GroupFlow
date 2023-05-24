@@ -53,7 +53,7 @@ export default function Registration(props) {
     axios.post('/employee', data , { headers: { 'Content-Type': 'multipart/form-data'} } )
       .then(r => {
         console.log(r);
-        if( r.data == 7 ){ alert('사원등록이 완료되었습니다.')}
+        if( r.data == 7 ){ alert('사원등록이 완료되었습니다.'); window.location.href ="/allemployee"; }
         else if( r.data == 1 ){ alert('이미 부장이 등록된 부서입니다.') }
         else{ alert('관리자문의 - 오류번호:'+r.data ) }
 
@@ -91,23 +91,12 @@ const handleChange = (e) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        bgcolor: 'white'
+        bgcolor: 'white',
+        marginTop : '50px'
       }}
     >
-      <Box
-        sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'aliceblue', width: '100%', maxWidth: '1200px', mb : 4 }}
-      >
-        <Typography
-          sx={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 'bold', color: 'rgb(12, 82, 114)', textAlign: 'left', }}
-          variant="h5"
-          component="h1"
-        >
-          사원 등록
-        </Typography>
-      </Box>
 
       <Box sx={{ p: 6, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', }} >
         <form onSubmit={handleSubmit}>

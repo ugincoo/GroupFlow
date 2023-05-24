@@ -14,6 +14,7 @@ import Alert from '@mui/material/Alert';
 import Evaluation from './Evaluation';
 import UpdateEvaluation from './UpdateEvaluation';
 import EvaluationView from './EvaluationView';
+import Chart from "./Chart";
 
 
 export default function ManagerEmployeeListView(props) {
@@ -58,6 +59,8 @@ export default function ManagerEmployeeListView(props) {
 
     // 작성 클릭시 업무평가 컴포넌트 출력하기 위한 상태변수
     const [ evaluationComponent , setEvaluationComponent ] = useState(<></>)
+    console.log(evaluationComponent)
+
 
     // 작성 클릭시 업무평가 컴포넌트 출력 , 컴포넌트에 props = 선택한직원정보, 업무평가리스트DB에서 가져오는함수, 컴포넌트 지우는함수 , 미완료업무평가체크함수
     const evaluationPrint = ()=>{
@@ -185,6 +188,8 @@ export default function ManagerEmployeeListView(props) {
             else if( r.data == 2 ){ alert("권한이 없습니다.")}
             else if( r.data == 3){ // 미완료 건이 있음.
                 setAlerthtml( <> <Alert variant="filled" severity="warning"> 미완료된 업무평가보고서가 있습니다. </Alert> </> )
+            }else if( r.data == 4){
+                setEvperiod({...evperiod})
             }
         })
     }
@@ -245,7 +250,9 @@ export default function ManagerEmployeeListView(props) {
             })
             console.log(r.data)
             setEvaluationList(r.data)
-            setSelectEmployee({...e}) // 하위컴포넌트에서 업무평가했을때 동일번호가 선택되기 때문에 렌더링되어야해서 새로운 주소값으로 넣어줌
+            setSelectEmployee({...e}) // 하위컴포넌트에서 업무평가후 업무평가리스트 렌더링하기 - 동일번호가 선택되기 때문에 렌더링안되는 문제 -> 렌더링되어야해서 새로운 주소값으로 넣어줌
+            //evaluationComponent = (<><Chart/></>);
+            //setEvaluationComponent(...evaluationComponent); // 직원별 차트 출력
         })
     }
 
@@ -277,16 +284,17 @@ export default function ManagerEmployeeListView(props) {
         let html = <ListItemText primary={score+"/100점"} />;
         sum != 55 || e.evopnion === null || e.evopnion === "" ? html = <>{html}<Button variant="contained" color="warning" onClick={()=>updateEvaluation(e)} >미완료</Button></>
             : e.disabled ? html = <>{html}<Button variant="contained" color="success" disabled={e.disabled}>완료</Button></>
-            : html = <>{html}<Button variant="contained" disabled={e.disabled} onClick={()=>updateEvaluation(e)} >수정</Button></>
+            : html = <>{html}<Button variant="contained" color="success" disabled={e.disabled} onClick={()=>updateEvaluation(e)} >수정</Button></>
         console.log(html)
         return html;
     }
 
     // 각 evaluation 선택하면 선택한 업무평가 조회
-    const evView = (evno)=>{
+    const evView = (e)=>{
         console.log("업무평가 클릭함")
-        console.log("evno : "+ evno)
-        setEvaluationComponent(<><EvaluationView evno={evno} /></>)
+        console.log(e)
+        console.log("evno : "+ e.evno)
+        setEvaluationComponent(<><EvaluationView evaluation={e} selectEmployee={selectEmployee} /></>)
     }
 
 
@@ -337,7 +345,7 @@ export default function ManagerEmployeeListView(props) {
                                                 <List key={e.evno}>
                                                     <ListItem disablePadding>
                                                         <ListItemButton>
-                                                            <ListItemText primary={e.halfPeriodTitle} onClick={ ()=> evView(e.evno) } />
+                                                            <ListItemText primary={e.halfPeriodTitle} onClick={ ()=> evView(e) } />
                                                             {getEvaluationBtnState(e)}
                                                         </ListItemButton>
                                                     </ListItem>
@@ -352,8 +360,8 @@ export default function ManagerEmployeeListView(props) {
                 </Item>
           </Stack>
 
-            {evaluationComponent}
-
+            <>{evaluationComponent}</>
+            <Chart />
         </div>
       );
 }

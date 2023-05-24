@@ -21,10 +21,6 @@ public class EquestionEntity {
     @Column( nullable = false )
     private String equestion; // 문항
 
-    @Column
-    @ColumnDefault("true")
-    private boolean eqstate; // 문항을 선택했는지 확인
-
     public EquestionDto toDto(){
         return EquestionDto.builder()
                 .eqno(this.eqno)

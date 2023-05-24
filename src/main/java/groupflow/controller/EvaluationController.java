@@ -1,5 +1,6 @@
 package groupflow.controller;
 
+import groupflow.domain.evaluation.ChartViewDto;
 import groupflow.domain.evaluation.EquestionDto;
 import groupflow.domain.evaluation.EvaluationDto;
 import groupflow.domain.evaluation.EvaluationViewDto;
@@ -56,5 +57,14 @@ public class EvaluationController {
     }
     
     // 7. evno로 업무평가 조회페이지 필요한 정보 가져오기
+    @GetMapping("/one")
+    public EvaluationViewDto getEvaluationView( @RequestParam int evno ){
+        return evaluationService.getEvaluationView(evno);
+    }
 
+    // 8. [차트] 모든직원의 항목별 점수평균
+    @GetMapping("/chart")
+    public List<ChartViewDto> getChartAllEvaluation(){
+        return evaluationService.getChartAllEvaluation();
+    }
 }

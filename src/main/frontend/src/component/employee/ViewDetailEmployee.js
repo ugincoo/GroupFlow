@@ -167,6 +167,8 @@ const resignation = (e)=>{
     let info = { eenddate : eenddate , eno : props.oneEmployee.eno }
     axios.put("/employee/updateenddate",positionSelect).then(r=>{
         console.log(r.data)
+        if ( r.data == true ){ alert("퇴사처리가 완료되었습니다."); window.location.href ="/allemployee"; }
+        else{ alert("퇴사처리를 실패하였습니다."); }
     })
 }
 // 직급변경처리
@@ -175,7 +177,7 @@ const positionSubmit = (e)=>{
     console.log(positionSelect)
     axios.put("/employee/updateposition",positionSelect).then(r=>{
         console.log(r.data)
-        if ( r.data == true ){ alert('직급이 변경되었습니다.')}else{alert('직급변경 실패 - 관리자문의')}
+        if ( r.data == true ){ alert('직급이 변경되었습니다.'); window.location.href ="/allemployee";}else{alert('직급변경 실패 - 관리자문의')}
     })
 }
 
@@ -185,22 +187,11 @@ const departmentSubmit = (e)=>{
     console.log(departmentSelect)
     axios.put("/employee/updatedepartment",departmentSelect).then(r=>{
         console.log(r.data)
-        if ( r.data == true ){ alert('부서가 변경되었습니다.')}else{alert('부서변경 실패 - 관리자문의')}
+        if ( r.data == true ){ alert('부서가 변경되었습니다.'); window.location.href ="/allemployee"; }else{alert('부서변경 실패 - 관리자문의')}
     })
 }
 
     return (<>
-                <Box
-                    sx={{ px: 6, py:4, borderRadius: 3, boxShadow: 1, bgcolor: 'aliceblue', width: '100%', maxWidth: '1200px', mb : 4 }}
-                    >
-                    <Typography
-                      sx={{ fontFamily: "'Open Sans', sans-serif", fontWeight: 'bold', color: 'rgb(12, 82, 114)', textAlign: 'left', }}
-                      variant="h5"
-                      component="h1"
-                    >
-                      사원 조회/수정
-                    </Typography>
-                </Box>
 
                 <Box sx={{ p: 6, borderRadius: 3, boxShadow: 1, bgcolor: 'white', width: '100%', maxWidth: '1200px', }} >
                         <Grid container spacing={5}>

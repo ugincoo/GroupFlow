@@ -33,11 +33,13 @@ function invoiceTotal(items) {
 }
 
 
-const rows = [
+
+
+/*
   createRow(1,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', 10 ),
   createRow(2,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', 8 ),
   createRow(3,'기여도·업무추진실력', '회사 발전을 위해 노력하며 업무추진력과 실력이 뛰어나다.', 10 ),
-];
+*/
 
 
 //const invoiceSubtotal = subtotal(rows);
@@ -45,6 +47,28 @@ const rows = [
 //const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 export default function EvaluationView(props) {
+    // props.evaluation.evno 업무평가 식별번호
+    // props.selectEmployee
+
+    const [ rows , setRows] = useState([]); // 업무평가 정보 저장하는 상태
+    const [totalScore, setTotalScore] = useState(0); // 수정: 총점을 저장하는 상태 추가
+    console.log(props.selectEmployee)
+
+    useEffect(()=>{
+        console.log("props.evaluation.evno : " + props.evaluation.evno)
+        axios.get("/evaluation/one" , {params:{evno : props.evaluation.evno}})
+            .then(r=>{
+                console.log(r.data);
+                const newRows = r.data.evscoreDtoList.map((r) =>
+                  createRow(r.eqno, r.eqtitle, r.equestion, r.eqscore)
+                );
+                setRows(newRows);
+                const total = invoiceTotal(newRows); // 수정: 총점 계산
+                setTotalScore(total); // 수정: 총점 상태 업데이트
+            })
+    },[])
+
+
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
         ...theme.typography.body2,
@@ -60,10 +84,10 @@ export default function EvaluationView(props) {
         padding : '20px',
     }));
 
-    const evno = props.evno;
+    const evno = props.evaluation.evno;
 
     useEffect(()=>{
-        axios.get("/evaluation/view",{params:{evno:props.evno}}) // 아직 백엔드 없음
+        axios.get("/evaluation/view",{params:{evno:props.evaluation.evno}})
             .then( r=> {
                 console.log(r.data)
             })
@@ -76,6 +100,17 @@ export default function EvaluationView(props) {
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 700 }} aria-label="spanning table">
                     <TableHead>
+
+                      <TableRow>
+                        <TableCell align="left">
+                          {props.evaluation.halfPeriodTitle}
+                        </TableCell>
+                        <TableCell align="center">평가일: {props.evaluation.cdate} / 수정일: {props.evaluation.udate}</TableCell>
+                        <TableCell align="right">
+                            평가대상자: {props.selectEmployee.ename} {props.selectEmployee.pname}
+                        </TableCell>
+                      </TableRow>
+
                       <TableRow>
                         <TableCell>주제</TableCell>
                         <TableCell>문항</TableCell>
@@ -93,7 +128,7 @@ export default function EvaluationView(props) {
 
                       <TableRow>
                         <TableCell colSpan={2}>Total</TableCell>
-                        <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
+                        <TableCell align="right">{ccyFormat(totalScore)}</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>

@@ -73,7 +73,7 @@ export default function Header(props) {
                 console.log("login===null이 아니다.");
                 setLogoutBtn(
                    <>
-                       <Fab variant="extended" color="primary" aria-label="add"  sx={{ position: 'fixed', bottom: 20, left: 39 }}>
+                       <Fab variant="extended" color="primary" aria-label="add"  sx={{ position: 'fixed', bottom: 30, left: 39 }}>
                          <LogoutIcon sx={{ mr: 1 , color: 'rgb(219 223 235)' }} />
                          <a style={{textDecoration: 'none', color: 'rgb(219 223 235)',fontWeight: 'bold'}} href="/logout">로그아웃</a>
                        </Fab>

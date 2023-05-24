@@ -23,4 +23,15 @@ public class EvscoreEntity {
 
     @Column( nullable = false )
     private int eqscore; // 점수
+
+    public EvscoreDto toDto(){
+        return EvscoreDto.builder()
+                .esno(this.esno)
+                .evno(this.evaluationEntity.getEvno())
+                .eqno(this.equestionEntity.getEqno())
+                .eqtitle(this.equestionEntity.getEqtitle())
+                .equestion(this.equestionEntity.getEquestion())
+                .eqscore(this.eqscore)
+                .build();
+    }
 }
