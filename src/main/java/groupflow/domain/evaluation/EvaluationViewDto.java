@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data@AllArgsConstructor@NoArgsConstructor@Builder
 public class EvaluationViewDto {
-    private int eqno;
-    private String eqtitle;
-    private String equestion;
-    private int eqscore;
+
     private int evno;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime cdate;
@@ -21,5 +20,8 @@ public class EvaluationViewDto {
     private LocalDateTime udate;
     private String evopnion;
     private int evaluatoreno;
+    private String evaluatorename;
     private int targeteno;
+    private String targetename;
+    @Builder.Default private List<EvscoreDto> evscoreDtoList = new ArrayList<>();
 }

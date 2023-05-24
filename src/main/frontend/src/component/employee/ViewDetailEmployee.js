@@ -167,6 +167,8 @@ const resignation = (e)=>{
     let info = { eenddate : eenddate , eno : props.oneEmployee.eno }
     axios.put("/employee/updateenddate",positionSelect).then(r=>{
         console.log(r.data)
+        if ( r.data == true ){ alert("퇴사처리가 완료되었습니다."); window.location.href ="/allemployee"; }
+        else{ alert("퇴사처리를 실패하였습니다."); }
     })
 }
 // 직급변경처리
@@ -175,7 +177,7 @@ const positionSubmit = (e)=>{
     console.log(positionSelect)
     axios.put("/employee/updateposition",positionSelect).then(r=>{
         console.log(r.data)
-        if ( r.data == true ){ alert('직급이 변경되었습니다.')}else{alert('직급변경 실패 - 관리자문의')}
+        if ( r.data == true ){ alert('직급이 변경되었습니다.'); window.location.href ="/allemployee";}else{alert('직급변경 실패 - 관리자문의')}
     })
 }
 
@@ -185,7 +187,7 @@ const departmentSubmit = (e)=>{
     console.log(departmentSelect)
     axios.put("/employee/updatedepartment",departmentSelect).then(r=>{
         console.log(r.data)
-        if ( r.data == true ){ alert('부서가 변경되었습니다.')}else{alert('부서변경 실패 - 관리자문의')}
+        if ( r.data == true ){ alert('부서가 변경되었습니다.'); window.location.href ="/allemployee"; }else{alert('부서변경 실패 - 관리자문의')}
     })
 }
 

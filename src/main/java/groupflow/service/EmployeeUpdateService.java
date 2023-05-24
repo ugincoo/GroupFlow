@@ -180,13 +180,14 @@ public class EmployeeUpdateService {
                     int lastIndex2=positionChangeEntityList.size()-1;
                     PositionChangeEntity positionChangeEntity=positionChangeEntityList.get(lastIndex2);
                     positionChangeEntity.setEnddate(employeeDto.toEntity().getEenddate());//찾은 직급변경엔티티에 퇴사날짜 저장
+                    return true;
                 }
 
             }
           // departmentChangeEntity.setDcenddate(employeeDto.toEntity().getEenddate());
 
         }
-        return true;
+        return false;
     }
 
 

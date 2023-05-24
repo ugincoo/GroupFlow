@@ -9,7 +9,9 @@ import groupflow.domain.evaluation.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -264,5 +266,27 @@ public class EvaluationService {
         return 4; // 미완료 없음
     }
 
+    @GetMapping("one")
+    public EvaluationViewDto getEvaluationView( @RequestParam int evno ){
+        Optional<EvaluationEntity> optionalEvaluationEntity = evaluationRepository.findById(evno);
+        if ( !optionalEvaluationEntity.isPresent() ){ return null; }
+        EvaluationEntity evaluationEntity =  optionalEvaluationEntity.get();
+        List<EvscoreDto> evscoreDtoList = new ArrayList<>();
+        evaluationEntity.getEvscoreEntityList().forEach(s->{
+            evscoreDtoList.add(s.toDto());
+        });
+        return EvaluationViewDto.builder()
+                .evno(evno)
+                .cdate(evaluationEntity.getCdate())
+                .udate(evaluationEntity.getUdate())
+                .evopnion(evaluationEntity.getEvopnion())
+                .evaluatoreno(evaluationEntity.getEvaluatorEmployeeEntity().getEno())
+                .evaluatorename(evaluationEntity.getEvaluatorEmployeeEntity().getEname())
+                .targeteno(evaluationEntity.getTargetEmployeeEntity().getEno())
+                .targetename(evaluationEntity.getTargetEmployeeEntity().getEname())
+                .evscoreDtoList(evscoreDtoList)
+                .build();
+
+    }
 
 }
