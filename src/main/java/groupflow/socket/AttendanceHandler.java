@@ -26,7 +26,7 @@ public class AttendanceHandler extends TextWebSocketHandler {
 
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception{ //출근도장 찍었을때
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception{//부장이 모달창을 열었을때
 
         /*log.info("uri:"+session.getUri().getPath());
         log.info("uri:"+session.getUri().getPath().split("/"));
@@ -51,10 +51,10 @@ public class AttendanceHandler extends TextWebSocketHandler {
         myEmployees.remove(session);
         log.info("myEmployees:"+myEmployees);
 
-        ObjectMapper mapper = new ObjectMapper();
+        /*ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString("enter");
         TextMessage message = new TextMessage(json);
-        handleTextMessage(session, message);
+        handleTextMessage(session, message);*/
     }
 
     @Override
