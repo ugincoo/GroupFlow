@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 /*------------------------------------------------------------------------------------------------css-----*/
 import styles from '../../css/leave.css'; //css
 
-// 연차 신청 모달
+// 연차 신청 모달 
 export default function LeaveRequest(props){
 // 0. 로그인 정보 변수
 let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
