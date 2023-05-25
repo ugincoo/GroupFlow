@@ -1,21 +1,73 @@
 .chat{
-    display: flex;
+  display: flex;
+  margin-top: 50px;
+  justify-content: flex-start;
 
+}
+
+h4{
+    text-align: center;
 }
 .chatBox{
     width: 500px;
     height: 700px;
     background-color: aliceblue;
     overflow: scroll;
+    resize:none;
+
 }
 .chatInputBox{
-    border: 1px solid;
-    height: 130px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 10px;
+}
+
+.msgInput:focus {
+  outline: none;
 }
 
 .msgInput{
     width: 80%;
-    height: 100%;
-    padding:0;
+    height: 120px;
+    padding:10px;
     border:none;
+    resize:none;
+}
+
+.sendBtn{
+width: 20%;
+    border: none;
+    border-radius: 10px;
+    height: 50px;
+    font-size: 13px;
+}
+
+.chatarea{
+    border: 1px solid rgba(0, 0, 0, 0.14);
+}
+
+.fromEno{
+    text-align: right;
+    float: right;
+    width: 100%;
+    margin:3px 20px;
+}
+
+.fromEname{
+    width: 50%;
+    margin: 10px 10px 3px 10px;
+    font-size: 13px;
+    color: gray;
+}
+
+.fromMsg{
+    margin: 3px 10px 10px 10px;
+}
+.fromEname span{
+    margin-right: 10px;
+}
+
+fromEno{
+margin:10px 10px;
 }

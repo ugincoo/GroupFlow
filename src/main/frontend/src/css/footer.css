@@ -1,0 +1,26 @@
+.enterChat{
+    width: 100px;
+    border: 1px solid;
+    height: 100px;
+    border-radius: 50%;
+    /* text-align: center; */
+    display: flex;
+    /* margin: 0 auto; */
+    align-items: center;
+    justify-content: center;
+    background-color: #70c1e6;
+    color: white;
+
+    right : 100px;
+    bottom : 100px;
+    position : fixed;
+}
+
+.massage{
+color: white;
+text-decoration-line: none;
+}
+
+.enterChat:hover {
+      background-color: #70c1e6b0;
+}
