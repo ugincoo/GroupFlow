@@ -14,7 +14,6 @@ import Alert from '@mui/material/Alert';
 import Evaluation from './Evaluation';
 import UpdateEvaluation from './UpdateEvaluation';
 import EvaluationView from './EvaluationView';
-import Chart from "./Chart";
 
 
 export default function ManagerEmployeeListView(props) {
@@ -77,51 +76,33 @@ export default function ManagerEmployeeListView(props) {
     }
     // 선택한 직원이 바뀔때마다 실행
     useEffect( ()=>{
-        // 다른 직원선택하면(selectEmployee가 변경되면) 아래 하위컴포넌트 출력제거
-        removeComponentPrint();
-
-        //* 업무평가기간에 포함되는게 하나라도 있으면 count++
-        let count = 0;
-
+        removeComponentPrint(); // 다른 직원선택하면(selectEmployee가 변경되면) 아래 하위컴포넌트 출력제거
+        let count = 0; //* 업무평가기간에 포함되는게 하나라도 있으면 count++
         //1.직원을 선택했는지
-        if ( Object.keys(selectEmployee).length === 0 ){ return; }
-        console.log("직원을 선택함")
-
+        if ( Object.keys(selectEmployee).length === 0 ){ return; } ; console.log("직원을 선택함");
         //2.업무평가기간에 이미 등록된 업무평가가 있는지
             // 업무평기기간 가져오기
         let evperiodStartDate = new Date(evperiod.startdate);
         let evperiodEndDate = new Date(evperiod.enddate);
-
             // 업무평가리스트 하나씩 업무평가등록한 날짜 확인하기
         evaluationList.forEach(e=>{
            let cdate =  new Date(e.cdate.split(" ")[0]);
-           console.log(cdate);
-
-           console.log(cdate >= evperiodStartDate && cdate <= evperiodEndDate)
            // 업무평가기간에 포함되는게 없으면 등록출력 => 업무평가기간에 포함되는게 하나라도 있으면 등록출력X
-           if( cdate >= evperiodStartDate && cdate <= evperiodEndDate ){
-                count++;
-           }
+           if( cdate >= evperiodStartDate && cdate <= evperiodEndDate ){ count++; }
         }) // forEach end
-        console.log(count)
+
         // 업무평가기간에 포함되는게 하나라도 있으면 등록출력X
-        if( count > 0 ){
-            // 등록출력구역 깡통만들기
+        if( count > 0 ){ // 등록출력구역 깡통만들기
             console.log("업무평가 기간에 평가등록된 것이 있음")
             setEvRegistBtn(<></>)
         }
-        else{ // 업무평가기간에 등록된 업무평가 없음 => 등록출력
-            // 등록출력구역 깡통만들기
+        else{ // 업무평가기간에 등록된 업무평가 없음 => 등록출력 // 등록출력구역 깡통만들기
             console.log("업무평가 기간에 평가등록된 것이 없음")
            let today = new Date();
            let todayYear = today.getFullYear();
            let todayMonth = today.getMonth()+1;
            let text = "";
-           if ( todayMonth < 7 ){
-               text = todayYear+"년 상반기 업무평가보고서 작성"
-           }else{
-               text = todayYear+"년 하반기 업무평가보고서 작성"
-           }
+           if ( todayMonth < 7 ){ text = todayYear+"년 상반기 업무평가보고서 작성" }else{ text = todayYear+"년 하반기 업무평가보고서 작성" }
            setEvRegistBtn(<>
                <List>
                    <ListItem disablePadding>
@@ -133,8 +114,6 @@ export default function ManagerEmployeeListView(props) {
                </List>
            </>);
         }
-
-
     },[selectEmployee] )
 
 
@@ -147,7 +126,6 @@ export default function ManagerEmployeeListView(props) {
         console.log(todayMonth)
         if ( todayMonth < 7 ){
             evperiod.startdate = todayYear+"-05-21";
-            //let july = new Date( todayYear+"-07-01" );
             let lDay = new Date( todayYear , 6 , 0 );
             let lMonth = lDay.getMonth()+1;
             if ( lMonth < 10 ){ lMonth = "0"+lMonth; }
@@ -157,8 +135,6 @@ export default function ManagerEmployeeListView(props) {
             setEvperiod({...evperiod})
         }else{
             evperiod.startdate = todayYear+"-12-01";
-            //let nextYearFisrt = new Date( (todayYear+1)+"-01-01" );
-            //var lastDay = new Date(nextYear.getTime() - 1);
             let lDay = new Date( (todayYear) , 12 , 0 );
             let lMonth = lDay.getMonth()+1;
             if ( lMonth < 10 ){ lMonth = "0"+lMonth; }
@@ -207,10 +183,7 @@ export default function ManagerEmployeeListView(props) {
 
     // 직원선택 , 선택한 직원의 evaluationList가져오기
     const listItemClick = (e)=>{
-        //console.log(e)
-
         axios.get("/evaluation/list",{params:{eno:e.eno}}).then(r=>{
-
             r.data.forEach(e=>{
                 //halfPeriodTitle
                 let cdate = e.cdate.split(" ")[0];
@@ -219,11 +192,7 @@ export default function ManagerEmployeeListView(props) {
                 console.log(year);
                 let month = parseInt(cdate.split("-")[1]);
                 console.log(month);
-                if ( month < 7 ){
-                    e.halfPeriodTitle=year+"년 상반기 업무평가보고서"
-                }else{
-                    e.halfPeriodTitle=year+"년 하반기 업무평가보고서"
-                }
+                if ( month < 7 ){ e.halfPeriodTitle=year+"년 상반기 업무평가보고서" }else{ e.halfPeriodTitle=year+"년 하반기 업무평가보고서" }
                 // disabled 평가기간이 지난 평가는 disabled
                     // 1.현재날짜
                     let today = new Date();
@@ -241,18 +210,11 @@ export default function ManagerEmployeeListView(props) {
                         targetDate = july
                     }
                     // 6. 평가날짜와 targetDate와 비교 [ targetDate랑 비교해서 미만이면 버튼잠금 , 이상이면 버튼클릭가능 ]
-                    if ( evaluationDate < targetDate ){
-                        e.disabled = true;
-                    }else{
-                        e.disabled = false;
-                    }
-
+                    if ( evaluationDate < targetDate ){ e.disabled = true; }else{ e.disabled = false; }
             })
-            console.log(r.data)
             setEvaluationList(r.data)
-            setSelectEmployee({...e}) // 하위컴포넌트에서 업무평가후 업무평가리스트 렌더링하기 - 동일번호가 선택되기 때문에 렌더링안되는 문제 -> 렌더링되어야해서 새로운 주소값으로 넣어줌
-            //evaluationComponent = (<><Chart/></>);
-            //setEvaluationComponent(...evaluationComponent); // 직원별 차트 출력
+            setSelectEmployee({...e})
+            // 하위컴포넌트에서 업무평가후 업무평가리스트 렌더링하기 - 동일번호가 선택되기 때문에 렌더링안되는 문제 -> 렌더링되어야해서 새로운 주소값으로 넣어줌
         })
     }
 
@@ -263,20 +225,15 @@ export default function ManagerEmployeeListView(props) {
 
     // 각 evaluation마다 현재총점 , 미완료/수정/완료 구분해서 버튼생성
     const getEvaluationBtnState = (e)=>{
-        console.log("evscoreMap")
-        console.log(e.evscoreMap)
         let sum = 0;
         let score = 0;
         for (const key in e.evscoreMap) {
             if (e.evscoreMap.hasOwnProperty(key)) {
                 const value = e.evscoreMap[key];
-                //console.log(`Key: ${key}, Value: ${value}`);
                 let intkey = parseInt(key);
                 sum = sum + intkey;
                 let intvalue = parseInt(value);
                 score = score + intvalue;
-                //console.log("key : " + intkey)
-                //console.log("sum : "+sum)
                 console.log("intvalue :"+intvalue)
                 console.log("score :"+score)
             }
@@ -361,7 +318,6 @@ export default function ManagerEmployeeListView(props) {
           </Stack>
 
             <>{evaluationComponent}</>
-            <Chart />
         </div>
       );
 }
