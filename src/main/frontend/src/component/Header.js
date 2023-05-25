@@ -21,7 +21,8 @@ import Fab from '@mui/material/Fab';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function Header(props) {
-    const[weather, setWeather]=useState();//날씨
+    const[tem, setTem]=useState();//온도
+    const[humidity, setHumidity]=useState();//습도
     let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
     const [ eno, setEno] = useState();
     const [ gokDisabled, setGokDisabled] = useState(false);
@@ -30,24 +31,19 @@ export default function Header(props) {
         if( gokDisabled == true  ){ setGokDisabled(false)  }
         else{  setGokDisabled(true )  }
     }
-        //[날씨]
-        useEffect(()=>{  axios.get('/weather').then(r=>{setWeather(r.data);
-                               console.log(r.data);
-                               })},[])
-    console.log(weather);
-   // console.log(weather.body);
-   // console.log(weather.body.items);
-   // console.log(weather.body.items.item[3]);
+    //온도
+   const gettem=()=>{
+     axios.get('/weather').then(r=>{setTem(r.data.response.body.items.item[3].obsrValue); })
 
-/*  axios.get(url).then((responseData) => {
-    const data = responseData.data;
-    setWeather({
-      id: data.weather[0].id,
-      temperature: data.main.temp,
-      main: data.weather[0].main,
-      loading: false,
-    });
-  });*/
+   }
+   //습도
+   const gethumidity=()=>{
+     axios.get('/weather').then(r=>{setHumidity(r.data.response.body.items.item[1].obsrValue); })
+
+   }
+   useEffect(()=>{ gettem(); },[])//온도
+   useEffect(()=>{ gethumidity(); },[])//습도
+
 
 
 
@@ -57,11 +53,7 @@ export default function Header(props) {
             console.log(r.data)
             })
         }
-        useEffect (()=>{getAttendance()
-
-        ;}
-
-        ,[])
+        useEffect (()=>{getAttendance() ;},[])
 
 
         axios.get('/login/confirm').then( r => { setEno(r.data.eno) } )
@@ -82,7 +74,7 @@ export default function Header(props) {
             ]
 
         let 출근내역=<AttendanceStatus/>
-        let 날씨구현=<Weather />
+        let 날씨구현=<Weather tem={tem} humidity={humidity} />
         // 로그인 로컬스토리지 세션 변경될때마다 로그아웃버튼 출력여부 확인
         useEffect(()=>{
             console.log("login!==null : "+login!==null)
