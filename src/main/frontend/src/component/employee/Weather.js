@@ -5,6 +5,8 @@ export default function Weather(props) {
     console.log(props.tem);
     console.log(props.humidity);
     return (<>
+       <div style={{fontFamily:"Roboto, Helvetica, Arial, sans-serif",color:"#dbdfeb",fontSize:"18px",fontWeight:"700px"}}
+        >안산시 상록구</div>
        <div style={{fontFamily:"Roboto, Helvetica, Arial, sans-serif",color:"#dbdfeb",fontSize:"21px",fontWeight:"700px"}}
         > {props.tem+"°C"}</div>
        <div style={{fontFamily:"Roboto, Helvetica, Arial, sans-serif",color:"#dbdfeb",fontSize:"21px",fontWeight:"700px"}}

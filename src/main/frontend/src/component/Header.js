@@ -36,6 +36,7 @@ export default function Header(props) {
      axios.get('/weather').then(r=>{setTem(r.data.response.body.items.item[3].obsrValue); })
 
    }
+   axios.get('/weather').then(r=>{console.log(r.data);})
    //습도
    const gethumidity=()=>{
      axios.get('/weather').then(r=>{setHumidity(r.data.response.body.items.item[1].obsrValue); })
