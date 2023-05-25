@@ -23,6 +23,7 @@ public class NoticeEntity {
 
     public NoticeDto todto(){
         return NoticeDto.builder()
+                .nno(this.nno)
                 .content(this.content)
                 .build();
     }

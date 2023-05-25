@@ -18,6 +18,6 @@ public class ChatSocketConfiguration implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(chatHandler,"/chat").setAllowedOriginPatterns("*");
+        registry.addHandler(chatHandler,"/chat/{eno}").setAllowedOriginPatterns("*");
     }
 }

@@ -31,16 +31,9 @@ let [open, setOpen] = React.useState(false);
 
  let ws=useRef(null);    //장민정 서버소켓
 
-    useEffect( ()=>{
-         ws.current=new WebSocket("ws://localhost:80/commute");
-         ws.current.onopen=()=>{ console.log("서버접속") }
-         ws.current.onclose=(e)=>{ console.log("나감") }
-         ws.current.onmessage=(e)=>{
-         console.log("메세지")
-         const data = JSON.parse(e.data);
-         getmyEmployee()
-          }
-    },[])
+
+
+
 
     const getmyEmployee =()=>{
 
@@ -55,9 +48,18 @@ let [open, setOpen] = React.useState(false);
 
       const handleClose = () => {
         setOpen(false);
+         ws.current.close();
       };
      const handleOpen = () => {
            setOpen(true);
+           ws.current=new WebSocket("ws://localhost:80/commute");
+            ws.current.onopen=()=>{ console.log("서버접속") }
+            ws.current.onclose=(e)=>{ console.log("나감") }
+            ws.current.onmessage=(e)=>{
+            console.log("메세지")
+            const data = JSON.parse(e.data);
+            getmyEmployee()
+             }
 
      };
 
