@@ -334,15 +334,12 @@ public class EmployeeService {
 
 
     }
-
-
-
     // 사원정보 출력위해서 부서번호,부서명,직급번호,직급명
     public EmployeeDto employeeInfo( int eno ){
         log.info("employeeInfo eno : "+ eno);
         // 입력받은 사번으로 employeeEntity찾기
         Optional<EmployeeEntity> optionalEmployeeEntity = employeeRepository.findById(eno);
-        log.info("optionalEmployeeEntity : " + optionalEmployeeEntity);
+        //log.info("optionalEmployeeEntity : " + optionalEmployeeEntity);
         if(optionalEmployeeEntity.isPresent()){
             EmployeeEntity employeeEntity = optionalEmployeeEntity.get();
             List<DepartmentChangeEntity> departmentChangeEntityList = employeeEntity.getDepartmentChangeEntityList();
