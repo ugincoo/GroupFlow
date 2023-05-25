@@ -176,7 +176,7 @@ public class EmployeeService {
     }
     */
     @Transactional
-    public byte registerNewEmployee(MultipartFile multipartFile , EmployeeDto employeeDto) {
+    public int registerNewEmployee(MultipartFile multipartFile , EmployeeDto employeeDto) {
         log.info("s registerNewEmployee 실행 employeeDto : " + employeeDto);
 
         // 직원등록시 부장을 선택했는지, 선택한 부서에 부장이 존재하는지
@@ -330,7 +330,7 @@ public class EmployeeService {
 
 
 
-        return 7; // 저장완료
+        return employeeEntity.getEno(); // 저장완료
 
 
     }

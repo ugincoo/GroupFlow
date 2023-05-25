@@ -25,6 +25,8 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export default function Evaluation(props) {
+    // 로그인 세션
+    let [ login , setLogin ] = useState( JSON.parse(localStorage.getItem("login_token")) )
     // props.eno대신에 임시 eno
     const eno = props.targetEmployee.eno; // 상위컴포넌트에게 넘겨받은 평가대상자의 eno
     // 로그인한 평가자 정보 상태변수
@@ -38,7 +40,7 @@ export default function Evaluation(props) {
         //문항리스트 가져오기
         axios.get("/evaluation/equestion").then(r=>{console.log(r.data); setEquestionList(r.data); })
         //로그인 정보 가져오기
-        axios.get("/login/confirm").then(r=>{console.log(r.data); setEvaluator(r.data);})
+        setEvaluator(login);
         //평가대상자(props로 받은 eno)정보 가져오기
         axios.get("/employee/select/info" , {params:{eno:eno}}).then(r=>{console.log(r.data); setTargetEmployee(r.data);})
     },[])
@@ -75,7 +77,6 @@ export default function Evaluation(props) {
 
     // 점수합계 계산
     const calculateTotalScore = ()=>{
-        // score안의 점수를 하나씩 꺼내서 합산
         const totalScore = Object.values(scores).reduce((accmulator, currentValue)=> accmulator + parseInt(currentValue), 0);
         return totalScore
     }

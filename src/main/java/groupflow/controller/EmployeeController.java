@@ -21,7 +21,7 @@ public class EmployeeController {
 
     // 사원등록
     @PostMapping("")
-    public byte registerNewEmployee(
+    public int registerNewEmployee(
             @RequestPart(value = "info") EmployeeDto employeeDto,
             @RequestPart(value = "ephotodata") MultipartFile ephotodata
     ) {
