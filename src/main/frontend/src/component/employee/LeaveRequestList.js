@@ -79,7 +79,6 @@ const getDateDiff = () => {
 const deductedYearNo = getDateDiff();
 
      return (
-
      <Container>
         <div className="topDiv">
         {  deductedYearNo == 0 || rows > 0 ?  <span id="nullLR"> 연차 소진 </span> : <LeaveRequest /> }
